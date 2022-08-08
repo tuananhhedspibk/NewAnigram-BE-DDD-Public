@@ -609,6 +609,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@nestjs/class-transformer@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/class-transformer/-/class-transformer-0.4.0.tgz#37e4b5f7ed019345079774ebfb1ace614f2b6221"
+  integrity sha512-aHKhqPVixFCo8m7n2iP1uGgfyF0eYlAgGJKfW27l0BvRCTPBjmoL4956Cf9xVu6WNJzVsp//SOcpIavdnNHYZg==
+
 "@nestjs/cli@^7.6.0":
   version "7.6.0"
   resolved "https://registry.npmjs.org/@nestjs/cli/-/cli-7.6.0.tgz"
@@ -6281,3 +6286,8 @@ yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.npmjs.org/yn/-/yn-3.1.1.tgz"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
+
+zod@^3.17.10:
+  version "3.17.10"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.17.10.tgz#8716a05e6869df6faaa878a44ffe3c79e615defb"
+  integrity sha512-IHXnQYQuOOOL/XgHhgl8YjNxBHi3xX0mVcHmqsvJgcxKkEczPshoWdxqyFwsARpf41E0v9U95WUROqsHHxt0UQ==
