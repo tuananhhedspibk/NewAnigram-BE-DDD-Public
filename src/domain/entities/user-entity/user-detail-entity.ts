@@ -11,7 +11,7 @@ export class UserDetailEntity extends BaseEntity {
   id?: number;
 
   @Expose()
-  isActive: boolean;
+  active: boolean;
 
   @Expose()
   nickName: string;
@@ -21,4 +21,12 @@ export class UserDetailEntity extends BaseEntity {
 
   @Expose()
   gender: UserDetailGender;
+
+  constructor() {
+    super();
+  }
+
+  get isActive() {
+    return this.active;
+  }
 }
