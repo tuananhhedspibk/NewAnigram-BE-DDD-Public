@@ -1,10 +1,7 @@
 import { Expose } from '@nestjs/class-transformer';
 import { BaseEntity } from '../base';
 
-export class LikeEntity extends BaseEntity {
+export class ImageEntity extends BaseEntity {
   @Expose()
-  id?: number;
-
-  @Expose()
-  userId: number;
+  url: string;
 }
