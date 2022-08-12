@@ -9,6 +9,7 @@ export type DomainErrorCode =
 const DomainErrorDetailCode = {
   INVALID_EMAIL_FORMAT: 'INVALID_EMAIL_FORMAT',
 } as const;
+
 export type DomainErrorDetailCode =
   typeof DomainErrorDetailCode[keyof typeof DomainErrorDetailCode];
 
