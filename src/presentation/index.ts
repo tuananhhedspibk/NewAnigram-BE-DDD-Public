@@ -1,7 +1,7 @@
-import { Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { InternalApiModule } from './internal';
 
 @Module({
   imports: [InternalApiModule],
 })
-export class ApiModule implements NestModule {}
+export class ApiModule {}
