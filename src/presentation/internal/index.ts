@@ -1,11 +1,21 @@
-import { Module, NestModule } from '@nestjs/common';
-import { NotificationModule } from './notification';
-import { PostModule } from './post';
-import { UserModule } from './user';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { AuthenticationController } from './authentication/index.controller';
+import { NotificationController } from './notification/index.controller';
+import { PostController } from './post/index.controller';
+import { UserController } from './user/index.controller';
+
+const RequiredAuthenControllers = [
+  UserController,
+  PostController,
+  NotificationController,
+];
 
 @Module({
   providers: [],
-  controllers: [],
-  imports: [UserModule, PostModule, NotificationModule],
+  controllers: [AuthenticationController, ...RequiredAuthenControllers],
 })
-export class InternalApiModule implements NestModule {}
+export class InternalApiModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply().forRoutes(...RequiredAuthenControllers);
+  }
+}

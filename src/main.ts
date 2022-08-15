@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ApiModule } from './presentation';
 
 async function bootstrap() {
@@ -10,9 +11,24 @@ async function bootstrap() {
     },
   });
 
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('NewAnigram Swagger')
+    .setVersion('1.0')
+    .setDescription('NewAnigram internal API')
+    .addBearerAuth()
+    .build();
+
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('doc', app, swaggerDocument);
+
   // versioning for API
   app.setGlobalPrefix('/v1');
 
-  await app.listen(3000);
+  await app.listen(3000, () => {
+    console.info(`
+API url: http://127.0.0.1:3000,
+Swagger url: http://127.0.0.1:3000/doc,
+    `);
+  });
 }
 bootstrap();
