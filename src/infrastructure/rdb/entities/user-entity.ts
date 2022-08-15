@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import BaseEntity from './base';
+import UserDetail from './uset-detail-entity';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -13,4 +14,7 @@ export default class User extends BaseEntity {
 
   @Column()
   userName: string;
+
+  @OneToOne((type) => UserDetail, (userDetail) => userDetail.user)
+  public userDetail: UserDetail;
 }
