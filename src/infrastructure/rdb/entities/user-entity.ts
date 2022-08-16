@@ -1,7 +1,9 @@
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import BaseEntity from './base';
-import Post from './post';
+import Post from './post-entity';
 import UserDetail from './uset-detail-entity';
+import Like from './like-entity';
+import Comment from './comment-entity';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -21,4 +23,10 @@ export default class User extends BaseEntity {
 
   @OneToMany((type) => Post, (post) => post.user)
   public posts: Post[];
+
+  @OneToMany((type) => Like, (like) => like.user)
+  public likes: Like[];
+
+  @OneToMany((type) => Comment, (comment) => comment.user)
+  public comments: Comment[];
 }
