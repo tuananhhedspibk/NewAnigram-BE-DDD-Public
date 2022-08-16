@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import BaseEntity from './base';
+import User from './user-entity';
 
 @Entity()
 export default class Post extends BaseEntity {
@@ -7,11 +8,15 @@ export default class Post extends BaseEntity {
   content: string;
 
   @Column()
-  tags: string[];
+  tags: string;
 
   @Column()
-  images: string[];
+  images: string;
 
   @Column()
   userId: number;
+
+  @ManyToOne((type) => User, (user) => user.posts)
+  @JoinColumn({ name: 'user_id' })
+  public user: User;
 }
