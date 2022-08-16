@@ -17,7 +17,10 @@ export default class UserDetail extends BaseEntity {
   @Column()
   avatarURL: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: Gender,
+  })
   gender: Gender;
 
   @Column({
