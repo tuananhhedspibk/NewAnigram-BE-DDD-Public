@@ -5,6 +5,7 @@ import UserDetail from './uset-detail-entity';
 import Like from './like-entity';
 import Comment from './comment-entity';
 import Notification from './notification-entity';
+import Follow from './follow-entity';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -36,4 +37,10 @@ export default class User extends BaseEntity {
 
   @OneToMany((type) => Notification, (notification) => notification.owner)
   public ownNotifications: Notification[];
+
+  @OneToMany((type) => Follow, (follow) => follow.sourceUser)
+  public followers: Follow[];
+
+  @OneToMany((type) => Follow, (follow) => follow.destinationUser)
+  public followings: Follow[];
 }
