@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import BaseEntity from './base';
-import CommentEntity from './comment-entity';
-import Like from './like-entity';
-import User from './user-entity';
+import CommentEntity from './comment';
+import Like from './like';
+import User from './user';
 
 @Entity()
 export default class Post extends BaseEntity {
