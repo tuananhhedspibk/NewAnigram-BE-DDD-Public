@@ -20,6 +20,9 @@ export default class User extends BaseEntity {
   @Column()
   userName: string;
 
+  @Column()
+  salt: string;
+
   @OneToOne((type) => UserDetail, (userDetail) => userDetail.user)
   public userDetail: UserDetail;
 
