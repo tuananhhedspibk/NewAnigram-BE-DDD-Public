@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const pluralize = require('pluralize');
 const DefaultNamingStrategy = require('typeorm').DefaultNamingStrategy;
@@ -10,7 +11,7 @@ class CustomNamingStrategy extends DefaultNamingStrategy {
       : pluralize.plural(snakeCase(targetName));
   }
 
-  columnName(propertyName, customName, embeddedPrefixes) {
+  columnName(propertyName, customName, _embeddedPrefixes) {
     return customName ? customName : snakeCase(propertyName);
   }
 
@@ -23,8 +24,8 @@ class CustomNamingStrategy extends DefaultNamingStrategy {
   joinTableName(
     firstTableName,
     secondTableName,
-    firstPropertyName,
-    secondPropertyName,
+    _firstPropertyName,
+    _secondPropertyName,
   ) {
     return snakeCase(firstTableName + '_' + secondTableName);
   }
@@ -39,11 +40,11 @@ class CustomNamingStrategy extends DefaultNamingStrategy {
 module.exports = [
   {
     type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'root',
-    database: 'newanigram',
+    host: process.env.NEWANIGRAM_RDB_HOST || 'localhost',
+    port: process.env.NEWANIGRAM_RDB_PORT || 3306,
+    username: process.env.NEWANIGRAM_RDB_USER_NAME || 'root',
+    password: process.env.NEWANIGRAM_RDB_PASSWORD || 'root',
+    database: process.env.NEWANIGRAM_RDB_DATABASE || 'newanigram',
     entities: ['src/infrastructure/rdb/entities/**.ts'],
     migrations: ['src/infrastructure/rdb/migration/**/*.ts'],
     timezone: 'Z',
@@ -59,11 +60,11 @@ module.exports = [
   {
     name: 'seed',
     type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'root',
-    database: 'newanigram',
+    host: process.env.NEWANIGRAM_RDB_HOST || 'localhost',
+    port: process.env.NEWANIGRAM_RDB_PORT || 3306,
+    username: process.env.NEWANIGRAM_RDB_USER_NAME || 'root',
+    password: process.env.NEWANIGRAM_RDB_PASSWORD || 'root',
+    database: process.env.NEWANIGRAM_RDB_DATABASE || 'newanigram',
     entities: ['src/infrastructure/rdb/entities/**.ts'],
     migrations: ['src/infrastructure/rdb/seed/**/*.ts'],
     timezone: 'Z',

@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import BaseEntity from './base';
-import User from './user-entity';
+import User from './user';
 
 const Gender = {
   Male: 'Male',

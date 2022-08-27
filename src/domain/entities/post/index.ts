@@ -1,8 +1,8 @@
 import { Expose, Type } from '@nestjs/class-transformer';
 import { BaseEntity } from '../base';
-import { CommentEntity } from './comment-entity';
-import { ImageEntity } from './image-entity';
-import { LikeEntity } from './like-entity';
+import { CommentEntity } from './comment';
+import { ImageEntity } from './image';
+import { LikeEntity } from './like';
 
 export class PostEntity extends BaseEntity {
   @Expose()
