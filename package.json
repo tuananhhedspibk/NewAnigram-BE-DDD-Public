@@ -23,9 +23,14 @@
     "rdb:seed:revert": "yarn ts-node $(npm bin)/typeorm migration:generate:revert -c seed",
     "rdb:schema:drop": "yarn ts-node $(npm bin)/typeorm schema:drop",
     "rdb:remake": "yarn rdb:schema:drop && yarn rdb:migration:run && yarn rdb:seed:run",
+    "rdb:test:migration:run": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn ts-node $(npm bin)/typeorm migration:run",
+    "rdb:test:migration:show": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn ts-node $(npm bin)/typeorm migration:show",
+    "rdb:test:seed:run": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn ts-node $(npm bin)/typeorm migration:generate:run -c seed",
+    "rdb:test:schema:drop": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn ts-node $(npm bin)/typeorm schema:drop",
+    "rdb:test:remake": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn rdb:schema:drop && yarn rdb:migration:run && yarn rdb:seed:run",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "NEWANIGRAM_RDB_DATABASE=newanigram_test jest --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -74,6 +79,7 @@
       "json",
       "ts"
     ],
+    "moduleDirectories": ["node_modules", "src"],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
