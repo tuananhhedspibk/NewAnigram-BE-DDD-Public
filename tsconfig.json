@@ -16,6 +16,7 @@
       "@usecase/*": ["./src/usecase/*"],
       "@utils/*": ["./src/utils/*"],
       "@constants/*": ["./src/constants/*"],
+      "@presentation/*": ["./src/presentation/*"],
     },
     "incremental": true,
   }
