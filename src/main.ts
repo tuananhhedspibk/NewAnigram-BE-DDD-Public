@@ -11,6 +11,9 @@ async function bootstrap() {
     },
   });
 
+  // versioning for API
+  app.setGlobalPrefix('v1');
+
   const swaggerConfig = new DocumentBuilder()
     .setTitle('NewAnigram Swagger')
     .setVersion('1.0')
@@ -20,9 +23,6 @@ async function bootstrap() {
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('doc', app, swaggerDocument);
-
-  // versioning for API
-  app.setGlobalPrefix('/v1');
 
   await app.listen(3000, () => {
     console.info(`
