@@ -1,4 +1,4 @@
-const UsecaseErrorCode = {
+export const UsecaseErrorCode = {
   BAD_REQUEST: 'BAD_REQUEST',
   NOT_FOUND: 'NOT_FOUND',
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
@@ -6,6 +6,15 @@ const UsecaseErrorCode = {
 
 export type UsecaseErrorCode =
   typeof UsecaseErrorCode[keyof typeof UsecaseErrorCode];
+
+export const UsecaseErrorDetailCode = {
+  MUST_SPECIFY_EMAIL_AND_PASSWORD: 'MUST_SPECIFY_EMAIL_AND_PASSWORD',
+  EMAIL_NOT_EXISTS: 'EMAIL_NOT_EXISTS',
+  INVALID_EMAIL_OR_PASSWORD: 'INVALID_EMAIL_OR_PASSWORD',
+} as const;
+
+export type UsecaseErrorDetailCode =
+  typeof UsecaseErrorDetailCode[keyof typeof UsecaseErrorDetailCode];
 
 interface UsecaseErrorParams {
   info?: { [key: string]: unknown };

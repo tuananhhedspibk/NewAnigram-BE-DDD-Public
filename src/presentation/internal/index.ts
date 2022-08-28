@@ -39,6 +39,6 @@ const RequiredAuthenControllers = [
 })
 export class InternalApiModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply().forRoutes(...RequiredAuthenControllers);
+    // consumer.apply().forRoutes(...RequiredAuthenControllers);
   }
 }
