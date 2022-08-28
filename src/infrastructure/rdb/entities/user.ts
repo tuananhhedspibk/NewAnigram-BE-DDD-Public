@@ -2,7 +2,7 @@
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import BaseEntity from './base';
 import Post from './post';
-import UserDetail from './uset-detail';
+import UserDetail from './user-detail';
 import Like from './like';
 import Comment from './comment';
 import Notification from './notification';

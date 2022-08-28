@@ -12,6 +12,9 @@ export class UserEntity extends BaseEntity {
   email: EmailVO;
 
   @Expose()
+  userName: string;
+
+  @Expose()
   @Type(() => UserDetailEntity)
   detail: UserDetailEntity;
 
