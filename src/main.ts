@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ErrorInterceptor } from './presentation/interceptor/error';
 import { ApiModule } from './presentation';
 
 async function bootstrap() {
@@ -13,6 +14,7 @@ async function bootstrap() {
 
   // versioning for API
   app.setGlobalPrefix('v1');
+  app.useGlobalInterceptors(new ErrorInterceptor());
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('NewAnigram Swagger')
