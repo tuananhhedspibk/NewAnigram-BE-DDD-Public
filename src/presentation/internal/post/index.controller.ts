@@ -1,7 +1,8 @@
 import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@Controller('/posts')
+@ApiTags('internal/posts')
+@Controller('internal/post')
 export class PostController {
   @Get('/index-by-user')
   @ApiOperation({
