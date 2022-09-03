@@ -4,13 +4,16 @@ import {
   SelectQueryBuilder,
 } from 'typeorm';
 
-import { UserEntity as DomainUserEntity } from '@domain/entities/user';
+import {
+  UserEntity as DomainUserEntity,
+  UserEntity,
+} from '@domain/entities/user';
 import { IUserRepository } from '@domain/repositories/user';
 import RdbUserEntity from '@infrastructure/rdb/entities/user';
 import { Transaction } from '@infrastructure/repositories/transaction';
 import Repository from '@infrastructure/repositories/base';
 import { UserFactory } from '@infrastructure/factories/user';
-import { hashPassword } from '@utils/hash';
+import { hashPassword, randomlyGenerateSalt } from '@utils/hash';
 
 const userFactory = new UserFactory();
 
@@ -22,29 +25,50 @@ export class UserRepository
     transaction: Transaction | null,
     email: string,
   ): Promise<DomainUserEntity> {
-    const userRepository = transaction
+    const repository = transaction
       ? transaction.getRepository(RdbUserEntity)
       : getRepository(RdbUserEntity);
 
-    const query = this.getBaseQuery(userRepository);
+    const query = this.getBaseQuery(repository);
     const user = await query.where('user.email = :email', { email }).getOne();
 
     return userFactory.createUserEntity(user);
   }
 
   async validate(email: string, password: string): Promise<boolean> {
-    const userRepository = getRepository(RdbUserEntity);
+    const repository = getRepository(RdbUserEntity);
 
-    const query = this.getBaseQuery(userRepository);
+    const query = this.getBaseQuery(repository);
     const user = await query
       .where('user.email = :email', { email })
       .addSelect('user.password')
       .addSelect('user.salt')
       .getOne();
 
-    const hashedPassword = await hashPassword(password, user.salt);
+    const hashedPassword = hashPassword(password, user.salt);
 
     return user.password === hashedPassword;
+  }
+
+  async save(
+    transaction: TransactionType,
+    user: UserEntity,
+  ): Promise<UserEntity> {
+    const repository = transaction
+      ? transaction.getRepository(RdbUserEntity)
+      : getRepository(RdbUserEntity);
+
+    const salt = randomlyGenerateSalt();
+    const passwordHashedWithSalt = hashPassword(user.password, salt);
+
+    const createdUser = await repository.save({
+      email: user.email.toString(),
+      password: passwordHashedWithSalt,
+      userName: user.userName,
+      salt,
+    });
+
+    return userFactory.createUserEntity(createdUser);
   }
 
   private getBaseQuery(

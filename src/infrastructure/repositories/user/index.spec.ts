@@ -8,6 +8,7 @@ import { users } from './testData';
 import { UserRepository } from '.';
 import User from '../../rdb/entities/user';
 import { UserEntity } from '@domain/entities/user';
+import { EmailVO } from '@domain/value-objects/email-vo';
 
 describe('User Repository Testing', () => {
   const userRepository = new UserRepository();
@@ -44,6 +45,7 @@ describe('User Repository Testing', () => {
           id: 1,
           email: 'user-1@mail.com',
           userName: 'user1',
+          detail: null,
         });
       });
     });
@@ -55,6 +57,51 @@ describe('User Repository Testing', () => {
       });
       it('Return null because email does not exist', () => {
         expect(result).toEqual(null);
+      });
+    });
+  });
+
+  describe('save testing', () => {
+    describe('Normal case', () => {
+      const email = 'user-3@mail.com';
+
+      let result;
+      let rdbUser: User;
+
+      beforeAll(async () => {
+        result = await userRepository.save(null, {
+          email: new EmailVO(email),
+          password: '123456',
+          userName: 'user3Name',
+          detail: null,
+        });
+
+        rdbUser = await userRdbRepository.findOne({
+          where: {
+            email,
+          },
+        });
+      });
+
+      it('Can save user into database', () => {
+        expect(rdbUser).toEqual({
+          id: expect.any(Number),
+          email,
+          password: expect.any(String),
+          salt: expect.any(String),
+          userName: 'user3Name',
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
+        });
+      });
+      it('Response a user entity', () => {
+        expect(result).toEqual({
+          id: expect.any(Number),
+          password: expect.any(String),
+          userName: 'user3Name',
+          email: 'user-3@mail.com',
+          detail: null,
+        });
       });
     });
   });
