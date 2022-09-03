@@ -35,21 +35,6 @@ export class UserRepository
     return userFactory.createUserEntity(user);
   }
 
-  async validate(email: string, password: string): Promise<boolean> {
-    const repository = getRepository(RdbUserEntity);
-
-    const query = this.getBaseQuery(repository);
-    const user = await query
-      .where('user.email = :email', { email })
-      .addSelect('user.password')
-      .addSelect('user.salt')
-      .getOne();
-
-    const hashedPassword = hashPassword(password, user.salt);
-
-    return user.password === hashedPassword;
-  }
-
   async save(
     transaction: TransactionType,
     user: UserEntity,
