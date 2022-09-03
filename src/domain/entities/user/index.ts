@@ -15,6 +15,9 @@ export class UserEntity extends BaseEntity {
   userName: string;
 
   @Expose()
+  password?: string;
+
+  @Expose()
   @Type(() => UserDetailEntity)
   detail: UserDetailEntity;
 

@@ -7,4 +7,5 @@ export abstract class IUserRepository extends BaseRepository {
     email: string,
   ) => Promise<UserEntity | null>;
   validate: (email: string, password: string) => Promise<boolean>;
+  save: (transaction: TransactionType, user: UserEntity) => Promise<UserEntity>;
 }

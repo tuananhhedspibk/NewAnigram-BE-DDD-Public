@@ -6,7 +6,7 @@ export const DomainErrorCode = {
 export type DomainErrorCode =
   typeof DomainErrorCode[keyof typeof DomainErrorCode];
 
-const DomainErrorDetailCode = {
+export const DomainErrorDetailCode = {
   INVALID_EMAIL_FORMAT: 'INVALID_EMAIL_FORMAT',
 } as const;
 
