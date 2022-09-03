@@ -1,10 +1,11 @@
 import * as bcrypt from 'bcrypt';
 
-export const hashPassword = async (
-  barePassword: string,
-  salt: string,
-): Promise<string> => {
-  const hashedPassword = await bcrypt.hash(barePassword, salt);
+import { SALT_ROUND } from '@infrastructure/constants';
 
-  return hashedPassword;
+export const hashPassword = (barePassword: string, salt: string): string => {
+  return bcrypt.hashSync(barePassword, salt);
+};
+
+export const randomlyGenerateSalt = (): string => {
+  return bcrypt.genSaltSync(SALT_ROUND);
 };

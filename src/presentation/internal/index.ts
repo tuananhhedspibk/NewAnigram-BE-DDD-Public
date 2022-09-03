@@ -8,6 +8,7 @@ import SigninUsecase from '@usecase/authentication/signin';
 import SignupUsecase from '@usecase/authentication/signup';
 import {
   AuthenticateRepositoryProvider,
+  TransactionManagerProvider,
   UserRepositoryProvider,
 } from '@presentation/provider/repository-provider';
 import { AuthenticationController } from '@presentation/internal/authentication/index.controller';
@@ -18,6 +19,7 @@ import { UserController } from '@presentation/internal/user/index.controller';
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
   UserRepositoryProvider,
+  TransactionManagerProvider,
 ];
 
 @Module({
