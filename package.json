@@ -28,9 +28,10 @@
     "rdb:test:seed:run": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn ts-node $(npm bin)/typeorm migration:generate:run -c seed",
     "rdb:test:schema:drop": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn ts-node $(npm bin)/typeorm schema:drop",
     "rdb:test:remake": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn rdb:schema:drop && yarn rdb:migration:run && yarn rdb:seed:run",
+    "rdb:test:migration:revert": "NEWANIGRAM_RDB_DATABASE=newanigram_test yarn ts-node $(npm bin)/typeorm migration:revert",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "NEWANIGRAM_RDB_DATABASE=newanigram_test jest --detectOpenHandles",
+    "test": "NEWANIGRAM_RDB_DATABASE=newanigram_test jest --detectOpenHandles --testTimeout=10000",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -50,7 +51,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7",
     "swagger-ui-express": "4.1.4",
-    "typeorm": "0.3.8",
+    "typeorm": "0.2.25",
     "zod": "^3.17.10"
   },
   "devDependencies": {
