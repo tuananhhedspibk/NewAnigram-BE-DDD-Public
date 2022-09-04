@@ -31,7 +31,7 @@ export class AuthMiddleware implements NestMiddleware {
   }
 
   authorize(authToken: string): [boolean, FixType, Error] {
-    if (!(authToken.split(' ')[0] === 'Bearer'))
+    if (!authToken || !(authToken.split(' ')[0] === 'Bearer'))
       return [
         false,
         undefined,
