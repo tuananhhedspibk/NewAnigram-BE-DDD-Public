@@ -61,10 +61,10 @@ export default class SigninUsecase extends Usecase<
 
     if (!user) {
       throw new UsecaseError({
-        message: 'Email not exist',
+        message: 'Email does not exist',
         code: UsecaseErrorCode.BAD_REQUEST,
         info: {
-          detailCode: UsecaseErrorDetailCode.EMAIL_NOT_EXISTS,
+          detailCode: UsecaseErrorDetailCode.EMAIL_DOES_NOT_EXISTS,
         },
       });
     }

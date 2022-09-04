@@ -1,16 +1,17 @@
 import { Connection, createConnection } from 'typeorm';
-import SigninUsecase, { SigninUsecaseInput } from '.';
+import SigninUsecase, { SigninUsecaseInput, SigninUsecaseOutput } from '.';
 import { AuthenticateRepository } from '@infrastructure/repositories/authenticate';
 import { UserRepository } from '@infrastructure/repositories/user';
 import { UsecaseErrorCode, UsecaseErrorDetailCode } from '@usecase/exception';
 import { plainToClass } from '@nestjs/class-transformer';
 import { UserEntity } from '@domain/entities/user';
-import { userEntity } from './testData';
+import { userEntity, testJWT } from './testData';
 
 describe('Signin Usecase Testing', () => {
   let input: SigninUsecaseInput;
   let usecase: SigninUsecase;
   let connection: Connection;
+  let output: SigninUsecaseOutput;
 
   beforeAll(async () => {
     usecase = new SigninUsecase(
@@ -25,8 +26,24 @@ describe('Signin Usecase Testing', () => {
 
   describe('Normal case', () => {
     describe('Email and password match to each other', () => {
-      it('JWT will be returned', () => {
+      beforeAll(async () => {
+        input = { email: 'test@mail.com', password: '123456' };
 
+        jest
+          .spyOn(UserRepository.prototype, 'getByEmail')
+          .mockResolvedValue(plainToClass(UserEntity, userEntity));
+        jest
+          .spyOn(AuthenticateRepository.prototype, 'validate')
+          .mockResolvedValue(true);
+        jest
+          .spyOn(AuthenticateRepository.prototype, 'getJWT')
+          .mockResolvedValue(testJWT);
+
+        output = await usecase.execute(input);
+      });
+
+      it('JWT will be returned', () => {
+        expect(output.jwt).toEqual(testJWT);
       });
     });
   });
@@ -106,12 +123,44 @@ describe('Signin Usecase Testing', () => {
       });
     });
 
+    describe('Email does not exist', () => {
+      beforeAll(async () => {
+        input = { email: 'fail-test@mail.com', password: '123456' };
+
+        jest
+          .spyOn(UserRepository.prototype, 'getByEmail')
+          .mockResolvedValue(null);
+
+        try {
+          await usecase.execute(input);
+        } catch (e) {
+          error = e;
+        }
+      });
+
+      it('"Email does not exist" error message will be returend', () => {
+        expect(error.message).toEqual('Email does not exist');
+      });
+      it('Error code is BAD_REQUEST', () => {
+        expect(error.code).toEqual(UsecaseErrorCode.BAD_REQUEST);
+      });
+      it('Error detail code is EMAIL_DOES_NOT_EXISTS', () => {
+        expect(error.info.detailCode).toEqual(
+          UsecaseErrorDetailCode.EMAIL_DOES_NOT_EXISTS,
+        );
+      });
+    });
+
     describe('Email and password do not match to each other', () => {
       beforeAll(async () => {
         input = { email: 'test@mail.com', password: '123456' };
 
-        jest.spyOn(UserRepository.prototype, 'getByEmail').mockResolvedValue(plainToClass(UserEntity, userEntity));
-        jest.spyOn(AuthenticateRepository.prototype, 'validate').mockResolvedValue(false);
+        jest
+          .spyOn(UserRepository.prototype, 'getByEmail')
+          .mockResolvedValue(plainToClass(UserEntity, userEntity));
+        jest
+          .spyOn(AuthenticateRepository.prototype, 'validate')
+          .mockResolvedValue(false);
 
         try {
           await usecase.execute(input);

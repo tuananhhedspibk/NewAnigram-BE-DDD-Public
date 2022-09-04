@@ -5,4 +5,6 @@ const userEntity = {
   detail: null,
 };
 
-export { userEntity };
+const testJWT = 'JWT1.JWT2.JWT3';
+
+export { userEntity, testJWT };
