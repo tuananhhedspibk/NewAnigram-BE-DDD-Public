@@ -8,8 +8,8 @@ describe('Authenticate Repository Testing', () => {
       let result: string;
       let numberSegments: number;
 
-      beforeAll(async () => {
-        result = await authenticateRepository.getJWT(1, 'userName');
+      beforeAll(() => {
+        result = authenticateRepository.getJWT(1, 'test@mail.com');
 
         numberSegments = result.split('.').length;
       });

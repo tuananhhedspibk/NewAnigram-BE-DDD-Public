@@ -1,7 +1,8 @@
 import { Controller, Get, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('internal/notification')
+@ApiBearerAuth()
 @Controller('internal/notification')
 export class NotificationController {
   @Get('/index-by-user')

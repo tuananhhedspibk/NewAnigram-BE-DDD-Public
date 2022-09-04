@@ -81,9 +81,9 @@ export default class SigninUsecase extends Usecase<
       });
     }
 
-    const jwt = await this.authenticateRepository.getJWT(
+    const jwt = this.authenticateRepository.getJWT(
       user.id,
-      user.userName,
+      user.email.toString(),
     );
 
     const output = new SigninUsecaseOutput();

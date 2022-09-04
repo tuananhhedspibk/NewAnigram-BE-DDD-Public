@@ -15,6 +15,7 @@ import { AuthenticationController } from '@presentation/internal/authentication/
 import { NotificationController } from '@presentation/internal/notification/index.controller';
 import { PostController } from '@presentation/internal/post/index.controller';
 import { UserController } from '@presentation/internal/user/index.controller';
+import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -41,6 +42,6 @@ const RequiredAuthenControllers = [
 })
 export class InternalApiModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply().forRoutes(...RequiredAuthenControllers);
+    consumer.apply(AuthMiddleware).forRoutes(...RequiredAuthenControllers);
   }
 }

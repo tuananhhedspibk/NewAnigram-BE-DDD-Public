@@ -38,7 +38,7 @@ describe('Signup Usecase Testing', () => {
           .mockResolvedValue(false);
         jest
           .spyOn(AuthenticateRepository.prototype, 'getJWT')
-          .mockResolvedValue(testJWT);
+          .mockReturnValue(testJWT);
         jest
           .spyOn(UserRepository.prototype, 'save')
           .mockResolvedValue(plainToClass(UserEntity, userEntity));

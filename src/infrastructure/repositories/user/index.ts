@@ -13,7 +13,7 @@ import RdbUserEntity from '@infrastructure/rdb/entities/user';
 import { Transaction } from '@infrastructure/repositories/transaction';
 import Repository from '@infrastructure/repositories/base';
 import { UserFactory } from '@infrastructure/factories/user';
-import { hashPassword, randomlyGenerateSalt } from '@utils/hash';
+import { hashPassword, randomlyGenerateSalt } from '@utils/encrypt';
 
 const userFactory = new UserFactory();
 
