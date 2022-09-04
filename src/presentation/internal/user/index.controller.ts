@@ -1,7 +1,8 @@
 import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('internal/user')
+@ApiBearerAuth()
 @Controller('internal/user')
 export class UserController {
   @Get('/profile')

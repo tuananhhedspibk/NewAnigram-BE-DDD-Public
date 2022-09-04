@@ -1,14 +1,12 @@
+import { getRepository, Repository, SelectQueryBuilder } from 'typeorm';
+
 import { IAuthenticateRepository } from '@domain/repositories/authenticate';
 import RdbUserEntity from '@infrastructure/rdb/entities/user';
-import * as jwt from 'jsonwebtoken';
-import { getRepository, Repository, SelectQueryBuilder } from 'typeorm';
-import { hashPassword } from '@utils/hash';
-
-import { JWT_CONFIG } from '../../constants';
+import { hashPassword, generateJWT } from '@utils/encrypt';
 
 export class AuthenticateRepository implements IAuthenticateRepository {
-  async getJWT(userId: number, userName: string): Promise<string> {
-    return jwt.sign({ id: userId, name: userName }, JWT_CONFIG.secrete);
+  getJWT(userId: number, email: string): string {
+    return generateJWT(userId, email);
   }
 
   async isEmailBeingUsed(email: string): Promise<boolean> {

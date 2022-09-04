@@ -92,9 +92,9 @@ export default class SignupUsecase extends Usecase<
             transaction,
             userEntity,
           );
-          jwt = await this.authenRepository.getJWT(
+          jwt = this.authenRepository.getJWT(
             createdUserEntity.id,
-            createdUserEntity.userName,
+            createdUserEntity.email.toString(),
           );
         },
       );

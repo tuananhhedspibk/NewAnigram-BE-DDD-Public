@@ -37,7 +37,7 @@ describe('Signin Usecase Testing', () => {
           .mockResolvedValue(true);
         jest
           .spyOn(AuthenticateRepository.prototype, 'getJWT')
-          .mockResolvedValue(testJWT);
+          .mockReturnValue(testJWT);
 
         output = await usecase.execute(input);
       });
