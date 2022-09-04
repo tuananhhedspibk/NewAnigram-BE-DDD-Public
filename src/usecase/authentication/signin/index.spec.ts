@@ -9,9 +9,9 @@ import { userEntity, testJWT } from './testData';
 
 describe('Signin Usecase Testing', () => {
   let input: SigninUsecaseInput;
+  let output: SigninUsecaseOutput;
   let usecase: SigninUsecase;
   let connection: Connection;
-  let output: SigninUsecaseOutput;
 
   beforeAll(async () => {
     usecase = new SigninUsecase(
