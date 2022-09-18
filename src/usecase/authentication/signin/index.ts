@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Usecase, UsecaseInput, UsecaseOutput } from '../../base';
 import { ApiProperty } from '@nestjs/swagger';
 import { Inject, Injectable } from '@nestjs/common';
@@ -8,6 +10,7 @@ import {
   UsecaseErrorDetailCode,
 } from '@usecase/exception';
 import { IAuthenticateRepository } from '@domain/repositories/authenticate';
+import ApiResultDto from '@usecase/dto/api-result';
 
 export class SigninUsecaseInput {
   @ApiProperty({
@@ -24,6 +27,13 @@ export class SigninUsecaseInput {
 }
 
 export class SigninUsecaseOutput {
+  @ApiProperty({
+    description: 'Api result',
+    type: ApiResultDto,
+    required: true,
+  })
+  result: ApiResultDto;
+
   @ApiProperty({
     description: 'JWT Token',
     required: true,
@@ -87,6 +97,7 @@ export default class SigninUsecase extends Usecase<
     );
 
     const output = new SigninUsecaseOutput();
+    output.result = ApiResultDto.ok();
     output.jwt = jwt;
 
     return output;
