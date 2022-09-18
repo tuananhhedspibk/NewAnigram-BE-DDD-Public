@@ -9,6 +9,7 @@ import { DomainErrorCode, DomainErrorDetailCode } from '@domain/exception';
 import { testJWT, userEntity } from './testData';
 import { plainToClass } from '@nestjs/class-transformer';
 import { UserEntity } from '@domain/entities/user';
+import { ApiResultCode } from '@usecase/dto/api-result';
 
 describe('Signup Usecase Testing', () => {
   let input: SignupUsecaseInput;
@@ -47,7 +48,10 @@ describe('Signup Usecase Testing', () => {
       });
 
       it('JWT will be returned', () => {
-        expect(output.jwt).toEqual(testJWT);
+        expect(output.data.jwt).toEqual(testJWT);
+      });
+      it('Api result code is OK', () => {
+        expect(output.result.code).toEqual(ApiResultCode.OK);
       });
     });
   });

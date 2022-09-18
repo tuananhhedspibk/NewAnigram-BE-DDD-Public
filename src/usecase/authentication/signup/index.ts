@@ -29,6 +29,18 @@ export class SignupUsecaseInput {
   password: string;
 }
 
+class SignupUsecaseOutputData {
+  @ApiProperty({
+    description: 'JWT Token',
+    required: true,
+  })
+  jwt: string;
+
+  constructor(params: { jwt: string }) {
+    this.jwt = params.jwt;
+  }
+}
+
 export class SignupUsecaseOutput extends UsecaseOutput {
   @ApiProperty({
     description: 'Api Result',
@@ -38,10 +50,11 @@ export class SignupUsecaseOutput extends UsecaseOutput {
   result: ApiResultDto;
 
   @ApiProperty({
-    description: 'JWT Token',
+    description: 'Api Data',
     required: true,
+    type: SignupUsecaseOutputData,
   })
-  jwt: string;
+  data: SignupUsecaseOutputData;
 }
 
 const userFactory = new UserFactory();
@@ -116,7 +129,7 @@ export default class SignupUsecase extends Usecase<
     }
 
     const output = new SignupUsecaseOutput();
-    output.jwt = jwt;
+    output.data = new SignupUsecaseOutputData({ jwt });
     output.result = ApiResultDto.ok();
 
     return output;
