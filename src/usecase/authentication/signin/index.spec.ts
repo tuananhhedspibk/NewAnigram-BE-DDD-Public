@@ -6,6 +6,7 @@ import { UsecaseErrorCode, UsecaseErrorDetailCode } from '@usecase/exception';
 import { plainToClass } from '@nestjs/class-transformer';
 import { UserEntity } from '@domain/entities/user';
 import { userEntity, testJWT } from './testData';
+import { ApiResultCode } from '@usecase/dto/api-result';
 
 describe('Signin Usecase Testing', () => {
   let input: SigninUsecaseInput;
@@ -43,7 +44,10 @@ describe('Signin Usecase Testing', () => {
       });
 
       it('JWT will be returned', () => {
-        expect(output.jwt).toEqual(testJWT);
+        expect(output.data.jwt).toEqual(testJWT);
+      });
+      it('Api result code is OK', () => {
+        expect(output.result.code).toEqual(ApiResultCode.OK);
       });
     });
   });

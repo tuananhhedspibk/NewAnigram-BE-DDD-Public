@@ -26,6 +26,19 @@ export class SigninUsecaseInput {
   password: string;
 }
 
+class SigninUsecaseOutputData {
+  @ApiProperty({
+    description: 'JWT Token',
+    type: String,
+    required: true,
+  })
+  jwt: string;
+
+  constructor(params: { jwt: string }) {
+    this.jwt = params.jwt;
+  }
+}
+
 export class SigninUsecaseOutput {
   @ApiProperty({
     description: 'Api result',
@@ -35,10 +48,11 @@ export class SigninUsecaseOutput {
   result: ApiResultDto;
 
   @ApiProperty({
-    description: 'JWT Token',
+    description: 'Api data',
+    type: SigninUsecaseOutputData,
     required: true,
   })
-  jwt: string;
+  data: SigninUsecaseOutputData;
 }
 
 @Injectable()
@@ -98,7 +112,7 @@ export default class SigninUsecase extends Usecase<
 
     const output = new SigninUsecaseOutput();
     output.result = ApiResultDto.ok();
-    output.jwt = jwt;
+    output.data = new SigninUsecaseOutputData({ jwt });
 
     return output;
   }
