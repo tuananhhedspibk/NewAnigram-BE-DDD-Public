@@ -1,8 +1,6 @@
-export const WarnCode = {
-  SYSTEM_WARN: 'SYSTEM_WARN',
-} as const;
-
-export type WarnCode = typeof WarnCode[keyof typeof WarnCode];
+export enum WarnCode {
+  SYSTEM_WARN = 'SYSTEM_WARN',
+}
 
 export const WARN_MESSAGE: {
   [key: string]: string;

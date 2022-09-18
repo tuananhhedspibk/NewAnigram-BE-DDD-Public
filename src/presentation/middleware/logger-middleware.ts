@@ -63,7 +63,7 @@ export const responseLogger = (input: {
   const log: ResponseLog = {
     requestId,
     statusCode: response.statusCode,
-    data: data,
+    data: data.data,
   };
 
   logger.access_res.info(JSON.stringify(log));
