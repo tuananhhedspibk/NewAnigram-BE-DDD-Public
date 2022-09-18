@@ -14,7 +14,7 @@ export const ApiResultCode = {
 
 export type ApiResultCode = typeof ApiResultCode[keyof typeof ApiResultCode];
 
-class ApiError extends BaseDto {
+export class ApiError extends BaseDto {
   @ApiProperty({
     description: 'Error code',
     required: true,
@@ -41,7 +41,7 @@ class ApiError extends BaseDto {
   }
 }
 
-class ApiWarn extends BaseDto {
+export class ApiWarn extends BaseDto {
   @ApiProperty({
     description: 'Warning code',
     required: true,

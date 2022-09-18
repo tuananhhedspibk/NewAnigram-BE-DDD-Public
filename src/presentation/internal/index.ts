@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import {
   MiddlewareConsumer,
   Module,
@@ -16,6 +18,7 @@ import { NotificationController } from '@presentation/internal/notification/inde
 import { PostController } from '@presentation/internal/post/index.controller';
 import { UserController } from '@presentation/internal/user/index.controller';
 import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
+import CheckPasswordUsecase from '@usecase/user/check-password';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -37,7 +40,7 @@ const RequiredAuthenControllers = [
 
 @Module({
   imports: [Repositories],
-  providers: [SigninUsecase, SignupUsecase],
+  providers: [SigninUsecase, SignupUsecase, CheckPasswordUsecase],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],
 })
 export class InternalApiModule implements NestModule {

@@ -1,10 +1,52 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { HTTP_STATUS } from '@constants/http-status';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Post,
+  Put,
+  Req,
+} from '@nestjs/common';
+import {
+  ApiOperation,
+  ApiTags,
+  ApiBearerAuth,
+  ApiResponse,
+  ApiBody,
+} from '@nestjs/swagger';
+import CheckPasswordUsecase, {
+  CheckPasswordUsecaseInput,
+  CheckPasswordUsecaseOutput,
+} from '@usecase/user/check-password';
 
 @ApiTags('internal/user')
 @ApiBearerAuth()
 @Controller('internal/user')
 export class UserController {
+  constructor(private readonly checkPasswordUsecase: CheckPasswordUsecase) {}
+
+  @Post('/check-password')
+  @HttpCode(HTTP_STATUS.OK)
+  @ApiOperation({
+    summary: 'Check password API',
+    description: 'Check password API',
+  })
+  @ApiBody({
+    description: 'Check password payload',
+    type: CheckPasswordUsecaseInput,
+  })
+  @ApiResponse({
+    description: 'Check password response',
+    type: CheckPasswordUsecaseOutput,
+  })
+  checkPassword(@Body() input, @Req() request: { user: { email: string } }) {
+    return this.checkPasswordUsecase.execute(input, request.user.email);
+  }
+
   @Get('/profile')
   @ApiOperation({
     summary: 'Get users profile',
