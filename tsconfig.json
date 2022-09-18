@@ -17,6 +17,7 @@
       "@utils/*": ["./src/utils/*"],
       "@constants/*": ["./src/constants/*"],
       "@presentation/*": ["./src/presentation/*"],
+      "@config/*": ["./src/config/*"],
     },
     "incremental": true,
   }
