@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Module } from '@nestjs/common';
 import { connection as RDBConnetion } from '@infrastructure/rdb/config/connection';
 import { InternalApiModule } from '@presentation/internal';

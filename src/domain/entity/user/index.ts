@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Expose, Type } from '@nestjs/class-transformer';
 import { EmailVO } from '../../value-object/email-vo';
 import { BaseEntity } from '../base';

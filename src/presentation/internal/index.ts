@@ -19,6 +19,8 @@ import { PostController } from '@presentation/internal/post/index.controller';
 import { UserController } from '@presentation/internal/user/index.controller';
 import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
 import CheckPasswordUsecase from '@usecase/user/check-password';
+import UserProfileView from 'src/view/user-profile-view';
+import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -26,11 +28,19 @@ const RepositoryProviders: Provider[] = [
   TransactionManagerProvider,
 ];
 
+const ViewRepositoryProvider: Provider[] = [UserViewRepositoryProvider];
+
 @Module({
   providers: [...RepositoryProviders],
   exports: [...RepositoryProviders],
 })
 class Repositories {}
+
+@Module({
+  providers: [...ViewRepositoryProvider],
+  exports: [...ViewRepositoryProvider],
+})
+class ViewRepositories {}
 
 const RequiredAuthenControllers = [
   UserController,
@@ -39,8 +49,13 @@ const RequiredAuthenControllers = [
 ];
 
 @Module({
-  imports: [Repositories],
-  providers: [SigninUsecase, SignupUsecase, CheckPasswordUsecase],
+  imports: [Repositories, ViewRepositories],
+  providers: [
+    SigninUsecase,
+    SignupUsecase,
+    CheckPasswordUsecase,
+    UserProfileView,
+  ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],
 })
 export class InternalApiModule implements NestModule {

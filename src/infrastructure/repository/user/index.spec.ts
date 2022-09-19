@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 import { users } from './testData';
 import { UserRepository } from '.';
-import User from '../../rdb/entities/user';
+import User from '../../rdb/entity/user';
 import { UserEntity } from '@domain/entity/user';
 import { EmailVO } from '@domain/value-object/email-vo';
 
@@ -14,18 +14,18 @@ describe('User Repository Testing', () => {
   const userRepository = new UserRepository();
 
   let rdbConnection: Connection;
-  let userRdbRepository: Repository<User>;
+  let userRDBRepository: Repository<User>;
 
   beforeAll(async () => {
     rdbConnection = await createConnection();
-    userRdbRepository = getRepository(User);
+    userRDBRepository = getRepository(User);
 
-    await userRdbRepository.delete({});
+    await userRDBRepository.delete({});
 
-    await userRdbRepository.insert(users);
+    await userRDBRepository.insert(users);
   });
   afterAll(async () => {
-    await userRdbRepository.delete({});
+    await userRDBRepository.delete({});
 
     await rdbConnection.close();
   });
@@ -76,7 +76,7 @@ describe('User Repository Testing', () => {
           detail: null,
         });
 
-        rdbUser = await userRdbRepository.findOne({
+        rdbUser = await userRDBRepository.findOne({
           where: {
             email,
           },

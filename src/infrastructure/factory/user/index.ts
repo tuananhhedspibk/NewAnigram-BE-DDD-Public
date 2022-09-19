@@ -1,7 +1,7 @@
 import { UserEntity } from '@domain/entity/user';
 import { EmailVO } from '@domain/value-object/email-vo';
 import { BaseFactory } from '@infrastructure/factory/base';
-import User from '@infrastructure/rdb/entities/user';
+import User from '@infrastructure/rdb/entity/user';
 
 export class UserFactory extends BaseFactory {
   createUserEntity(user: User | null) {

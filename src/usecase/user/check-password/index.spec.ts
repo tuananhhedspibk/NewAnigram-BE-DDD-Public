@@ -1,5 +1,3 @@
-import { Connection, createConnection } from 'typeorm';
-
 import { ErrorCode, ERROR_MESSAGE } from '@constants/error';
 import { AuthenticateRepository } from '@infrastructure/repository/authenticate';
 import { ApiResultCode } from '@usecase/dto/api-result';
@@ -9,23 +7,18 @@ import CheckPasswordUsecase, {
   CheckPasswordUsecaseOutput,
 } from '.';
 
-describe('CheckPassword usecase test', () => {
+describe('CheckPassword Usecase testing', () => {
   const userEmail = 'test@mail.com';
 
   let input: CheckPasswordUsecaseInput;
   let output: CheckPasswordUsecaseOutput;
   let usecase: CheckPasswordUsecase;
-  let connection: Connection;
 
   beforeAll(async () => {
     usecase = new CheckPasswordUsecase(new AuthenticateRepository());
-    connection = await createConnection();
-  });
-  afterAll(async () => {
-    connection.close();
   });
 
-  describe('Valid password', () => {
+  describe('Valid password testing', () => {
     beforeAll(async () => {
       input = { password: 'validpass' };
 
@@ -44,7 +37,7 @@ describe('CheckPassword usecase test', () => {
     });
   });
 
-  describe('Invalid password', () => {
+  describe('Invalid password testing', () => {
     beforeAll(async () => {
       input = { password: 'invalidpass' };
 
