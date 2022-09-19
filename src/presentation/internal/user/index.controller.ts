@@ -22,12 +22,16 @@ import CheckPasswordUsecase, {
   CheckPasswordUsecaseInput,
   CheckPasswordUsecaseOutput,
 } from '@usecase/user/check-password';
+import UserProfileView from '@view/user-profile-view';
 
 @ApiTags('internal/user')
 @ApiBearerAuth()
 @Controller('internal/user')
 export class UserController {
-  constructor(private readonly checkPasswordUsecase: CheckPasswordUsecase) {}
+  constructor(
+    private readonly checkPasswordUsecase: CheckPasswordUsecase,
+    private readonly userProfileView: UserProfileView,
+  ) {}
 
   @Post('/check-password')
   @HttpCode(HTTP_STATUS.OK)
@@ -52,8 +56,8 @@ export class UserController {
     summary: 'Get users profile',
     description: 'Get users profile',
   })
-  profile() {
-    
+  profile(@Req() request: { user: { userId: number } }) {
+    return this.userProfileView.getUserProfile(request.user.userId);
   }
 
   @Put('/update-profile')

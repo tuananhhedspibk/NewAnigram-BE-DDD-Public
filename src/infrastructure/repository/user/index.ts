@@ -9,7 +9,7 @@ import {
   UserEntity,
 } from '@domain/entity/user';
 import { IUserRepository } from '@domain/repository/user';
-import RdbUserEntity from '@infrastructure/rdb/entities/user';
+import RdbUserEntity from '@infrastructure/rdb/entity/user';
 import { Transaction } from '@infrastructure/repository/transaction';
 import Repository from '@infrastructure/repository/base';
 import { UserFactory } from '@infrastructure/factory/user';

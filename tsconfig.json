@@ -14,6 +14,7 @@
       "@domain/*": ["./src/domain/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@usecase/*": ["./src/usecase/*"],
+      "@view/*": ["./src/view/*"],
       "@utils/*": ["./src/utils/*"],
       "@constants/*": ["./src/constants/*"],
       "@presentation/*": ["./src/presentation/*"],
