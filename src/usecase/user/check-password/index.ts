@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ErrorCode } from '@constants/error';
-import { IAuthenticateRepository } from '@domain/repositories/authenticate';
+import { IAuthenticateRepository } from '@domain/repository/authenticate';
 import { Usecase, UsecaseInput, UsecaseOutput } from '@usecase/base';
 import ApiResultDto, { ApiError } from '@usecase/dto/api-result';
 import { UsecaseError, UsecaseErrorCode } from '@usecase/exception';

@@ -1,9 +1,9 @@
-import { IAuthenticateRepository } from '@domain/repositories/authenticate';
-import { AuthenticateRepository } from '@infrastructure/repositories/authenticate';
-import { IUserRepository } from '@domain/repositories/user';
-import { UserRepository } from '@infrastructure/repositories/user';
-import ITransactionManager from '@domain/repositories/transaction';
-import TransactionManager from '@infrastructure/repositories/transaction';
+import { IAuthenticateRepository } from '@domain/repository/authenticate';
+import { AuthenticateRepository } from '@infrastructure/repository/authenticate';
+import { IUserRepository } from '@domain/repository/user';
+import { UserRepository } from '@infrastructure/repository/user';
+import ITransactionManager from '@domain/repository/transaction';
+import TransactionManager from '@infrastructure/repository/transaction';
 
 export const UserRepositoryProvider = {
   provide: IUserRepository,

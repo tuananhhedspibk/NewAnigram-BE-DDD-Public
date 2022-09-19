@@ -1,6 +1,6 @@
-import { UserEntity } from '@domain/entities/user';
-import { EmailVO } from '@domain/value-objects/email-vo';
-import { BaseFactory } from '@infrastructure/factories/base';
+import { UserEntity } from '@domain/entity/user';
+import { EmailVO } from '@domain/value-object/email-vo';
+import { BaseFactory } from '@infrastructure/factory/base';
 import User from '@infrastructure/rdb/entities/user';
 
 export class UserFactory extends BaseFactory {

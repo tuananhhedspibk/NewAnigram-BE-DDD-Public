@@ -1,7 +1,7 @@
 import { Connection, createConnection } from 'typeorm';
 
 import { ErrorCode, ERROR_MESSAGE } from '@constants/error';
-import { AuthenticateRepository } from '@infrastructure/repositories/authenticate';
+import { AuthenticateRepository } from '@infrastructure/repository/authenticate';
 import { ApiResultCode } from '@usecase/dto/api-result';
 
 import CheckPasswordUsecase, {

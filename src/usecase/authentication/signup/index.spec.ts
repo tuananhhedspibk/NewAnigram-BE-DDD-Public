@@ -1,14 +1,14 @@
 import { Connection, createConnection } from 'typeorm';
 
-import { AuthenticateRepository } from '@infrastructure/repositories/authenticate';
-import TransactionManager from '@infrastructure/repositories/transaction';
-import { UserRepository } from '@infrastructure/repositories/user';
+import { AuthenticateRepository } from '@infrastructure/repository/authenticate';
+import TransactionManager from '@infrastructure/repository/transaction';
+import { UserRepository } from '@infrastructure/repository/user';
 import SignupUsecase, { SignupUsecaseInput, SignupUsecaseOutput } from '.';
 import { UsecaseErrorCode, UsecaseErrorDetailCode } from '@usecase/exception';
 import { DomainErrorCode, DomainErrorDetailCode } from '@domain/exception';
 import { testJWT, userEntity } from './testData';
 import { plainToClass } from '@nestjs/class-transformer';
-import { UserEntity } from '@domain/entities/user';
+import { UserEntity } from '@domain/entity/user';
 import { ApiResultCode } from '@usecase/dto/api-result';
 
 describe('Signup Usecase Testing', () => {

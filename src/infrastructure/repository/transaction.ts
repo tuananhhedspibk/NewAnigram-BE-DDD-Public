@@ -1,5 +1,5 @@
 import { getManager, EntityManager } from 'typeorm';
-import ITransactionManager from '@domain/repositories/transaction';
+import ITransactionManager from '@domain/repository/transaction';
 
 export type Transaction = EntityManager;
 

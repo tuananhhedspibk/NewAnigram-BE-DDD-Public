@@ -1,6 +1,6 @@
 import { getRepository, Repository, SelectQueryBuilder } from 'typeorm';
 
-import { IAuthenticateRepository } from '@domain/repositories/authenticate';
+import { IAuthenticateRepository } from '@domain/repository/authenticate';
 import RdbUserEntity from '@infrastructure/rdb/entities/user';
 import { hashPassword, generateJWT } from '@utils/encrypt';
 

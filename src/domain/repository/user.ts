@@ -1,4 +1,4 @@
-import { UserEntity } from '../entities/user';
+import { UserEntity } from '../entity/user';
 import { BaseRepository } from './base';
 
 export abstract class IUserRepository extends BaseRepository {

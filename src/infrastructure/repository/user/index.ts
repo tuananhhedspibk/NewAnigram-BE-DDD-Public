@@ -7,12 +7,12 @@ import {
 import {
   UserEntity as DomainUserEntity,
   UserEntity,
-} from '@domain/entities/user';
-import { IUserRepository } from '@domain/repositories/user';
+} from '@domain/entity/user';
+import { IUserRepository } from '@domain/repository/user';
 import RdbUserEntity from '@infrastructure/rdb/entities/user';
-import { Transaction } from '@infrastructure/repositories/transaction';
-import Repository from '@infrastructure/repositories/base';
-import { UserFactory } from '@infrastructure/factories/user';
+import { Transaction } from '@infrastructure/repository/transaction';
+import Repository from '@infrastructure/repository/base';
+import { UserFactory } from '@infrastructure/factory/user';
 import { hashPassword, randomlyGenerateSalt } from '@utils/encrypt';
 
 const userFactory = new UserFactory();
