@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { IAuthenticateRepository } from '@domain/repositories/authenticate';
-import ITransactionManager from '@domain/repositories/transaction';
-import { IUserRepository } from '@domain/repositories/user';
-import { EmailVO } from '@domain/value-objects/email-vo';
-import { UserFactory } from '@infrastructure/factories/user';
+import { IAuthenticateRepository } from '@domain/repository/authenticate';
+import ITransactionManager from '@domain/repository/transaction';
+import { IUserRepository } from '@domain/repository/user';
+import { EmailVO } from '@domain/value-object/email-vo';
+import { UserFactory } from '@infrastructure/factory/user';
 import { Inject, Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import ApiResultDto from '@usecase/dto/api-result';

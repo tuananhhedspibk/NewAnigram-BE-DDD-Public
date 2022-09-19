@@ -1,5 +1,5 @@
 import { Expose, Type } from '@nestjs/class-transformer';
-import { EmailVO } from '../../value-objects/email-vo';
+import { EmailVO } from '../../value-object/email-vo';
 import { BaseEntity } from '../base';
 import { UserDetailEntity } from './user-detail';
 

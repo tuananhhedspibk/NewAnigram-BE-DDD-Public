@@ -3,13 +3,13 @@
 import { Usecase, UsecaseInput, UsecaseOutput } from '../../base';
 import { ApiProperty } from '@nestjs/swagger';
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from '@domain/repositories/user';
+import { IUserRepository } from '@domain/repository/user';
 import {
   UsecaseError,
   UsecaseErrorCode,
   UsecaseErrorDetailCode,
 } from '@usecase/exception';
-import { IAuthenticateRepository } from '@domain/repositories/authenticate';
+import { IAuthenticateRepository } from '@domain/repository/authenticate';
 import ApiResultDto from '@usecase/dto/api-result';
 
 export class SigninUsecaseInput {

@@ -7,8 +7,8 @@ import {
 import { users } from './testData';
 import { UserRepository } from '.';
 import User from '../../rdb/entities/user';
-import { UserEntity } from '@domain/entities/user';
-import { EmailVO } from '@domain/value-objects/email-vo';
+import { UserEntity } from '@domain/entity/user';
+import { EmailVO } from '@domain/value-object/email-vo';
 
 describe('User Repository Testing', () => {
   const userRepository = new UserRepository();

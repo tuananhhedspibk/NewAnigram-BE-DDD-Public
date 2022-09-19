@@ -1,10 +1,10 @@
 import { Connection, createConnection } from 'typeorm';
 import SigninUsecase, { SigninUsecaseInput, SigninUsecaseOutput } from '.';
-import { AuthenticateRepository } from '@infrastructure/repositories/authenticate';
-import { UserRepository } from '@infrastructure/repositories/user';
+import { AuthenticateRepository } from '@infrastructure/repository/authenticate';
+import { UserRepository } from '@infrastructure/repository/user';
 import { UsecaseErrorCode, UsecaseErrorDetailCode } from '@usecase/exception';
 import { plainToClass } from '@nestjs/class-transformer';
-import { UserEntity } from '@domain/entities/user';
+import { UserEntity } from '@domain/entity/user';
 import { userEntity, testJWT } from './testData';
 import { ApiResultCode } from '@usecase/dto/api-result';
 

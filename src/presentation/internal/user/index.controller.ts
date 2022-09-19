@@ -52,7 +52,9 @@ export class UserController {
     summary: 'Get users profile',
     description: 'Get users profile',
   })
-  profile() {}
+  profile() {
+    
+  }
 
   @Put('/update-profile')
   @ApiOperation({
