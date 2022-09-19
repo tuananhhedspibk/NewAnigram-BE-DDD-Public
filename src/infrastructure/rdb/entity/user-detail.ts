@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import BaseEntity from './base';
 import User from './user';
 
-const Gender = {
+export const Gender = {
   Male: 'Male',
   Female: 'Female',
 } as const;
