@@ -3,13 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import CustomNamingStrategy from '../typeorm-custom-name-strategy';
 import RDBConfig from '../../';
 
-import User from '@infrastructure/rdb/entities/user';
-import UserDetail from '@infrastructure/rdb/entities/user-detail';
-import Post from '@infrastructure/rdb/entities/post';
-import Like from '@infrastructure/rdb/entities/like';
-import Comment from '@infrastructure/rdb/entities/comment';
-import Follow from '@infrastructure/rdb/entities/follow';
-import Notification from '@infrastructure/rdb/entities/notification';
+import User from '@infrastructure/rdb/entity/user';
+import UserDetail from '@infrastructure/rdb/entity/user-detail';
+import Post from '@infrastructure/rdb/entity/post';
+import Like from '@infrastructure/rdb/entity/like';
+import Comment from '@infrastructure/rdb/entity/comment';
+import Follow from '@infrastructure/rdb/entity/follow';
+import Notification from '@infrastructure/rdb/entity/notification';
 
 const getConnection = () => {
   const entities = [

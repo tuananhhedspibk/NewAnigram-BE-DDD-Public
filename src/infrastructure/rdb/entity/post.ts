@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import BaseEntity from './base';
 import CommentEntity from './comment';

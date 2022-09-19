@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import BaseEntity from './base';
 import Post from './post';
