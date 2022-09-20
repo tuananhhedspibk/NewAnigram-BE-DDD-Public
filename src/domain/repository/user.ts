@@ -6,5 +6,13 @@ export abstract class IUserRepository extends BaseRepository {
     transaction: TransactionType | null,
     email: string,
   ) => Promise<UserEntity | null>;
+  getById: (
+    transaction: TransactionType | null,
+    id: number,
+  ) => Promise<UserEntity | null>;
   save: (transaction: TransactionType, user: UserEntity) => Promise<UserEntity>;
+  update: (
+    transaction: TransactionType,
+    user: UserEntity,
+  ) => Promise<UserEntity>;
 }

@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Expose } from '@nestjs/class-transformer';
 import { BaseEntity } from '../base';
 
-enum UserDetailGender {
+export enum UserDetailGender {
   Male = 'Male',
   Female = 'Female',
 }
@@ -17,7 +19,7 @@ export class UserDetailEntity extends BaseEntity {
   nickName: string;
 
   @Expose()
-  avatarUrl: string;
+  avatarURL: string;
 
   @Expose()
   gender: UserDetailGender;

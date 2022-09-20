@@ -12,6 +12,7 @@ export const UsecaseErrorDetailCode = {
   EMAIL_DOES_NOT_EXISTS: 'EMAIL_DOES_NOT_EXISTS',
   INVALID_EMAIL_OR_PASSWORD: 'INVALID_EMAIL_OR_PASSWORD',
   EMAIL_IS_BEING_USED: 'EMAIL_IS_BEING_USED',
+  USER_NOT_EXIST: 'USER_NOT_EXIST',
 } as const;
 
 export type UsecaseErrorDetailCode =

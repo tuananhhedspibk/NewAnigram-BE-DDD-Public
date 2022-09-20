@@ -10,6 +10,7 @@ import SigninUsecase from '@usecase/authentication/signin';
 import SignupUsecase from '@usecase/authentication/signup';
 import {
   AuthenticateRepositoryProvider,
+  ImageRepositoryProvider,
   TransactionManagerProvider,
   UserRepositoryProvider,
 } from '@presentation/provider/repository-provider';
@@ -21,11 +22,13 @@ import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
 import CheckPasswordUsecase from '@usecase/user/check-password';
 import UserProfileView from 'src/view/user-profile-view';
 import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
+import UpdateUserProfileUsecase from '@usecase/user/update-profile';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
   UserRepositoryProvider,
   TransactionManagerProvider,
+  ImageRepositoryProvider,
 ];
 
 const ViewRepositoryProvider: Provider[] = [UserViewRepositoryProvider];
@@ -54,6 +57,7 @@ const RequiredAuthenControllers = [
     SigninUsecase,
     SignupUsecase,
     CheckPasswordUsecase,
+    UpdateUserProfileUsecase,
     UserProfileView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],

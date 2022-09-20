@@ -22,6 +22,11 @@ import CheckPasswordUsecase, {
   CheckPasswordUsecaseInput,
   CheckPasswordUsecaseOutput,
 } from '@usecase/user/check-password';
+import UpdateUserProfileUsecase, {
+  UpdateUserProfileUsecaseInput,
+  UpdateUserProfileUsecaseOutput,
+} from '@usecase/user/update-profile';
+import { UserProfileDto } from '@view/dto/user-profile-dto';
 import UserProfileView from '@view/user-profile-view';
 
 @ApiTags('internal/user')
@@ -31,6 +36,7 @@ export class UserController {
   constructor(
     private readonly checkPasswordUsecase: CheckPasswordUsecase,
     private readonly userProfileView: UserProfileView,
+    private readonly updateUserProfileUsecase: UpdateUserProfileUsecase,
   ) {}
 
   @Post('/check-password')
@@ -56,6 +62,10 @@ export class UserController {
     summary: 'Get users profile',
     description: 'Get users profile',
   })
+  @ApiResponse({
+    description: 'Get user profile API response',
+    type: UserProfileDto,
+  })
   profile(@Req() request: { user: { userId: number } }) {
     return this.userProfileView.getUserProfile(request.user.userId);
   }
@@ -65,7 +75,21 @@ export class UserController {
     summary: 'Update users profile',
     description: 'Update users profile',
   })
-  updateProfile() {}
+  @ApiBody({
+    description: 'Update user profile data payload',
+    type: UpdateUserProfileUsecaseInput,
+    required: true,
+  })
+  @ApiResponse({
+    description: 'Update user profile API response',
+    type: UpdateUserProfileUsecaseOutput,
+  })
+  updateProfile(
+    @Body() payload: UpdateUserProfileUsecaseInput,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.updateUserProfileUsecase.execute(payload, request.user.userId);
+  }
 
   @Post('/follow')
   @ApiOperation({

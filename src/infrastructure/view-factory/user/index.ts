@@ -1,4 +1,4 @@
-import { UserProfileDto } from '../../../view/dto/user-profile-dto';
+import { UserProfileDto } from '@view/dto/user-profile-dto';
 import BaseViewFactory from '../base';
 
 export class CreateUserProfileDtoParams {
