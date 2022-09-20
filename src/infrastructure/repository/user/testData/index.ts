@@ -1,3 +1,5 @@
+import { Gender } from '@infrastructure/rdb/entity/user-detail';
+
 const users = [
   {
     id: 1,
@@ -19,4 +21,25 @@ const users = [
   },
 ];
 
-export { users };
+const userDetails = [
+  {
+    id: 1,
+    userId: 1,
+    nickName: 'user-1-nick-name',
+    avatarURL: 'user-1-avatar.jpg',
+    gender: Gender.Male,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: 2,
+    userId: 2,
+    nickName: 'user-2-nick-name',
+    avatarURL: 'user-2-avatar.jpg',
+    gender: Gender.Male,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+];
+
+export { users, userDetails };

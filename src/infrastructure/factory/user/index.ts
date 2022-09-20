@@ -7,11 +7,10 @@ export class UserFactory extends BaseFactory {
   createUserEntity(user: User | null) {
     if (!user) return null;
 
-    const entity = this.createEntity(UserEntity, user);
-
-    if (!user.userDetail) {
-      entity.detail = null;
-    }
+    const entity = this.createEntity(UserEntity, {
+      ...user,
+      detail: user.userDetail || null,
+    });
 
     return entity;
   }

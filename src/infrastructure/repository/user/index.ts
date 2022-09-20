@@ -70,14 +70,7 @@ export class UserRepository
       ? transaction.getRepository(RDBUserEntity)
       : getRepository(RDBUserEntity);
 
-    const query = this.getBaseQuery(repository)
-      .leftJoin('user.userDetail', 'userDetail')
-      .addSelect([
-        'userDetail.nickName',
-        'userDetail.avatarURL',
-        'userDetail.gender',
-      ])
-      .where('user.id = :id', { id });
+    const query = this.getBaseQuery(repository).where('user.id = :id', { id });
     const user = await query.getOne();
 
     return userFactory.createUserEntity(user);
@@ -155,7 +148,16 @@ export class UserRepository
   ): SelectQueryBuilder<RDBUserEntity> {
     const query = repository
       .createQueryBuilder('user')
-      .select(['user.id', 'user.email', 'user.userName']);
+      .select([
+        'user.id',
+        'user.email',
+        'user.userName',
+        'userDetail.nickName',
+        'userDetail.avatarURL',
+        'userDetail.gender',
+      ])
+
+      .leftJoin('user.userDetail', 'userDetail');
 
     return query;
   }
