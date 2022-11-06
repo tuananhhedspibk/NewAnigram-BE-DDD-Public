@@ -17,6 +17,13 @@ commands: # Define steps as map to be executed in job
   project-setup:
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - save_cache: # Generate cache for file(s), later jobs can restore it
+          paths:
+            - "node_modules"
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
   database-setup:
     steps:
       - run:
@@ -38,10 +45,7 @@ jobs:
       - run:
           name: Build the hold project
           command: yarn build
-      - save_cache: # Generate cache for file(s), later jobs can restore it
-          paths:
-            - "node_modules"
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
   test:
     executor: test-database
     steps:
