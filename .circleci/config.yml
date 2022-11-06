@@ -12,6 +12,7 @@ executors: # Specify execution environment
       - image: mysql:8.0.30
         environment:
           MYSQL_DATABASE: newanigram_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
 commands: # Define steps as map to be executed in job
   project-setup:
