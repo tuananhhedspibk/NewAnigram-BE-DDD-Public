@@ -34,9 +34,8 @@ export class UpdateUserProfileUsecaseInput extends UsecaseInput {
   @ApiProperty({
     description: 'New avatar',
     required: false,
-    type: File,
   })
-  avatar?: File;
+  avatar?: any;
 
   @ApiProperty({
     description: 'User gender',
@@ -176,6 +175,7 @@ export default class UpdateUserProfileUsecase extends Usecase<
       throw new UsecaseError({
         code: UsecaseErrorCode.INTERNAL_SERVER_ERROR,
         message: 'Internal Server Error',
+        info: error.stack,
       });
     }
 
