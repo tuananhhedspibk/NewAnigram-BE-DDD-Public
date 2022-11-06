@@ -27,6 +27,9 @@ commands: # Define steps as map to be executed in job
           key: v1-dependencies-{{ checksum "yarn.lock" }}
   database-setup:
     steps:
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run:
           name: Start up mysql
           command: docker run -d -p 3306:3306 --name newanigram_mysql mysql:8.0.30
