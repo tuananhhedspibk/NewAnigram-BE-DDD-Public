@@ -1,0 +1,60 @@
+version: 2.1
+
+executors: # Specify execution environment
+  default:
+    working_directory: ~/project
+    docker:
+      - image: mhart/alpine-node:14.16.0
+  test-database:
+    working_directory: ~/project
+    docker:
+      - image: mhart/alpine-node:14.16.0
+      - image: mysql:8.0.30
+        environment:
+          MYSQL_DATABASE: newanigram_test
+
+commands: # Define steps as map to be executed in job
+  project-setup:
+    steps:
+      - checkout
+  database-setup:
+    steps:
+      - run:
+          name: Start up mysql
+          command: docker run -d -p 3306:3306 --name newanigram_mysql mysql:8.0.30
+      - run:
+          name: Run Migration
+          command: yarn rdb:test:migration:run
+      - run:
+          name: Data seeding
+          command: yarn rdb:test:seed:run
+  
+
+jobs:
+  build:
+    executor: default
+    steps:
+      - project-setup
+      - run:
+          name: Build the hold project
+          command: yarn build
+      - save_cache: # Generate cache for file(s), later jobs can restore it
+          paths:
+            - "node_modules"
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+  test:
+    executor: test-database
+    steps:
+      - project-setup
+      - database-setup
+      - run:
+          name: Run unit test
+          command: yarn test
+
+workflows:
+  build-and-test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
