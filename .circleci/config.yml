@@ -31,10 +31,6 @@ commands: # Define steps as map to be executed in job
       - run:
           name: Run Migration
           command: yarn rdb:test:migration:run
-      - run:
-          name: Data seeding
-          command: yarn rdb:test:seed:run
-  
 
 jobs:
   build:
