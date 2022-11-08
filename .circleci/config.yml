@@ -9,8 +9,7 @@ executors: # Specify execution environment
     working_directory: ~/project
     docker:
       - image: mhart/alpine-node:14.16.0
-      - image: cimg/base:2022.06
-      - image: mysql:8.0.30
+      - image: cimg/mysql:8.0
         environment:
           MYSQL_DATABASE: newanigram_test
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -28,15 +27,6 @@ commands: # Define steps as map to be executed in job
           key: v1-dependencies-{{ checksum "yarn.lock" }}
   database-setup:
     steps:
-      - run:
-          name: Install docker
-          command: apk add --update docker openrc
-      - run:
-          name: Start up docker daemon
-          command: rc-update add docker boot
-      - run:
-          name: Start up mysql
-          command: docker run -d -p 3306:3306 --name newanigram_mysql mysql:8.0.30
       - run:
           name: Run Migration
           command: yarn rdb:test:migration:run
