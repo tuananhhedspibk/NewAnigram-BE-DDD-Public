@@ -30,7 +30,10 @@ commands: # Define steps as map to be executed in job
     steps:
       - run:
           name: Install docker
-          command: apk add --update docker
+          command: apk add --update docker openrc
+      - run:
+          name: Start up docker daemon
+          command: rc-update add docker boot
       - run:
           name: Start up mysql
           command: docker run -d -p 3306:3306 --name newanigram_mysql mysql:8.0.30
