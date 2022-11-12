@@ -173,6 +173,53 @@ describe('User Repository Testing', () => {
   });
 
   describe('update testing', () => {
+    describe('Normal case', () => {
+      let userEntity: UserEntity;
+      let newestUserData;
+      let newestUserDetailData;
+
+      describe('User has detail', () => {
+        beforeAll(async () => {
+          userEntity = plainToClass(UserEntity, {
+            id: 1,
+            email: 'user-100@mail.com',
+            password: 'password',
+            salt: '10',
+            userName: 'user100',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            detail: {
+              id: 1,
+              userId: 1,
+              nickName: 'user-100-nick-name',
+              avatarURL: 'user-100-avatar.jpg',
+              gender: Gender.Female,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          });
+
+          await userRepository.update(null, userEntity);
+
+          newestUserData = await userRDBRepository.findOne(userEntity.id);
+          newestUserDetailData = await userDetailRDBRepository.findOne(
+            userEntity.detail.id,
+          );
+        });
+
+        it('User data (email, userName) is updated', () => {
+          expect(newestUserData.email).toEqual('user-100@mail.com');
+          expect(newestUserData.userName).toEqual('user100');
+        });
+
+        it('User detail data (nickName, avatarURL, gender) is updated', () => {
+          expect(newestUserDetailData.nickName).toEqual('user-100-nick-name');
+          expect(newestUserDetailData.avatarURL).toEqual('user-100-avatar.jpg');
+          expect(newestUserDetailData.gender).toEqual(Gender.Female);
+        });
+      });
+    });
+
     describe('Abnormal case', () => {
       let error;
 

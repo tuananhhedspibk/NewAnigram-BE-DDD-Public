@@ -19,6 +19,15 @@ const users = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  {
+    id: 4,
+    email: 'user-4@mail.com',
+    password: 'password',
+    salt: '40',
+    userName: 'user4',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 
 const userDetails = [
