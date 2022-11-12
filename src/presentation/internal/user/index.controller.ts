@@ -60,24 +60,24 @@ export class UserController {
     return this.userProfileView.getUserProfile(request.user.userId);
   }
 
-  @Put('/update-profile')
-  @ApiOperation({
-    summary: 'Update users profile',
-    description: 'Update users profile',
-  })
-  updateProfile() {}
+  // @Put('/update-profile')
+  // @ApiOperation({
+  //   summary: 'Update users profile',
+  //   description: 'Update users profile',
+  // })
+  // updateProfile() {}
 
-  @Post('/follow')
-  @ApiOperation({
-    summary: 'Follow user',
-    description: 'Follow user',
-  })
-  follow() {}
+  // @Post('/follow')
+  // @ApiOperation({
+  //   summary: 'Follow user',
+  //   description: 'Follow user',
+  // })
+  // follow() {}
 
-  @Delete('/unfollow/:userId')
-  @ApiOperation({
-    summary: 'Unfollow user',
-    description: 'Unfollow user',
-  })
-  unfollow() {}
+  // @Delete('/unfollow/:userId')
+  // @ApiOperation({
+  //   summary: 'Unfollow user',
+  //   description: 'Unfollow user',
+  // })
+  // unfollow() {}
 }
