@@ -91,17 +91,17 @@ export class UserController {
     return this.updateUserProfileUsecase.execute(payload, request.user.userId);
   }
 
-  @Post('/follow')
-  @ApiOperation({
-    summary: 'Follow user',
-    description: 'Follow user',
-  })
-  follow() {}
+  // @Post('/follow')
+  // @ApiOperation({
+  //   summary: 'Follow user',
+  //   description: 'Follow user',
+  // })
+  // follow() {}
 
-  @Delete('/unfollow/:userId')
-  @ApiOperation({
-    summary: 'Unfollow user',
-    description: 'Unfollow user',
-  })
-  unfollow() {}
+  // @Delete('/unfollow/:userId')
+  // @ApiOperation({
+  //   summary: 'Unfollow user',
+  //   description: 'Unfollow user',
+  // })
+  // unfollow() {}
 }

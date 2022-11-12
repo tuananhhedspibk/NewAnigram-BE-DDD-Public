@@ -26,4 +26,4 @@ export const TransactionManagerProvider = {
 export const ImageRepositoryProvider = {
   provide: IImageRepository,
   useClass: ImageRepository,
-}
+};

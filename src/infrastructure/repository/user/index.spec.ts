@@ -173,8 +173,6 @@ describe('User Repository Testing', () => {
   });
 
   describe('update testing', () => {
-    describe('Normal case', () => {});
-
     describe('Abnormal case', () => {
       let error;
 
