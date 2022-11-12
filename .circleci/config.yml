@@ -38,6 +38,9 @@ jobs:
     steps:
       - project-setup
       - run:
+          name: Lint & format
+          command: yarn lint:check && yarn prettier:check
+      - run:
           name: Build the hold project
           command: yarn build
 
