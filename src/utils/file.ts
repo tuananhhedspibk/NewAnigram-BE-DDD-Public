@@ -9,7 +9,9 @@ export const uploadImageFilter = (
   file: Express.Multer.File,
   callback: FixType,
 ) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+  if (!file) {
+    callback(null, true);
+  } else if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
     return callback(
       new PresentationError({
         code: PresentationErrorCode.BAD_REQUEST,
