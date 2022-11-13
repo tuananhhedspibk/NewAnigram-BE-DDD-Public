@@ -14,6 +14,10 @@ import {
   NestInterceptor,
   NotFoundException,
 } from '@nestjs/common';
+import {
+  PresentationError,
+  PresentationErrorCode,
+} from '@presentation/exception';
 import { UsecaseError, UsecaseErrorCode } from '@usecase/exception';
 import { catchError, Observable, throwError } from 'rxjs';
 
@@ -93,10 +97,42 @@ export class ErrorInterceptor implements NestInterceptor {
               );
               break;
           }
+        } else if (err instanceof PresentationError) {
+          switch (err.code) {
+            case PresentationErrorCode.BAD_REQUEST:
+              responseError = new BadRequestException(
+                err.message,
+                JSON.stringify(err.info),
+              );
+              break;
+            case PresentationErrorCode.NOT_FOUND:
+              responseError = new NotFoundException(
+                err.message,
+                JSON.stringify(err.info),
+              );
+              break;
+            case PresentationErrorCode.INTERNAL_SERVER_ERROR:
+            default:
+              responseError = new InternalServerErrorException(
+                err.message,
+                JSON.stringify(err.info),
+              );
+              break;
+          }
         } else {
-          responseError = new InternalServerErrorException(
-            err.message || 'Internal Server Error',
-          );
+          switch (err.response.error) {
+            case 'Payload Too Large':
+              responseError = new BadRequestException(
+                err.response.error,
+                JSON.stringify(err.response),
+              );
+              break;
+            default:
+              responseError = new InternalServerErrorException(
+                err.message || 'Internal Server Error',
+              );
+              break;
+          }
         }
 
         return throwError(() => responseError);

@@ -1,5 +1,5 @@
-import { testImageServerURL, testS3BucketName } from '@config/aws';
-import { ImageType } from '@domain/repository/image';
+import { testImageServerURL } from '@config/aws';
+import { DomainImageType } from '@domain/repository/image';
 import {
   InfrastructureErrorCode,
   InfrastructureErrorDetailCode,
@@ -18,7 +18,7 @@ describe('Image Repository Testing', () => {
 
     describe('Generate avatar key', () => {
       beforeAll(() => {
-        result = imageRepository.generateKey(ImageType.USER_AVATAR, {
+        result = imageRepository.generateKey(DomainImageType.USER_AVATAR, {
           name: 'test_image',
           type: 'img/jpeg',
           data: null,
@@ -41,9 +41,10 @@ describe('Image Repository Testing', () => {
         expect(splitResult[1]).toEqual(userId.toString());
       });
     });
+
     describe('Generate post image key', () => {
       beforeAll(() => {
-        result = imageRepository.generateKey(ImageType.POST_IMAGE, {
+        result = imageRepository.generateKey(DomainImageType.POST_IMAGE, {
           name: 'test_image',
           type: 'img/jpeg',
           data: null,
@@ -86,6 +87,7 @@ describe('Image Repository Testing', () => {
         expect(result.includes(key)).toEqual(true);
       });
     });
+
     describe('Pass an empty image key', () => {
       let error;
 
@@ -93,47 +95,6 @@ describe('Image Repository Testing', () => {
         key = '';
         try {
           result = imageRepository.generateGetURL(key);
-        } catch (err) {
-          error = err;
-        }
-      });
-
-      it('Error code is BAD_REQUEST', () => {
-        expect(error.code).toEqual(InfrastructureErrorCode.BAD_REQUEST);
-      });
-      it('Error message is "Image key can not be empty"', () => {
-        expect(error.message).toEqual('Image key can not be empty');
-      });
-      it('Error detail code is IMAGE_KEY_CAN_NOT_BE_EMPTY', () => {
-        expect(error.info.errorCode).toEqual(
-          InfrastructureErrorDetailCode.IMAGE_KEY_CAN_NOT_BE_EMPTY,
-        );
-      });
-    });
-  });
-
-  describe('generatePutURL Testing', () => {
-    describe('Pass a not empty image key', () => {
-      beforeAll(async () => {
-        key = 'test-image';
-
-        result = await imageRepository.generatePutURL(key, 'img/jpeg');
-      });
-
-      it('Returned Put URL is not empty', () => {
-        expect(result.length).not.toEqual(0);
-      });
-      it('Returned Put URL contains bucket name', () => {
-        expect(result.includes(testS3BucketName)).toEqual(true);
-      });
-    });
-    describe('Pass an empty image key', () => {
-      let error;
-
-      beforeAll(async () => {
-        key = '';
-        try {
-          result = await imageRepository.generatePutURL(key, 'img/jpeg');
         } catch (err) {
           error = err;
         }

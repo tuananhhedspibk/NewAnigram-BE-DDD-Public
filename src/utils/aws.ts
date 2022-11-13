@@ -1,4 +1,3 @@
-import axios from 'axios';
 import * as AwsSDK from 'aws-sdk';
 
 import {
@@ -6,7 +5,6 @@ import {
   imageServerURL,
   s3BucketName,
   testImageServerURL,
-  testS3BucketName,
 } from '@config/aws';
 
 AwsSDK.config.update(awsConfig);
@@ -20,23 +18,17 @@ export const generateS3GetURL = (key: string): string => {
   return `${imageServerURL}/${key}`;
 };
 
-export const generateS3PutURL = async (
-  key: string,
-  contentType: string,
-): Promise<string> => {
-  const params = {
-    Bucket: process.env.NODE_ENV === 'test' ? testS3BucketName : s3BucketName,
-    Key: key,
-    ContentType: contentType,
-  };
-
-  return s3.getSignedUrlPromise('putObject', params);
-};
-
 export const uploadImageToS3Bucket = async (
-  url: string,
+  key: string,
   data: File,
-  options?: FixType,
 ): Promise<void> => {
-  return axios.put(url, data, options);
+  await s3
+    .upload({
+      Bucket: s3BucketName,
+      Key: key,
+      Body: data,
+    })
+    .promise();
+
+  return;
 };

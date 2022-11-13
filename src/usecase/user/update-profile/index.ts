@@ -4,7 +4,7 @@ import { UpdateDetailParams } from '@domain/entity/user';
 import { UserDetailGender } from '@domain/entity/user/user-detail';
 import IImageRepository, {
   ImageInfoPayload,
-  ImageType,
+  DomainImageType,
 } from '@domain/repository/image';
 import ITransactionManager from '@domain/repository/transaction';
 import { IUserRepository } from '@domain/repository/user';
@@ -34,8 +34,10 @@ export class UpdateUserProfileUsecaseInput extends UsecaseInput {
   @ApiProperty({
     description: 'New avatar',
     required: false,
+    type: 'string',
+    format: 'binary',
   })
-  avatar?: any;
+  avatar?: FixType;
 
   @ApiProperty({
     description: 'User gender',
@@ -109,17 +111,18 @@ export default class UpdateUserProfileUsecase extends Usecase<
 
     let imageInfoPayload: ImageInfoPayload = null;
     let avatarGetURL = '';
+    let imageKey = '';
 
     if (input.avatar && Object.keys(input.avatar).length > 0) {
       imageInfoPayload = {
-        name: input.avatar.name,
-        type: input.avatar.type,
-        data: input.avatar,
+        name: input.avatar.originalname,
+        type: input.avatar.mimetype,
+        data: input.avatar.buffer,
         userId,
       };
 
-      const imageKey = this.imageRepository.generateKey(
-        ImageType.USER_AVATAR,
+      imageKey = this.imageRepository.generateKey(
+        DomainImageType.USER_AVATAR,
         imageInfoPayload,
       );
       avatarGetURL = this.imageRepository.generateGetURL(imageKey);
@@ -152,7 +155,7 @@ export default class UpdateUserProfileUsecase extends Usecase<
 
       if (imageInfoPayload) {
         await this.imageRepository.uploadImageToImageServer(
-          ImageType.USER_AVATAR,
+          imageKey,
           imageInfoPayload,
         );
       }

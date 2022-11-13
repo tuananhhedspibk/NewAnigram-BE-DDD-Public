@@ -1,6 +1,6 @@
 import { BaseRepository } from './base';
 
-export enum ImageType {
+export enum DomainImageType {
   USER_AVATAR = 'USER_AVATAR',
   POST_IMAGE = 'POST_IMAGE',
 }
@@ -15,10 +15,12 @@ export type ImageInfoPayload = {
 
 export default class IImageRepository extends BaseRepository {
   uploadImageToImageServer: (
-    imageType: ImageType,
+    key: string,
     payload: ImageInfoPayload,
   ) => Promise<void>;
-  generateKey: (imageType: ImageType, payload: ImageInfoPayload) => string;
-  generatePutURL: (key: string, contentType: string) => Promise<string>;
+  generateKey: (
+    domainImageType: DomainImageType,
+    payload: ImageInfoPayload,
+  ) => string;
   generateGetURL: (key: string) => string;
 }

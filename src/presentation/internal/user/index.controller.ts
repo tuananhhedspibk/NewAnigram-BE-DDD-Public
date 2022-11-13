@@ -10,13 +10,17 @@ import {
   Post,
   Put,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiOperation,
   ApiTags,
   ApiBearerAuth,
   ApiResponse,
   ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import CheckPasswordUsecase, {
   CheckPasswordUsecaseInput,
@@ -26,6 +30,7 @@ import UpdateUserProfileUsecase, {
   UpdateUserProfileUsecaseInput,
   UpdateUserProfileUsecaseOutput,
 } from '@usecase/user/update-profile';
+import { uploadImageFilter } from '@utils/file';
 import { UserProfileDto } from '@view/dto/user-profile-dto';
 import UserProfileView from '@view/user-profile-view';
 
@@ -71,6 +76,7 @@ export class UserController {
   }
 
   @Put('/update-profile')
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'Update users profile',
     description: 'Update users profile',
@@ -84,11 +90,23 @@ export class UserController {
     description: 'Update user profile API response',
     type: UpdateUserProfileUsecaseOutput,
   })
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      limits: {
+        fileSize: 5000000, // maxSize: 5MB = 5 * 10^6 Byte
+      },
+      fileFilter: uploadImageFilter,
+    }),
+  )
   updateProfile(
+    @UploadedFile() avatar: Express.Multer.File,
     @Body() payload: UpdateUserProfileUsecaseInput,
     @Req() request: { user: { userId: number } },
   ) {
-    return this.updateUserProfileUsecase.execute(payload, request.user.userId);
+    return this.updateUserProfileUsecase.execute(
+      { ...payload, avatar },
+      request.user.userId,
+    );
   }
 
   // @Post('/follow')
