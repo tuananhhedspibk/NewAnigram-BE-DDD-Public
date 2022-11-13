@@ -106,7 +106,7 @@ describe('UpdateProfile Usecase testing', () => {
           .spyOn(ImageRepository.prototype, 'uploadImageToImageServer')
           .mockResolvedValue(null);
 
-        jest.spyOn(UserRepository.prototype, 'save').mockResolvedValue(null);
+        jest.spyOn(UserRepository.prototype, 'update').mockResolvedValue(null);
 
         output = await usecase.execute(input, 1);
       });

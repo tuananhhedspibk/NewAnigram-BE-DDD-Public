@@ -110,7 +110,7 @@ export default class UpdateUserProfileUsecase extends Usecase<
     let imageInfoPayload: ImageInfoPayload = null;
     let avatarGetURL = '';
 
-    if (input.avatar) {
+    if (input.avatar && Object.keys(input.avatar).length > 0) {
       imageInfoPayload = {
         name: input.avatar.name,
         type: input.avatar.type,
@@ -146,7 +146,7 @@ export default class UpdateUserProfileUsecase extends Usecase<
     try {
       await this.transactionManager.transaction(
         async (transaction: TransactionType): Promise<void> => {
-          await this.userRepository.save(transaction, userEntity);
+          await this.userRepository.update(transaction, userEntity);
         },
       );
 
@@ -167,7 +167,7 @@ export default class UpdateUserProfileUsecase extends Usecase<
 
           await this.transactionManager.transaction(
             async (transaction: TransactionType): Promise<void> => {
-              await this.userRepository.save(transaction, userEntity);
+              await this.userRepository.update(transaction, userEntity);
             },
           );
         }

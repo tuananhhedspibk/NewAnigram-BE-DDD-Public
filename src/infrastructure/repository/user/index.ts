@@ -6,6 +6,7 @@ import {
 
 import { UserEntity as DomainUserEntity } from '@domain/entity/user';
 import { IUserRepository } from '@domain/repository/user';
+import { UserDetailGender } from '@domain/entity/user/user-detail';
 
 import RDBUserEntity from '@infrastructure/rdb/entity/user';
 import RDBUserDetail from '@infrastructure/rdb/entity/user-detail';
@@ -134,12 +135,12 @@ export class UserRepository
       });
     } else {
       userDetailRDBEntity = new RDBUserDetail();
+      userDetailRDBEntity.userId = user.id;
     }
 
-    userDetailRDBEntity.userId = user.id;
-    userDetailRDBEntity.gender = user.detail.gender;
-    userDetailRDBEntity.avatarURL = user.detail.avatarURL;
-    userDetailRDBEntity.nickName = user.detail.nickName;
+    userDetailRDBEntity.gender = user.detail.gender || UserDetailGender.Male;
+    userDetailRDBEntity.avatarURL = user.detail.avatarURL || '';
+    userDetailRDBEntity.nickName = user.detail.nickName || '';
 
     await repository.save(userDetailRDBEntity);
   }
@@ -153,6 +154,7 @@ export class UserRepository
         'user.id',
         'user.email',
         'user.userName',
+        'userDetail.id',
         'userDetail.nickName',
         'userDetail.avatarURL',
         'userDetail.gender',
