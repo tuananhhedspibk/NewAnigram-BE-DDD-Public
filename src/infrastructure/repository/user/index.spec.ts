@@ -6,7 +6,6 @@ import {
 } from 'typeorm';
 import { plainToClass } from '@nestjs/class-transformer';
 import { UserEntity } from '@domain/entity/user';
-import { EmailVO } from '@domain/value-object/email-vo';
 
 import { UserRepository } from '.';
 import User from '../../rdb/entity/user';
@@ -45,7 +44,7 @@ describe('User Repository Testing', () => {
     await rdbConnection.close();
   });
 
-  describe('getByEmail testing', () => {
+  xdescribe('getByEmail testing', () => {
     let email = '';
 
     describe('Normal case', () => {
@@ -81,7 +80,7 @@ describe('User Repository Testing', () => {
     });
   });
 
-  describe('save testing', () => {
+  xdescribe('save testing', () => {
     describe('Normal case', () => {
       const email = 'user-3@mail.com';
 
@@ -129,7 +128,7 @@ describe('User Repository Testing', () => {
     });
   });
 
-  describe('getById testing', () => {
+  xdescribe('getById testing', () => {
     let id: number;
 
     describe('Normal case', () => {
@@ -216,6 +215,52 @@ describe('User Repository Testing', () => {
           expect(newestUserDetailData.nickName).toEqual('user-100-nick-name');
           expect(newestUserDetailData.avatarURL).toEqual('user-100-avatar.jpg');
           expect(newestUserDetailData.gender).toEqual(Gender.Female);
+        });
+      });
+
+      describe('User does not have detail', () => {
+        beforeAll(async () => {
+          userEntity = plainToClass(UserEntity, {
+            id: 4,
+            email: 'user-400@mail.com',
+            password: 'password',
+            salt: '40',
+            userName: 'user400',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            detail: {
+              userId: 4,
+              nickName: 'user-400-nick-name',
+              avatarURL: 'user-400-avatar.jpg',
+              gender: Gender.Male,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          });
+
+          await userRepository.update(null, userEntity);
+
+          newestUserData = await userRDBRepository.findOne(4);
+          newestUserDetailData = await userDetailRDBRepository.findOne({
+            where: { userId: 4 },
+          });
+        });
+
+        it('User data (email, userName) is updated', () => {
+          expect(newestUserData.email).toEqual('user-400@mail.com');
+          expect(newestUserData.userName).toEqual('user400');
+        });
+
+        it('User detail data is created', () => {
+          expect(newestUserDetailData).toEqual({
+            id: expect.any(Number),
+            userId: 4,
+            nickName: 'user-400-nick-name',
+            avatarURL: 'user-400-avatar.jpg',
+            gender: Gender.Male,
+            createdAt: expect.any(Date),
+            updatedAt: expect.any(Date),
+          });
         });
       });
     });

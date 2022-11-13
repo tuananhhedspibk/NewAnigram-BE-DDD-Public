@@ -136,6 +136,7 @@ export class UserRepository
       userDetailRDBEntity = new RDBUserDetail();
     }
 
+    userDetailRDBEntity.userId = user.id;
     userDetailRDBEntity.gender = user.detail.gender;
     userDetailRDBEntity.avatarURL = user.detail.avatarURL;
     userDetailRDBEntity.nickName = user.detail.nickName;

@@ -99,9 +99,10 @@ export default class UpdateUserProfileUsecase extends Usecase<
     if (!userEntity) {
       throw new UsecaseError({
         code: UsecaseErrorCode.NOT_FOUND,
-        message: 'User not exist',
+        message: 'User does not exist',
         info: {
           errorCode: UsecaseErrorDetailCode.USER_NOT_EXIST,
+          userId,
         },
       });
     }
@@ -172,6 +173,8 @@ export default class UpdateUserProfileUsecase extends Usecase<
         }
       }
 
+      console.log(error.stack);
+
       throw new UsecaseError({
         code: UsecaseErrorCode.INTERNAL_SERVER_ERROR,
         message: 'Internal Server Error',
@@ -189,7 +192,7 @@ export default class UpdateUserProfileUsecase extends Usecase<
     input: UpdateUserProfileUsecaseInput,
     avatarGetURL: string,
   ): UpdateDetailParams | null {
-    const updateUserDetailParams: UpdateDetailParams = null;
+    const updateUserDetailParams: UpdateDetailParams = {};
     if (avatarGetURL.length > 0) {
       updateUserDetailParams.avatarURL = avatarGetURL;
     }

@@ -124,13 +124,13 @@
       ],
       "@constants/(.*)$": [
         "<rootDir>/constants/$1"
-      ],
-      ".+\\.(jpeg)$": "identity-obj-proxy"
+      ]
     },
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(t|j)s$": "ts-jest",
+      "\\.(jpg|jpeg)": "<rootDir>/utils/fileTransformer.js"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
