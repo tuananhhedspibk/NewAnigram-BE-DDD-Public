@@ -59,13 +59,6 @@ export class UpdateUserProfileUsecaseInput extends UsecaseInput {
     type: String,
   })
   email?: string;
-
-  @ApiProperty({
-    description: 'New password',
-    required: false,
-    type: String,
-  })
-  newPassword?: string;
 }
 
 export class UpdateUserProfileUsecaseOutput extends UsecaseOutput {
