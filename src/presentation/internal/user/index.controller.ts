@@ -10,18 +10,28 @@ import {
   Post,
   Put,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiOperation,
   ApiTags,
   ApiBearerAuth,
   ApiResponse,
   ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import CheckPasswordUsecase, {
   CheckPasswordUsecaseInput,
   CheckPasswordUsecaseOutput,
 } from '@usecase/user/check-password';
+import UpdateUserProfileUsecase, {
+  UpdateUserProfileUsecaseInput,
+  UpdateUserProfileUsecaseOutput,
+} from '@usecase/user/update-profile';
+import { uploadImageFilter } from '@utils/file';
+import { UserProfileDto } from '@view/dto/user-profile-dto';
 import UserProfileView from '@view/user-profile-view';
 
 @ApiTags('internal/user')
@@ -31,6 +41,7 @@ export class UserController {
   constructor(
     private readonly checkPasswordUsecase: CheckPasswordUsecase,
     private readonly userProfileView: UserProfileView,
+    private readonly updateUserProfileUsecase: UpdateUserProfileUsecase,
   ) {}
 
   @Post('/check-password')
@@ -56,16 +67,47 @@ export class UserController {
     summary: 'Get users profile',
     description: 'Get users profile',
   })
+  @ApiResponse({
+    description: 'Get user profile API response',
+    type: UserProfileDto,
+  })
   profile(@Req() request: { user: { userId: number } }) {
     return this.userProfileView.getUserProfile(request.user.userId);
   }
 
-  // @Put('/update-profile')
-  // @ApiOperation({
-  //   summary: 'Update users profile',
-  //   description: 'Update users profile',
-  // })
-  // updateProfile() {}
+  @Put('/update-profile')
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({
+    summary: 'Update users profile',
+    description: 'Update users profile',
+  })
+  @ApiBody({
+    description: 'Update user profile data payload',
+    type: UpdateUserProfileUsecaseInput,
+    required: true,
+  })
+  @ApiResponse({
+    description: 'Update user profile API response',
+    type: UpdateUserProfileUsecaseOutput,
+  })
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      limits: {
+        fileSize: 5000000, // maxSize: 5MB = 5 * 10^6 Byte
+      },
+      fileFilter: uploadImageFilter,
+    }),
+  )
+  updateProfile(
+    @UploadedFile() avatar: Express.Multer.File,
+    @Body() payload: UpdateUserProfileUsecaseInput,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.updateUserProfileUsecase.execute(
+      { ...payload, avatar },
+      request.user.userId,
+    );
+  }
 
   // @Post('/follow')
   // @ApiOperation({

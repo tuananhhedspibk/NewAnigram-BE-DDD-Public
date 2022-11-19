@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import * as md5 from 'md5';
 
 import { JWT_CONFIG, SALT_ROUND } from '@infrastructure/constants';
 
@@ -9,6 +10,10 @@ export const AuthenTokenParamsSchema = z.object({
   userId: z.number(),
   email: z.string(),
 });
+
+export const hashString = (source: string): string => {
+  return md5(source);
+};
 
 export const hashPassword = (barePassword: string, salt: string): string => {
   return bcrypt.hashSync(barePassword, salt);

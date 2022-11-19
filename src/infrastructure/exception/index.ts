@@ -6,6 +6,17 @@ export const InfrastructureErrorCode = {
 export type InfrastructureCode =
   typeof InfrastructureErrorCode[keyof typeof InfrastructureErrorCode];
 
+export const InfrastructureErrorDetailCode = {
+  CAN_NOT_GET_PUT_URL: 'CAN_NOT_GET_PUT_URL',
+  UPLOAD_IMAGE_TO_IMAGE_SERVER_FAILED: 'UPLOAD_IMAGE_TO_IMAGE_SERVER_FAILED',
+  RDB_USER_NOT_EXIST: 'RDB_USER_NOT_EXIST',
+  MUST_SPECIFY_USER_ID: 'MUST_SPECIFY_USER_ID',
+  MUST_SPECIFY_USER_DETAIL_ID: 'MUST_SPECIFY_USER_DETAIL_ID',
+  IMAGE_KEY_CAN_NOT_BE_EMPTY: 'IMAGE_KEY_CAN_NOT_BE_EMPTY',
+} as const;
+export type InfrastructureErrorDetailCode =
+  typeof InfrastructureErrorDetailCode[keyof typeof InfrastructureErrorDetailCode];
+
 interface InfraStructureErrorParams {
   info?: { [key: string]: unknown };
   code: InfrastructureCode;
