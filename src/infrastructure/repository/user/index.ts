@@ -51,7 +51,7 @@ export class UserRepository
       : getRepository(RDBUserEntity);
 
     const salt = randomlyGenerateSalt();
-    const passwordHashedWithSalt = hashPassword(user.password, salt);
+    const passwordHashedWithSalt = hashPassword(user.password.toString(), salt);
 
     const createdUser = await repository.save({
       email: user.email.toString(),
@@ -90,7 +90,7 @@ export class UserRepository
         code: InfrastructureErrorCode.BAD_REQUEST,
         message: 'Must specify user id',
         info: {
-          errorCode: InfrastructureErrorDetailCode.MUST_SPECIFY_USER_ID,
+          detailCode: InfrastructureErrorDetailCode.MUST_SPECIFY_USER_ID,
         },
       });
     }
@@ -102,13 +102,20 @@ export class UserRepository
         code: InfrastructureErrorCode.NOT_FOUND,
         message: 'User does not exist',
         info: {
-          errorCode: InfrastructureErrorDetailCode.RDB_USER_NOT_EXIST,
+          detailCode: InfrastructureErrorDetailCode.RDB_USER_NOT_EXIST,
         },
       });
     }
 
     userRDBEntity.email = user.email.toString();
     userRDBEntity.userName = user.userName;
+
+    if (user.password) {
+      userRDBEntity.password = hashPassword(
+        user.password.toString(),
+        userRDBEntity.salt,
+      );
+    }
 
     await repository.save(userRDBEntity);
 

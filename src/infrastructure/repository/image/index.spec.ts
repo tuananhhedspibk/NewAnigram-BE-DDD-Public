@@ -107,7 +107,7 @@ describe('Image Repository Testing', () => {
         expect(error.message).toEqual('Image key can not be empty');
       });
       it('Error detail code is IMAGE_KEY_CAN_NOT_BE_EMPTY', () => {
-        expect(error.info.errorCode).toEqual(
+        expect(error.info.detailCode).toEqual(
           InfrastructureErrorDetailCode.IMAGE_KEY_CAN_NOT_BE_EMPTY,
         );
       });

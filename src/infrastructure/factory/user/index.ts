@@ -1,5 +1,6 @@
 import { UserEntity } from '@domain/entity/user';
 import { EmailVO } from '@domain/value-object/email-vo';
+import { PasswordVO } from '@domain/value-object/password-vo';
 import { BaseFactory } from '@infrastructure/factory/base';
 import User from '@infrastructure/rdb/entity/user';
 
@@ -21,10 +22,10 @@ export class UserFactory extends BaseFactory {
     return this.createEntityArray(UserEntity, users);
   }
 
-  createFromEmailAndPassword(emailVO: EmailVO, password: string) {
+  createFromEmailAndPassword(emailVO: EmailVO, passwordVO: PasswordVO) {
     const entity = this.createEntity(UserEntity, {
       userName: emailVO.toString(),
-      password,
+      password: passwordVO.toString(),
     });
 
     entity.email = emailVO;

@@ -43,7 +43,7 @@ export default class ImageRepository implements IImageRepository {
         code: InfrastructureErrorCode.BAD_REQUEST,
         message: 'Image key can not be empty',
         info: {
-          errorCode: InfrastructureErrorDetailCode.IMAGE_KEY_CAN_NOT_BE_EMPTY,
+          detailCode: InfrastructureErrorDetailCode.IMAGE_KEY_CAN_NOT_BE_EMPTY,
         },
       });
     }

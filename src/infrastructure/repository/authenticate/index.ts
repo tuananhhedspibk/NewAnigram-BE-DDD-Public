@@ -18,7 +18,7 @@ export class AuthenticateRepository implements IAuthenticateRepository {
     return user !== undefined;
   }
 
-  async validate(email: string, password: string): Promise<boolean> {
+  async validatePassword(email: string, password: string): Promise<boolean> {
     const repository = getRepository(RdbUserEntity);
 
     const query = this.getBaseQuery(repository);

@@ -4,6 +4,7 @@ import { IAuthenticateRepository } from '@domain/repository/authenticate';
 import ITransactionManager from '@domain/repository/transaction';
 import { IUserRepository } from '@domain/repository/user';
 import { EmailVO } from '@domain/value-object/email-vo';
+import { PasswordVO } from '@domain/value-object/password-vo';
 import { UserFactory } from '@infrastructure/factory/user';
 import { Inject, Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
@@ -89,6 +90,7 @@ export default class SignupUsecase extends Usecase<
     }
 
     const emailVO = new EmailVO(email);
+    const passwordVO = new PasswordVO(password);
     const isEmailBeingUsed = await this.authenRepository.isEmailBeingUsed(
       email,
     );
@@ -105,7 +107,7 @@ export default class SignupUsecase extends Usecase<
 
     const userEntity = userFactory.createFromEmailAndPassword(
       emailVO,
-      password,
+      passwordVO,
     );
 
     try {

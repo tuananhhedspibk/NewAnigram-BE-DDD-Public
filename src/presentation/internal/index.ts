@@ -19,7 +19,7 @@ import { NotificationController } from '@presentation/internal/notification/inde
 import { PostController } from '@presentation/internal/post/index.controller';
 import { UserController } from '@presentation/internal/user/index.controller';
 import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
-import CheckPasswordUsecase from '@usecase/user/check-password';
+import UpdatePasswordUsecase from '@usecase/user/update-password';
 import UserProfileView from 'src/view/user-profile-view';
 import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
 import UpdateUserProfileUsecase from '@usecase/user/update-profile';
@@ -56,7 +56,7 @@ const RequiredAuthenControllers = [
   providers: [
     SigninUsecase,
     SignupUsecase,
-    CheckPasswordUsecase,
+    UpdatePasswordUsecase,
     UpdateUserProfileUsecase,
     UserProfileView,
   ],

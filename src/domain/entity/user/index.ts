@@ -7,6 +7,7 @@ import {
 } from '@domain/exception';
 import { Expose, Type } from '@nestjs/class-transformer';
 import { EmailVO } from '../../value-object/email-vo';
+import { PasswordVO } from '../../value-object/password-vo';
 import { BaseEntity } from '../base';
 import { UserDetailEntity, UserDetailGender } from './user-detail';
 
@@ -28,7 +29,8 @@ export class UserEntity extends BaseEntity {
   userName: string;
 
   @Expose()
-  password?: string;
+  @Type(() => PasswordVO)
+  password?: PasswordVO;
 
   @Expose()
   @Type(() => UserDetailEntity)
@@ -43,13 +45,18 @@ export class UserEntity extends BaseEntity {
     this.email = newEmailVO;
   }
 
+  updatePassword(newPassword: string) {
+    const newPasswordVO = new PasswordVO(newPassword);
+    this.password = newPasswordVO;
+  }
+
   updateUserName(newUserName: string) {
     if (newUserName.length === 0) {
       throw new DomainError({
         code: DomainErrorCode.BAD_REQUEST,
         message: 'User name can not be empty',
         info: {
-          errorCode: DomainErrorDetailCode.USER_NAME_CAN_NOT_BE_EMPTY,
+          detailCode: DomainErrorDetailCode.USER_NAME_CAN_NOT_BE_EMPTY,
         },
       });
     }
