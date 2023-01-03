@@ -16,12 +16,14 @@ export class PostController {
   //   description: 'Get post detail by posts id',
   // })
   // detail() {}
+  // Max number of pictures: 10, max size of picture: 100MB -> Max Size of Payload: 1GB
   // @Post('/create')
   // @ApiOperation({
   //   summary: 'Create post',
   //   description: 'Create post',
   // })
-  // create() {}
+  // create() {
+  // }
   // @Post('/comment')
   // @ApiOperation({
   //   summary: 'Create posts comment',

@@ -23,6 +23,7 @@ import UpdatePasswordUsecase from '@usecase/user/update-password';
 import UserProfileView from 'src/view/user-profile-view';
 import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
 import UpdateUserProfileUsecase from '@usecase/user/update-profile';
+import CreatePostUsecase from '@usecase/post/create';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -58,6 +59,7 @@ const RequiredAuthenControllers = [
     SignupUsecase,
     UpdatePasswordUsecase,
     UpdateUserProfileUsecase,
+    CreatePostUsecase,
     UserProfileView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],

@@ -57,8 +57,8 @@ export class SigninUsecaseOutput {
 
 @Injectable()
 export default class SigninUsecase extends Usecase<
-  UsecaseInput,
-  UsecaseOutput
+  SigninUsecaseInput,
+  SigninUsecaseOutput
 > {
   constructor(
     @Inject(IUserRepository) private readonly userRepository: IUserRepository,

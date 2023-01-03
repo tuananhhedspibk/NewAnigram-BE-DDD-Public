@@ -169,8 +169,6 @@ export default class UpdateUserProfileUsecase extends Usecase<
         }
       }
 
-      console.log(error.stack);
-
       throw new UsecaseError({
         code: UsecaseErrorCode.INTERNAL_SERVER_ERROR,
         message: 'Internal Server Error',
