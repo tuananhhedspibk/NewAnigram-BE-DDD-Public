@@ -32,7 +32,7 @@ describe('Signup Usecase Testing', () => {
   describe('Normal case', () => {
     describe('Can signup with valid email and password', () => {
       beforeAll(async () => {
-        input = { email: 'test@mail.com', password: '123456' };
+        input = { email: 'test@mail.com', password: 'TestPassword@123' };
 
         jest
           .spyOn(AuthenticateRepository.prototype, 'isEmailBeingUsed')
@@ -61,7 +61,7 @@ describe('Signup Usecase Testing', () => {
 
     describe('Not provide email', () => {
       beforeAll(async () => {
-        input = { email: '', password: '123456' };
+        input = { email: '', password: 'TestPassword@123' };
 
         try {
           await usecase.execute(input);
@@ -157,7 +157,7 @@ describe('Signup Usecase Testing', () => {
 
     describe('Provide existing email', () => {
       beforeAll(async () => {
-        input = { email: 'test@mail.com', password: '123456' };
+        input = { email: 'test@mail.com', password: 'TestPassword@123' };
 
         jest
           .spyOn(AuthenticateRepository.prototype, 'isEmailBeingUsed')

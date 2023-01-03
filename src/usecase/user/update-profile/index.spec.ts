@@ -59,7 +59,7 @@ describe('UpdateProfile Usecase testing', () => {
       });
 
       it('Error info errorCode is USER_NOT_EXIST', () => {
-        expect(error.info.errorCode).toEqual(
+        expect(error.info.detailCode).toEqual(
           UsecaseErrorDetailCode.USER_NOT_EXIST,
         );
       });

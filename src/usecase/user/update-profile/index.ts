@@ -96,7 +96,7 @@ export default class UpdateUserProfileUsecase extends Usecase<
         code: UsecaseErrorCode.NOT_FOUND,
         message: 'User does not exist',
         info: {
-          errorCode: UsecaseErrorDetailCode.USER_NOT_EXIST,
+          detailCode: UsecaseErrorDetailCode.USER_NOT_EXIST,
           userId,
         },
       });

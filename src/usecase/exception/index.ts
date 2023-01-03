@@ -13,6 +13,7 @@ export const UsecaseErrorDetailCode = {
   INVALID_EMAIL_OR_PASSWORD: 'INVALID_EMAIL_OR_PASSWORD',
   EMAIL_IS_BEING_USED: 'EMAIL_IS_BEING_USED',
   USER_NOT_EXIST: 'USER_NOT_EXIST',
+  CURRENT_PASS_NOT_MATCH: 'CURRENT_PASS_NOT_MATCH',
 } as const;
 
 export type UsecaseErrorDetailCode =

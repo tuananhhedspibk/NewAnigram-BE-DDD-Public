@@ -22,10 +22,10 @@ import {
   ApiBody,
   ApiConsumes,
 } from '@nestjs/swagger';
-import CheckPasswordUsecase, {
-  CheckPasswordUsecaseInput,
-  CheckPasswordUsecaseOutput,
-} from '@usecase/user/check-password';
+import UpdatePasswordUsecase, {
+  UpdatePasswordUsecaseInput,
+  UpdatePasswordUsecaseOutput,
+} from '@usecase/user/update-password';
 import UpdateUserProfileUsecase, {
   UpdateUserProfileUsecaseInput,
   UpdateUserProfileUsecaseOutput,
@@ -39,28 +39,10 @@ import UserProfileView from '@view/user-profile-view';
 @Controller('internal/user')
 export class UserController {
   constructor(
-    private readonly checkPasswordUsecase: CheckPasswordUsecase,
+    private readonly updatePasswordUsecase: UpdatePasswordUsecase,
     private readonly userProfileView: UserProfileView,
     private readonly updateUserProfileUsecase: UpdateUserProfileUsecase,
   ) {}
-
-  @Post('/check-password')
-  @HttpCode(HTTP_STATUS.OK)
-  @ApiOperation({
-    summary: 'Check password API',
-    description: 'Check password API',
-  })
-  @ApiBody({
-    description: 'Check password payload',
-    type: CheckPasswordUsecaseInput,
-  })
-  @ApiResponse({
-    description: 'Check password response',
-    type: CheckPasswordUsecaseOutput,
-  })
-  checkPassword(@Body() input, @Req() request: { user: { email: string } }) {
-    return this.checkPasswordUsecase.execute(input, request.user.email);
-  }
 
   @Get('/profile')
   @ApiOperation({
@@ -107,6 +89,28 @@ export class UserController {
       { ...payload, avatar },
       request.user.userId,
     );
+  }
+
+  @Post('/update-password')
+  @HttpCode(HTTP_STATUS.OK)
+  @ApiOperation({
+    summary: 'Update password API',
+    description: 'Update password API',
+  })
+  @ApiBody({
+    description: 'Update password data payload',
+    type: UpdatePasswordUsecaseInput,
+    required: true,
+  })
+  @ApiResponse({
+    description: 'Update password API response',
+    type: UpdatePasswordUsecaseOutput,
+  })
+  updatePassword(
+    @Body() payload: UpdatePasswordUsecaseInput,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.updatePasswordUsecase.execute(payload, request.user.userId);
   }
 
   // @Post('/follow')

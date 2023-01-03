@@ -16,6 +16,7 @@ import {
   InfrastructureErrorCode,
   InfrastructureErrorDetailCode,
 } from '@infrastructure/exception';
+import { hashPassword } from '@utils/encrypt';
 
 describe('User Repository Testing', () => {
   const userRepository = new UserRepository();
@@ -44,7 +45,7 @@ describe('User Repository Testing', () => {
     await rdbConnection.close();
   });
 
-  xdescribe('getByEmail testing', () => {
+  describe('getByEmail testing', () => {
     let email = '';
 
     describe('Normal case', () => {
@@ -60,6 +61,7 @@ describe('User Repository Testing', () => {
             email: 'user-1@mail.com',
             userName: 'user1',
             detail: {
+              id: 1,
               nickName: 'user-1-nick-name',
               avatarURL: 'user-1-avatar.jpg',
               gender: Gender.Male,
@@ -68,6 +70,7 @@ describe('User Repository Testing', () => {
         );
       });
     });
+
     describe('Abnormal case', () => {
       beforeAll(async () => {
         email = 'not-exist@mail.com';
@@ -80,7 +83,7 @@ describe('User Repository Testing', () => {
     });
   });
 
-  xdescribe('save testing', () => {
+  describe('save testing', () => {
     describe('Normal case', () => {
       const email = 'user-3@mail.com';
 
@@ -128,7 +131,7 @@ describe('User Repository Testing', () => {
     });
   });
 
-  xdescribe('getById testing', () => {
+  describe('getById testing', () => {
     let id: number;
 
     describe('Normal case', () => {
@@ -146,6 +149,7 @@ describe('User Repository Testing', () => {
               email: 'user-1@mail.com',
               userName: 'user1',
               detail: {
+                id: 1,
                 nickName: 'user-1-nick-name',
                 avatarURL: 'user-1-avatar.jpg',
                 gender: Gender.Male,
@@ -182,7 +186,7 @@ describe('User Repository Testing', () => {
           userEntity = plainToClass(UserEntity, {
             id: 1,
             email: 'user-100@mail.com',
-            password: 'password',
+            password: 'newpassword',
             salt: '10',
             userName: 'user100',
             createdAt: new Date(),
@@ -206,9 +210,12 @@ describe('User Repository Testing', () => {
           );
         });
 
-        it('User data (email, userName) is updated', () => {
+        it('User data (email, userName, password) is updated', () => {
           expect(newestUserData.email).toEqual('user-100@mail.com');
           expect(newestUserData.userName).toEqual('user100');
+          expect(newestUserData.password).toEqual(
+            hashPassword('newpassword', newestUserData.salt),
+          );
         });
 
         it('User detail data (nickName, avatarURL, gender) is updated', () => {
@@ -295,7 +302,7 @@ describe('User Repository Testing', () => {
           expect(error.message).toEqual('Must specify user id');
         });
         it('Error detail code is MUST_SPECIFY_USER_ID', () => {
-          expect(error.info.errorCode).toEqual(
+          expect(error.info.detailCode).toEqual(
             InfrastructureErrorDetailCode.MUST_SPECIFY_USER_ID,
           );
         });
@@ -328,7 +335,7 @@ describe('User Repository Testing', () => {
           expect(error.message).toEqual('User does not exist');
         });
         it('Error detail code is RDB_USER_NOT_EXIST', () => {
-          expect(error.info.errorCode).toEqual(
+          expect(error.info.detailCode).toEqual(
             InfrastructureErrorDetailCode.RDB_USER_NOT_EXIST,
           );
         });

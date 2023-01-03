@@ -93,7 +93,10 @@ export default class SigninUsecase extends Usecase<
       });
     }
 
-    const result = await this.authenticateRepository.validate(email, password);
+    const result = await this.authenticateRepository.validatePassword(
+      email,
+      password,
+    );
 
     if (!result) {
       throw new UsecaseError({

@@ -9,6 +9,7 @@ export type DomainErrorCode =
 export const DomainErrorDetailCode = {
   INVALID_EMAIL_FORMAT: 'INVALID_EMAIL_FORMAT',
   USER_NAME_CAN_NOT_BE_EMPTY: 'USER_NAME_CAN_NOT_BE_EMPTY',
+  INVALID_PASSWORD_FORMAT: 'INVALID_PASSWORD_FORMAT',
 } as const;
 
 export type DomainErrorDetailCode =

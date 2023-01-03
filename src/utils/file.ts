@@ -17,7 +17,7 @@ export const uploadImageFilter = (
         code: PresentationErrorCode.BAD_REQUEST,
         message: 'Invalid file type (image: jpg, jpeg, png, gif) only',
         info: {
-          errorCode: PresentationErrorDetailCode.INVALID_FILE_TYPE,
+          detailCode: PresentationErrorDetailCode.INVALID_FILE_TYPE,
         },
       }),
       false,
