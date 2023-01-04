@@ -13,7 +13,7 @@ export type ImageInfoPayload = {
   postId?: number;
 };
 
-export default class IImageRepository extends BaseRepository {
+export abstract class IImageRepository extends BaseRepository {
   uploadImageToImageServer: (
     key: string,
     payload: ImageInfoPayload,

@@ -13,6 +13,8 @@ export const InfrastructureErrorDetailCode = {
   MUST_SPECIFY_USER_ID: 'MUST_SPECIFY_USER_ID',
   MUST_SPECIFY_USER_DETAIL_ID: 'MUST_SPECIFY_USER_DETAIL_ID',
   IMAGE_KEY_CAN_NOT_BE_EMPTY: 'IMAGE_KEY_CAN_NOT_BE_EMPTY',
+  MUST_SPECIFY_POST_ID: 'MUST_SPECIFY_POST_ID',
+  RDB_POST_NOT_EXIST: 'RDB_POST_NOT_EXIST',
 } as const;
 export type InfrastructureErrorDetailCode =
   typeof InfrastructureErrorDetailCode[keyof typeof InfrastructureErrorDetailCode];

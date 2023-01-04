@@ -2,7 +2,8 @@
 
 import { UpdateDetailParams } from '@domain/entity/user';
 import { UserDetailGender } from '@domain/entity/user/user-detail';
-import IImageRepository, {
+import {
+  IImageRepository,
   ImageInfoPayload,
   DomainImageType,
 } from '@domain/repository/image';
@@ -34,7 +35,7 @@ export class UpdateUserProfileUsecaseInput extends UsecaseInput {
   @ApiProperty({
     description: 'New avatar',
     required: false,
-    type: 'string',
+    type: String,
     format: 'binary',
   })
   avatar?: FixType;

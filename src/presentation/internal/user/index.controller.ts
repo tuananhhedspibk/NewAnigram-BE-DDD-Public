@@ -4,7 +4,6 @@ import { HTTP_STATUS } from '@constants/http-status';
 import {
   Body,
   Controller,
-  Delete,
   Get,
   HttpCode,
   Post,

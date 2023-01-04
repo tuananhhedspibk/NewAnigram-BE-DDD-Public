@@ -28,4 +28,18 @@ export class PostEntity extends BaseEntity {
 
   @Expose()
   userId: number;
+
+  @Expose()
+  createdAt?: Date;
+
+  updateImages(imageUrls: string[]) {
+    const newImageEntities = imageUrls.map((url) => {
+      const imageEntity = new ImageEntity();
+      imageEntity.url = url;
+
+      return imageEntity;
+    });
+
+    this.images = newImageEntities;
+  }
 }

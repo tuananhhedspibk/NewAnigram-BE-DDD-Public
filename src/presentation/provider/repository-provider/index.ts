@@ -1,7 +1,7 @@
 import { IAuthenticateRepository } from '@domain/repository/authenticate';
 import { IUserRepository } from '@domain/repository/user';
 import { IPostRepository } from '@domain/repository/post';
-import IImageRepository from '@domain/repository/image';
+import { IImageRepository } from '@domain/repository/image';
 
 import ITransactionManager from '@domain/repository/transaction';
 
@@ -34,5 +34,5 @@ export const ImageRepositoryProvider = {
 
 export const PostRepositoryProvider = {
   provide: IPostRepository,
-  useclass: PostRepository,
+  useClass: PostRepository,
 };

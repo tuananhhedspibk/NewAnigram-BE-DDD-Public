@@ -127,6 +127,7 @@ describe('User Repository Testing', () => {
           email: 'user-3@mail.com',
           detail: null,
         });
+        expect(result).toBeInstanceOf(UserEntity);
       });
     });
   });
