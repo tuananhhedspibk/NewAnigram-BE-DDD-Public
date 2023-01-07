@@ -1,9 +1,73 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Req,
+  UploadedFile,
+  UploadedFiles,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import CreatePostUsecase, {
+  CreatePostUsecaseInput,
+  CreatePostUsecaseOutput,
+} from '@usecase/post/create';
+import { uploadImageFilter } from '@utils/file';
 
 @ApiTags('internal/posts')
+@ApiBearerAuth()
 @Controller('internal/post')
 export class PostController {
+  constructor(private readonly createPostUsecase: CreatePostUsecase) {}
+
+  // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
+  @Post('/create')
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({
+    summary: 'Create post',
+    description: 'Create post',
+  })
+  @ApiBody({
+    description: 'Create post data payload',
+    type: CreatePostUsecaseInput,
+    required: true,
+  })
+  @ApiResponse({
+    description: 'Create post API response',
+    type: CreatePostUsecaseOutput,
+  })
+  @UseInterceptors(
+    FilesInterceptor('images', null, {
+      limits: {
+        fileSize: 5000000, // 50000000 Bytes = 5MB - max size for each picture
+      },
+      fileFilter: uploadImageFilter,
+    }),
+  )
+  create(
+    @UploadedFiles() images: Array<Express.Multer.File>,
+    @Body() payload: CreatePostUsecaseInput,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.createPostUsecase.execute(
+      { ...payload, images },
+      request.user.userId,
+    );
+  }
+
   // @Get('/index-by-user')
   // @ApiOperation({
   //   summary: 'Get users all posts',
@@ -16,12 +80,6 @@ export class PostController {
   //   description: 'Get post detail by posts id',
   // })
   // detail() {}
-  // @Post('/create')
-  // @ApiOperation({
-  //   summary: 'Create post',
-  //   description: 'Create post',
-  // })
-  // create() {}
   // @Post('/comment')
   // @ApiOperation({
   //   summary: 'Create posts comment',

@@ -5,17 +5,28 @@ import BaseEntity from './base';
 import CommentEntity from './comment';
 import Like from './like';
 import User from './user';
+interface PostImagesProperty {
+  list: string[];
+}
+
+interface PostTagsProperty {
+  list: string[];
+}
 
 @Entity()
 export default class Post extends BaseEntity {
   @Column()
   content: string;
 
-  @Column()
-  tags: string;
+  @Column({
+    type: 'json',
+  })
+  tags: PostTagsProperty;
 
-  @Column()
-  images: string;
+  @Column({
+    type: 'json',
+  })
+  images: PostImagesProperty;
 
   @Column()
   userId: number;

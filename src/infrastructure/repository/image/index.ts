@@ -1,4 +1,5 @@
-import IImageRepository, {
+import {
+  IImageRepository,
   DomainImageType,
   ImageInfoPayload,
 } from '@domain/repository/image';
@@ -58,8 +59,6 @@ export default class ImageRepository implements IImageRepository {
     try {
       await uploadImageToS3Bucket(key, payload.data);
     } catch (err) {
-      console.error(err.stack);
-
       throw new InfrastructureError({
         code: InfrastructureErrorCode.INTERNAL_SERVER_ERROR,
         message: 'Upload image to image server failed',

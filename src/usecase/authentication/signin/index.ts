@@ -22,6 +22,7 @@ export class SigninUsecaseInput {
   @ApiProperty({
     description: 'Password',
     required: true,
+    format: 'password',
   })
   password: string;
 }
@@ -57,8 +58,8 @@ export class SigninUsecaseOutput {
 
 @Injectable()
 export default class SigninUsecase extends Usecase<
-  UsecaseInput,
-  UsecaseOutput
+  SigninUsecaseInput,
+  SigninUsecaseOutput
 > {
   constructor(
     @Inject(IUserRepository) private readonly userRepository: IUserRepository,
