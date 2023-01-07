@@ -5,7 +5,6 @@ import BaseEntity from './base';
 import CommentEntity from './comment';
 import Like from './like';
 import User from './user';
-
 interface PostImagesProperty {
   list: string[];
 }

@@ -1,7 +1,6 @@
 import { Expose, Type } from '@nestjs/class-transformer';
 import { BaseEntity } from '../base';
 import { CommentEntity } from './comment';
-import { ImageEntity } from './image';
 import { LikeEntity } from './like';
 
 export class PostEntity extends BaseEntity {
@@ -23,8 +22,7 @@ export class PostEntity extends BaseEntity {
   content: string;
 
   @Expose()
-  @Type(() => ImageEntity)
-  images: ImageEntity[];
+  images: string[];
 
   @Expose()
   userId: number;
@@ -33,13 +31,6 @@ export class PostEntity extends BaseEntity {
   createdAt?: Date;
 
   updateImages(imageUrls: string[]) {
-    const newImageEntities = imageUrls.map((url) => {
-      const imageEntity = new ImageEntity();
-      imageEntity.url = url;
-
-      return imageEntity;
-    });
-
-    this.images = newImageEntities;
+    this.images = imageUrls;
   }
 }

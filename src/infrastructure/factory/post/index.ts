@@ -1,5 +1,4 @@
 import { PostEntity } from '@domain/entity/post';
-import { ImageEntity } from '@domain/entity/post/image';
 import { BaseFactory } from '../base';
 import Post from '@infrastructure/rdb/entity/post';
 
@@ -41,11 +40,7 @@ export class PostFactory extends BaseFactory {
     const entity = this.createEntity(PostEntity, {
       content,
       tags,
-      images: imageUrls.map((url) => {
-        const imageEntity = new ImageEntity();
-        imageEntity.url = url;
-        return imageEntity;
-      }),
+      images: imageUrls,
       userId,
     });
 

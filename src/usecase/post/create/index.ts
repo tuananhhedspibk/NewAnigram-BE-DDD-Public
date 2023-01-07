@@ -241,7 +241,7 @@ export default class CreatePostUsecase extends Usecase<
     if (createdPostEntity) {
       postDto = new PostDto({
         id: createdPostEntity.id,
-        images: createdPostEntity.images.map((image) => image.url),
+        images: createdPostEntity.images,
         tags: createdPostEntity.tags,
         content: createdPostEntity.content,
         createdAt: createdPostEntity.createdAt,
