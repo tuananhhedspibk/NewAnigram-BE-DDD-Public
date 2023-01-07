@@ -22,6 +22,7 @@ export class SigninUsecaseInput {
   @ApiProperty({
     description: 'Password',
     required: true,
+    format: 'password',
   })
   password: string;
 }

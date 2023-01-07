@@ -29,8 +29,9 @@ export class CreatePostUsecaseInput extends UsecaseInput {
     description: 'Post tags list',
     required: false,
     type: [String],
+    isArray: true,
   })
-  tags: [string];
+  tags?: string[];
 
   @ApiProperty({
     description: 'Images list',
@@ -41,7 +42,7 @@ export class CreatePostUsecaseInput extends UsecaseInput {
   images: FixType;
 }
 
-class PostDto {
+export class PostDto {
   @ApiProperty({
     description: 'Post id',
     required: true,
@@ -151,7 +152,7 @@ export default class CreatePostUsecase extends Usecase<
       });
     }
 
-    if (input.images.length === 0) {
+    if (!input.images || input.images.length === 0) {
       throw new UsecaseError({
         code: UsecaseErrorCode.BAD_REQUEST,
         message: 'Post must have at least one image',
