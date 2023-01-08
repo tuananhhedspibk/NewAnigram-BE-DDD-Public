@@ -25,6 +25,10 @@ import CreatePostUsecase, {
   CreatePostUsecaseInput,
   CreatePostUsecaseOutput,
 } from '@usecase/post/create';
+import DeletePostUsecase, {
+  DeletePostUsecaseInput,
+  DeletePostUsecaseOutput,
+} from '@usecase/post/delete';
 import UpdatePostUsecase, {
   UpdatePostUsecaseInput,
   UpdatePostUsecaseOutput,
@@ -38,6 +42,7 @@ export class PostController {
   constructor(
     private readonly createPostUsecase: CreatePostUsecase,
     private readonly updatePostUsecase: UpdatePostUsecase,
+    private readonly deletePostUsecase: DeletePostUsecase,
   ) {}
 
   // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
@@ -96,6 +101,26 @@ export class PostController {
     return this.updatePostUsecase.execute(payload, request.user.userId);
   }
 
+  @Delete('/delete/:id')
+  @ApiOperation({
+    summary: 'Delete post by id',
+    description: 'Delete post by id',
+  })
+  @ApiBody({
+    description: 'Delete post API body',
+    type: DeletePostUsecaseInput,
+  })
+  @ApiResponse({
+    description: 'Delete post API response',
+    type: DeletePostUsecaseOutput,
+  })
+  delete(
+    @Body() payload: DeletePostUsecaseInput,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.deletePostUsecase.execute(payload, request.user.userId);
+  }
+
   // @Get('/index-by-user')
   // @ApiOperation({
   //   summary: 'Get users all posts',
@@ -126,12 +151,6 @@ export class PostController {
   //   description: 'Dislike post',
   // })
   // dislike() {}
-  // @Delete('/delete/:id')
-  // @ApiOperation({
-  //   summary: 'Delete post by id',
-  //   description: 'Delete post by id',
-  // })
-  // delete() {}
   // @Delete('/delete-comment')
   // @ApiOperation({
   //   summary: 'Delete posts comment',

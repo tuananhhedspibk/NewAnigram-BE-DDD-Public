@@ -11,4 +11,5 @@ export abstract class IPostRepository extends BaseRepository {
     transaction: TransactionType,
     post: PostEntity,
   ) => Promise<PostEntity>;
+  deleteById: (transaction: TransactionType, id: number) => Promise<void>;
 }
