@@ -1,4 +1,5 @@
 import { Connection, createConnection } from 'typeorm';
+import { plainToClass } from '@nestjs/class-transformer';
 
 import ImageRepository from '@infrastructure/repository/image';
 import { PostRepository } from '@infrastructure/repository/post';
@@ -8,13 +9,13 @@ import { UserRepository } from '@infrastructure/repository/user';
 import CreatePostUsecase, {
   CreatePostUsecaseInput,
   CreatePostUsecaseOutput,
-  PostDto,
+  CreatedPostDto,
 } from '.';
 import { UsecaseErrorCode, UsecaseErrorDetailCode } from '@usecase/exception';
-import { plainToClass } from '@nestjs/class-transformer';
+import { ApiResultCode } from '@usecase/dto/api-result';
+
 import { UserEntity } from '@domain/entity/user';
 import { PostEntity } from '@domain/entity/post';
-import { ApiResultCode } from '@usecase/dto/api-result';
 import { DomainImageType, ImageInfoPayload } from '@domain/repository/image';
 
 describe('CreatePost Usecase Testing', () => {
@@ -41,6 +42,50 @@ describe('CreatePost Usecase Testing', () => {
 
   describe('Abnormal case', () => {
     let error;
+
+    describe('User does not exist', () => {
+      beforeAll(async () => {
+        input = {
+          content: 'content',
+          images: [
+            {
+              fieldname: 'images',
+              originalname: 'test1.jpeg',
+              encoding: '7bit',
+              mimetype: 'image/jpeg',
+              buffer: Buffer.from('test image 1'),
+              size: 67418,
+            },
+          ],
+        };
+
+        jest.spyOn(UserRepository.prototype, 'getById').mockResolvedValue(null);
+
+        try {
+          await usecase.execute(input, userId);
+        } catch (err) {
+          error = err;
+        }
+      });
+
+      it('Error code is NOT_FOUND', () => {
+        expect(error.code).toEqual(UsecaseErrorCode.NOT_FOUND);
+      });
+
+      it('Error message is "User does not exist"', () => {
+        expect(error.message).toEqual('User does not exist');
+      });
+
+      it('Error info detail code is USER_NOT_EXIST', () => {
+        expect(error.info.detailCode).toEqual(
+          UsecaseErrorDetailCode.USER_NOT_EXIST,
+        );
+      });
+
+      it('Error info includes user id', () => {
+        expect(error.info.userId).toEqual(userId);
+      });
+    });
 
     describe('Do not submit any pictures', () => {
       beforeAll(async () => {
@@ -336,7 +381,7 @@ describe('CreatePost Usecase Testing', () => {
     });
 
     it('Outputs post data type is PostDto', () => {
-      expect(output.post).toBeInstanceOf(PostDto);
+      expect(output.post).toBeInstanceOf(CreatedPostDto);
     });
 
     it('Outputs post data is as expected', () => {

@@ -11,6 +11,7 @@ import SigninUsecase from '@usecase/authentication/signin';
 import SignupUsecase from '@usecase/authentication/signup';
 import UpdateUserProfileUsecase from '@usecase/user/update-profile';
 import CreatePostUsecase from '@usecase/post/create';
+import UpdatePostUsecase from '@usecase/post/update';
 import UpdatePasswordUsecase from '@usecase/user/update-password';
 
 import {
@@ -20,12 +21,14 @@ import {
   UserRepositoryProvider,
   PostRepositoryProvider,
 } from '@presentation/provider/repository-provider';
+import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
+
 import { AuthenticationController } from '@presentation/internal/authentication/index.controller';
 import { NotificationController } from '@presentation/internal/notification/index.controller';
 import { PostController } from '@presentation/internal/post/index.controller';
 import { UserController } from '@presentation/internal/user/index.controller';
+
 import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
-import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
 
 import UserProfileView from '@view/user-profile-view';
 
@@ -65,6 +68,7 @@ const RequiredAuthenControllers = [
     UpdatePasswordUsecase,
     UpdateUserProfileUsecase,
     CreatePostUsecase,
+    UpdatePostUsecase,
     UserProfileView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],

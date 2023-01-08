@@ -25,13 +25,20 @@ import CreatePostUsecase, {
   CreatePostUsecaseInput,
   CreatePostUsecaseOutput,
 } from '@usecase/post/create';
+import UpdatePostUsecase, {
+  UpdatePostUsecaseInput,
+  UpdatePostUsecaseOutput,
+} from '@usecase/post/update';
 import { uploadImageFilter } from '@utils/file';
 
 @ApiTags('internal/posts')
 @ApiBearerAuth()
 @Controller('internal/post')
 export class PostController {
-  constructor(private readonly createPostUsecase: CreatePostUsecase) {}
+  constructor(
+    private readonly createPostUsecase: CreatePostUsecase,
+    private readonly updatePostUsecase: UpdatePostUsecase,
+  ) {}
 
   // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
   @Post('/create')
@@ -68,6 +75,27 @@ export class PostController {
     );
   }
 
+  @Put('/update')
+  @ApiOperation({
+    summary: 'Update post',
+    description: 'Update post',
+  })
+  @ApiBody({
+    description: 'Update post payload',
+    type: UpdatePostUsecaseInput,
+    required: true,
+  })
+  @ApiResponse({
+    description: 'Update post API response',
+    type: UpdatePostUsecaseOutput,
+  })
+  update(
+    @Body() payload: UpdatePostUsecaseInput,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.updatePostUsecase.execute(payload, request.user.userId);
+  }
+
   // @Get('/index-by-user')
   // @ApiOperation({
   //   summary: 'Get users all posts',
@@ -92,12 +120,6 @@ export class PostController {
   //   description: 'Like post',
   // })
   // like() {}
-  // @Put('/update')
-  // @ApiOperation({
-  //   summary: 'Update post',
-  //   description: 'Update post',
-  // })
-  // update() {}
   // @Delete('/dislike')
   // @ApiOperation({
   //   summary: 'Dislike post',
