@@ -29,7 +29,6 @@ export class CreatePostUsecaseInput extends UsecaseInput {
     description: 'Post tags list',
     required: false,
     type: [String],
-    isArray: true,
   })
   tags?: string[];
 
@@ -42,7 +41,7 @@ export class CreatePostUsecaseInput extends UsecaseInput {
   images: FixType;
 }
 
-export class PostDto {
+export class CreatedPostDto {
   @ApiProperty({
     description: 'Post id',
     required: true,
@@ -108,11 +107,11 @@ export class CreatePostUsecaseOutput extends UsecaseOutput {
   result: ApiResultDto;
 
   @ApiProperty({
-    description: 'Post DTO',
-    type: PostDto,
+    description: 'Created Post DTO',
+    type: CreatedPostDto,
     required: true,
   })
-  post: PostDto;
+  post: CreatedPostDto;
 }
 
 const postFactory = new PostFactory();
@@ -139,7 +138,7 @@ export default class CreatePostUsecase extends Usecase<
     input: CreatePostUsecaseInput,
     userId: number,
   ): Promise<CreatePostUsecaseOutput> {
-    const userEntity = this.userRepository.getById(null, userId);
+    const userEntity = await this.userRepository.getById(null, userId);
 
     if (!userEntity) {
       throw new UsecaseError({
@@ -236,10 +235,10 @@ export default class CreatePostUsecase extends Usecase<
 
     const output = new CreatePostUsecaseOutput();
     output.result = ApiResultDto.ok();
-    let postDto: PostDto;
+    let postDto: CreatedPostDto;
 
     if (createdPostEntity) {
-      postDto = new PostDto({
+      postDto = new CreatedPostDto({
         id: createdPostEntity.id,
         images: createdPostEntity.images,
         tags: createdPostEntity.tags,

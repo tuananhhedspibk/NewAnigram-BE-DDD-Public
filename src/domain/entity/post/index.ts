@@ -1,3 +1,8 @@
+import {
+  DomainError,
+  DomainErrorCode,
+  DomainErrorDetailCode,
+} from '@domain/exception';
 import { Expose, Type } from '@nestjs/class-transformer';
 import { BaseEntity } from '../base';
 import { CommentEntity } from './comment';
@@ -32,5 +37,17 @@ export class PostEntity extends BaseEntity {
 
   updateImages(imageUrls: string[]) {
     this.images = imageUrls;
+  }
+
+  updateContent(newContent: string) {
+    this.content = newContent;
+  }
+
+  updateTags(newTags: string[]) {
+    this.tags = newTags;
+  }
+
+  isCreatedBy(userId: number) {
+    return this.userId === userId;
   }
 }
