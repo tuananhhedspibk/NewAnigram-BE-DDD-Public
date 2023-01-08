@@ -5,7 +5,7 @@ import ITransactionManager from '@domain/repository/transaction';
 import { IUserRepository } from '@domain/repository/user';
 import { Inject, Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { UsecaseInput, UsecaseOutput, Usecase } from '@usecase/base';
+import { Usecase, UsecaseInput, UsecaseOutput } from '@usecase/base';
 import ApiResultDto from '@usecase/dto/api-result';
 import {
   UsecaseError,
@@ -13,86 +13,27 @@ import {
   UsecaseErrorDetailCode,
 } from '@usecase/exception';
 
-export class UpdatePostUsecaseInput extends UsecaseInput {
+export class DeletePostUsecaseInput extends UsecaseInput {
   @ApiProperty({
     description: 'Post id',
     required: true,
     type: Number,
   })
   id: number;
-
-  @ApiProperty({
-    description: 'Post new content',
-    required: false,
-    type: String,
-  })
-  content?: string;
-
-  @ApiProperty({
-    description: 'Post new tags',
-    required: false,
-    type: [String],
-  })
-  tags?: string[];
 }
 
-export class UpdatedPostDto {
-  @ApiProperty({
-    description: 'Post id',
-    required: true,
-    type: Number,
-  })
-  id: number;
-
-  @ApiProperty({
-    description: 'Post content',
-    required: true,
-    type: String,
-  })
-  content: string;
-
-  @ApiProperty({
-    description: 'Post tags',
-    required: true,
-    type: [String],
-  })
-  tags: string[];
-
-  constructor({
-    id,
-    content,
-    tags,
-  }: {
-    id: number;
-    content: string;
-    tags: string[];
-  }) {
-    this.id = id;
-    this.content = content;
-    this.tags = tags;
-  }
-}
-
-export class UpdatePostUsecaseOutput extends UsecaseOutput {
+export class DeletePostUsecaseOutput extends UsecaseOutput {
   @ApiProperty({
     description: 'API result',
     type: ApiResultDto,
-    required: true,
   })
   result: ApiResultDto;
-
-  @ApiProperty({
-    description: 'Updated Post DTO',
-    type: UpdatedPostDto,
-    required: true,
-  })
-  post: UpdatedPostDto;
 }
 
 @Injectable()
-export default class UpdatePostUsecase extends Usecase<
-  UsecaseInput,
-  UsecaseOutput
+export default class DeletePostUsecase extends Usecase<
+  DeletePostUsecaseInput,
+  DeletePostUsecaseOutput
 > {
   constructor(
     @Inject(IUserRepository) private readonly userRepository: IUserRepository,
@@ -104,11 +45,10 @@ export default class UpdatePostUsecase extends Usecase<
   }
 
   async execute(
-    input: UpdatePostUsecaseInput,
+    input: DeletePostUsecaseInput,
     userId: number,
-  ): Promise<UpdatePostUsecaseOutput> {
+  ): Promise<DeletePostUsecaseOutput> {
     const userEntity = await this.userRepository.getById(null, userId);
-    const output = new UpdatePostUsecaseOutput();
 
     if (!userEntity) {
       throw new UsecaseError({
@@ -130,6 +70,7 @@ export default class UpdatePostUsecase extends Usecase<
         info: {
           detailCode: UsecaseErrorDetailCode.POST_NOT_EXIST,
           postId: input.id,
+          userId,
         },
       });
     }
@@ -137,51 +78,29 @@ export default class UpdatePostUsecase extends Usecase<
     if (!postEntity.isCreatedBy(userId)) {
       throw new UsecaseError({
         code: UsecaseErrorCode.BAD_REQUEST,
-        message: 'Unauthorized to update post',
+        message: 'Unauthorized to delete post',
         info: {
-          detailCode: UsecaseErrorDetailCode.UNAUTHORIZED_TO_UPDATE_POST,
+          detailCode: UsecaseErrorDetailCode.UNAUTHORIZED_TO_DELETE_POST,
           postId: input.id,
           userId,
         },
       });
     }
 
-    if (!input.content && !input.tags) {
-      output.result = ApiResultDto.ok();
-      output.post = new UpdatedPostDto({
-        id: postEntity.id,
-        content: postEntity.content,
-        tags: postEntity.tags,
-      });
-
-      return output;
-    }
-
-    if (input.content) {
-      postEntity.updateContent(input.content);
-    }
-
-    if (input.tags) {
-      postEntity.updateTags(input.tags);
-    }
-
     try {
       await this.transactionManager.transaction(async (transaction) => {
-        await this.postRepository.update(transaction, postEntity);
+        await this.postRepository.deleteById(transaction, postEntity.id);
       });
-    } catch (error) {
+    } catch (err) {
+      console.log(err);
       throw new UsecaseError({
         code: UsecaseErrorCode.INTERNAL_SERVER_ERROR,
         message: 'Internal Server Error',
       });
     }
 
+    const output = new DeletePostUsecaseOutput();
     output.result = ApiResultDto.ok();
-    output.post = new UpdatedPostDto({
-      id: postEntity.id,
-      content: postEntity.content,
-      tags: postEntity.tags,
-    });
 
     return output;
   }

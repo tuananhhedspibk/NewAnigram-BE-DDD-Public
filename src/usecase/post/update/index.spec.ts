@@ -121,7 +121,7 @@ describe('UpdatePost Usecase Testing', () => {
       });
     });
 
-    describe('Post is not user property', () => {
+    describe('Unauthorized to update post', () => {
       beforeAll(async () => {
         input = {
           id: 1,
@@ -158,13 +158,13 @@ describe('UpdatePost Usecase Testing', () => {
         expect(error.code).toEqual(UsecaseErrorCode.BAD_REQUEST);
       });
 
-      it('Error message is "This post is not your property"', () => {
-        expect(error.message).toEqual('This post is not your property');
+      it('Error message is "Unauthorized to update post"', () => {
+        expect(error.message).toEqual('Unauthorized to update post');
       });
 
-      it('Error info detailCode is POST_IS_NOT_USER_PROPERTY', () => {
+      it('Error info detailCode is UNAUTHORIZED_TO_UPDATE_POST', () => {
         expect(error.info.detailCode).toEqual(
-          UsecaseErrorDetailCode.POST_IS_NOT_USER_PROPERTY,
+          UsecaseErrorDetailCode.UNAUTHORIZED_TO_UPDATE_POST,
         );
       });
 

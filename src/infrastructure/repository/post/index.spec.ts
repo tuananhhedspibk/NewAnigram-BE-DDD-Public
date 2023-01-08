@@ -238,4 +238,22 @@ describe('Post Repository Testing', () => {
       });
     });
   });
+
+  describe('delete testing', () => {
+    describe('Normal case', () => {
+      const postId = 5;
+
+      let postRDBEntity;
+
+      beforeAll(async () => {
+        await postRepository.deleteById(null, postId);
+
+        postRDBEntity = await postRDBRepository.findOne({ id: postId });
+      });
+
+      it('Data is deleted from DB', () => {
+        expect(postRDBEntity).toBeUndefined();
+      });
+    });
+  });
 });

@@ -12,6 +12,7 @@ import SignupUsecase from '@usecase/authentication/signup';
 import UpdateUserProfileUsecase from '@usecase/user/update-profile';
 import CreatePostUsecase from '@usecase/post/create';
 import UpdatePostUsecase from '@usecase/post/update';
+import DeletePostUsecase from '@usecase/post/delete';
 import UpdatePasswordUsecase from '@usecase/user/update-password';
 
 import {
@@ -69,6 +70,7 @@ const RequiredAuthenControllers = [
     UpdateUserProfileUsecase,
     CreatePostUsecase,
     UpdatePostUsecase,
+    DeletePostUsecase,
     UserProfileView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],

@@ -93,6 +93,16 @@ export class PostRepository
     return this.getById(transaction, postRDBEntity.id);
   }
 
+  async deleteById(transaction: TransactionType, id: number): Promise<void> {
+    const repository = transaction
+      ? transaction.getRepository(RDBPostEntity)
+      : getRepository(RDBPostEntity);
+
+    const postEntity = await this.getById(transaction, id);
+
+    await repository.remove(postEntity);
+  }
+
   private getBaseQuery(
     repository: TypeOrmRepository<RDBPostEntity>,
   ): SelectQueryBuilder<RDBPostEntity> {
