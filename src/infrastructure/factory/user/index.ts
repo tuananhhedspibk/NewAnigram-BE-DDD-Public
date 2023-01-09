@@ -19,7 +19,7 @@ export class UserFactory extends BaseFactory {
   createUserEntities(users: User[] | null) {
     if (!users) return null;
 
-    return this.createEntityArray(UserEntity, users);
+    return users.map((user) => this.createUserEntity(user));
   }
 
   createFromEmailAndPassword(emailVO: EmailVO, passwordVO: PasswordVO) {

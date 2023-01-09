@@ -21,6 +21,7 @@ import {
   TransactionManagerProvider,
   UserRepositoryProvider,
   PostRepositoryProvider,
+  FollowRepositoryProvider,
 } from '@presentation/provider/repository-provider';
 import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
 
@@ -32,6 +33,7 @@ import { UserController } from '@presentation/internal/user/index.controller';
 import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
 
 import UserProfileView from '@view/user-profile-view';
+import FollowUserUsecase from '@usecase/user/follow';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -39,6 +41,7 @@ const RepositoryProviders: Provider[] = [
   TransactionManagerProvider,
   ImageRepositoryProvider,
   PostRepositoryProvider,
+  FollowRepositoryProvider,
 ];
 
 const ViewRepositoryProvider: Provider[] = [UserViewRepositoryProvider];
@@ -68,6 +71,7 @@ const RequiredAuthenControllers = [
     SignupUsecase,
     UpdatePasswordUsecase,
     UpdateUserProfileUsecase,
+    FollowUserUsecase,
     CreatePostUsecase,
     UpdatePostUsecase,
     DeletePostUsecase,

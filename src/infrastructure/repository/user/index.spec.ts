@@ -176,6 +176,55 @@ describe('User Repository Testing', () => {
     });
   });
 
+  describe('getByIds testing', () => {
+    let result: UserEntity[];
+
+    describe('Normal case', () => {
+      beforeAll(async () => {
+        result = await userRepository.getByIds(null, [1, 2]);
+      });
+
+      it('Two users have been returned', () => {
+        expect(result.length).toEqual(2);
+      });
+
+      it('Result contains two users data', () => {
+        result.sort((a, b) => {
+          if (a.id < b.id) return -1;
+          return 1;
+        });
+
+        expect(result[0]).toEqual(
+          plainToClass(UserEntity, {
+            id: 1,
+            email: 'user-1@mail.com',
+            userName: 'user1',
+            detail: {
+              id: 1,
+              nickName: 'user-1-nick-name',
+              avatarURL: 'user-1-avatar.jpg',
+              gender: Gender.Male,
+            },
+          }),
+        );
+
+        expect(result[1]).toEqual(
+          plainToClass(UserEntity, {
+            id: 2,
+            email: 'user-2@mail.com',
+            userName: 'user2',
+            detail: {
+              id: 2,
+              nickName: 'user-2-nick-name',
+              avatarURL: 'user-2-avatar.jpg',
+              gender: Gender.Male,
+            },
+          }),
+        );
+      });
+    });
+  });
+
   describe('update testing', () => {
     describe('Normal case', () => {
       let userEntity: UserEntity;

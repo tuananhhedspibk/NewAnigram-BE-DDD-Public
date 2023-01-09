@@ -6,6 +6,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   Put,
   Req,
@@ -20,7 +21,11 @@ import {
   ApiResponse,
   ApiBody,
   ApiConsumes,
+  ApiParam,
 } from '@nestjs/swagger';
+import FollowUserUsecase, {
+  FollowUserUsecaseOutput,
+} from '@usecase/user/follow';
 import UpdatePasswordUsecase, {
   UpdatePasswordUsecaseInput,
   UpdatePasswordUsecaseOutput,
@@ -39,8 +44,9 @@ import UserProfileView from '@view/user-profile-view';
 export class UserController {
   constructor(
     private readonly updatePasswordUsecase: UpdatePasswordUsecase,
-    private readonly userProfileView: UserProfileView,
     private readonly updateUserProfileUsecase: UpdateUserProfileUsecase,
+    private readonly followUserUsecase: FollowUserUsecase,
+    private readonly userProfileView: UserProfileView,
   ) {}
 
   @Get('/profile')
@@ -112,12 +118,29 @@ export class UserController {
     return this.updatePasswordUsecase.execute(payload, request.user.userId);
   }
 
-  // @Post('/follow')
-  // @ApiOperation({
-  //   summary: 'Follow user',
-  //   description: 'Follow user',
-  // })
-  // follow() {}
+  @Post('/follow/:userId')
+  @ApiOperation({
+    summary: 'Follow user API',
+    description: 'Follow user API',
+  })
+  @ApiParam({
+    description: 'Query params',
+    type: Number,
+    name: 'userId',
+  })
+  @ApiResponse({
+    description: 'Follow user API Response',
+    type: FollowUserUsecaseOutput,
+  })
+  follow(
+    @Param('userId') userId: string,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.followUserUsecase.execute(
+      { destinationUserId: parseInt(userId) },
+      request.user.userId,
+    );
+  }
 
   // @Delete('/unfollow/:userId')
   // @ApiOperation({

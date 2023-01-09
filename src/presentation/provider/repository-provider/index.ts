@@ -11,6 +11,8 @@ import { PostRepository } from '@infrastructure/repository/post';
 import TransactionManager from '@infrastructure/repository/transaction';
 import ImageRepository from '@infrastructure/repository/image';
 import { AuthenticateRepository } from '@infrastructure/repository/authenticate';
+import { IFollowRepository } from '@domain/repository/follow';
+import { FollowRepository } from '@infrastructure/repository/follow';
 
 export const UserRepositoryProvider = {
   provide: IUserRepository,
@@ -35,4 +37,9 @@ export const ImageRepositoryProvider = {
 export const PostRepositoryProvider = {
   provide: IPostRepository,
   useClass: PostRepository,
+};
+
+export const FollowRepositoryProvider = {
+  provide: IFollowRepository,
+  useClass: FollowRepository,
 };

@@ -42,6 +42,20 @@ export class UserRepository
     return userFactory.createUserEntity(user);
   }
 
+  async getByIds(
+    transaction: Transaction | null,
+    ids: number[],
+  ): Promise<DomainUserEntity[]> {
+    const repository = transaction
+      ? transaction.getRepository(RDBUserEntity)
+      : getRepository(RDBUserEntity);
+
+    const query = this.getBaseQuery(repository);
+    const users = await query.where('user.id IN (:ids)', { ids }).getMany();
+
+    return userFactory.createUserEntities(users);
+  }
+
   async save(
     transaction: TransactionType,
     user: DomainUserEntity,
@@ -166,7 +180,6 @@ export class UserRepository
         'userDetail.avatarURL',
         'userDetail.gender',
       ])
-
       .leftJoin('user.userDetail', 'userDetail');
 
     return query;
