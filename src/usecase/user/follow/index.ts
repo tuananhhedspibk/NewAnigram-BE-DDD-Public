@@ -62,9 +62,6 @@ export default class FollowUserUsecase extends Usecase<
         input.destinationUserId,
       ]);
 
-    console.log(input.destinationUserId);
-    console.log(userId);
-
     if (input.destinationUserId === userId) {
       throw new UsecaseError({
         code: UsecaseErrorCode.BAD_REQUEST,

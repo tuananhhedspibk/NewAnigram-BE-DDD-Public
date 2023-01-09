@@ -31,7 +31,7 @@ export class UserRepository
   async getByEmail(
     transaction: Transaction | null,
     email: string,
-  ): Promise<DomainUserEntity> {
+  ): Promise<DomainUserEntity | null> {
     const repository = transaction
       ? transaction.getRepository(RDBUserEntity)
       : getRepository(RDBUserEntity);
