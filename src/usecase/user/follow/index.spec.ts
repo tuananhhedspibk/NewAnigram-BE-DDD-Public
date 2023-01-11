@@ -14,6 +14,8 @@ import FollowUserUsecase, {
   FollowUserUsecaseInput,
   FollowUserUsecaseOutput,
 } from '.';
+import { FollowEntity } from '@domain/entity/follow';
+import { ApiResultCode } from '@usecase/dto/api-result';
 
 describe('FollowUser Usecase testing', () => {
   let input: FollowUserUsecaseInput;
@@ -153,10 +155,122 @@ describe('FollowUser Usecase testing', () => {
       });
     });
 
-    // describe('Have been following user', () => {});
+    describe('Have been following user', () => {
+      const destinationUserId = 2;
+
+      beforeAll(async () => {
+        input = {
+          destinationUserId,
+        };
+
+        jest.spyOn(UserRepository.prototype, 'getByIds').mockResolvedValue([
+          plainToClass(UserEntity, {
+            id: 1,
+            email: 'user1@mail.com',
+            userName: 'userName1',
+            detail: {
+              id: 1,
+              nickName: 'nickName',
+              avatarURL: 'avatarURL',
+              gender: UserDetailGender.Male,
+              active: true,
+            },
+          }),
+          plainToClass(UserEntity, {
+            id: 2,
+            email: 'user2@mail.com',
+            userName: 'userName2',
+            detail: {
+              id: 2,
+              nickName: 'nickName',
+              avatarURL: 'avatarURL',
+              gender: UserDetailGender.Male,
+              active: true,
+            },
+          }),
+        ]);
+
+        jest
+          .spyOn(FollowRepository.prototype, 'getByUserIds')
+          .mockResolvedValue(
+            plainToClass(FollowEntity, {
+              id: 1,
+              sourceUserId: 1,
+              destinationUserId: 2,
+            }),
+          );
+
+        try {
+          await usecase.execute(input, sourceUserId);
+        } catch (err) {
+          error = err;
+        }
+      });
+
+      it('Error code is BAD_REQUEST', () => {
+        expect(error.code).toEqual(UsecaseErrorCode.BAD_REQUEST);
+      });
+
+      it('Error message is "You are following this user"', () => {
+        expect(error.message).toEqual('You are following this user');
+      });
+
+      it('Error info detailCode is HAVE_BEEN_FOLLOWING_USER', () => {
+        expect(error.info.detailCode).toEqual(
+          UsecaseErrorDetailCode.HAVE_BEEN_FOLLOWING_USER,
+        );
+      });
+    });
   });
 
-  // describe('Normal case', () => {
-  //   describe('Can follow another user', () => {});
-  // });
+  describe('Normal case', () => {
+    describe('Can follow another user', () => {
+      const destinationUserId = 2;
+
+      beforeAll(async () => {
+        input = {
+          destinationUserId,
+        };
+
+        jest.spyOn(UserRepository.prototype, 'getByIds').mockResolvedValue([
+          plainToClass(UserEntity, {
+            id: 1,
+            email: 'user1@mail.com',
+            userName: 'userName1',
+            detail: {
+              id: 1,
+              nickName: 'nickName',
+              avatarURL: 'avatarURL',
+              gender: UserDetailGender.Male,
+              active: true,
+            },
+          }),
+          plainToClass(UserEntity, {
+            id: 2,
+            email: 'user2@mail.com',
+            userName: 'userName2',
+            detail: {
+              id: 2,
+              nickName: 'nickName',
+              avatarURL: 'avatarURL',
+              gender: UserDetailGender.Male,
+              active: true,
+            },
+          }),
+        ]);
+
+        jest
+          .spyOn(FollowRepository.prototype, 'getByUserIds')
+          .mockResolvedValue(null);
+
+        jest.spyOn(FollowRepository.prototype, 'save').mockResolvedValue(null);
+
+        output = await usecase.execute(input, sourceUserId);
+      });
+
+      it('Output result code is OK', () => {
+        expect(output.result.code).toEqual(ApiResultCode.OK);
+      });
+    });
+  });
 });
