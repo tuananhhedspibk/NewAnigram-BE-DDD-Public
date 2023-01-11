@@ -31,7 +31,7 @@ export class UserRepository
   async getByEmail(
     transaction: Transaction | null,
     email: string,
-  ): Promise<DomainUserEntity> {
+  ): Promise<DomainUserEntity | null> {
     const repository = transaction
       ? transaction.getRepository(RDBUserEntity)
       : getRepository(RDBUserEntity);
@@ -40,6 +40,20 @@ export class UserRepository
     const user = await query.where('user.email = :email', { email }).getOne();
 
     return userFactory.createUserEntity(user);
+  }
+
+  async getByIds(
+    transaction: Transaction | null,
+    ids: number[],
+  ): Promise<DomainUserEntity[]> {
+    const repository = transaction
+      ? transaction.getRepository(RDBUserEntity)
+      : getRepository(RDBUserEntity);
+
+    const query = this.getBaseQuery(repository);
+    const users = await query.where('user.id IN (:ids)', { ids }).getMany();
+
+    return userFactory.createUserEntities(users);
   }
 
   async save(
@@ -166,7 +180,6 @@ export class UserRepository
         'userDetail.avatarURL',
         'userDetail.gender',
       ])
-
       .leftJoin('user.userDetail', 'userDetail');
 
     return query;
