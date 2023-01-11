@@ -33,7 +33,9 @@ import { UserController } from '@presentation/internal/user/index.controller';
 import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
 
 import UserProfileView from '@view/user-profile-view';
+
 import FollowUserUsecase from '@usecase/user/follow';
+import UnfollowUserUsecase from '@usecase/user/unfollow';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -72,6 +74,7 @@ const RequiredAuthenControllers = [
     UpdatePasswordUsecase,
     UpdateUserProfileUsecase,
     FollowUserUsecase,
+    UnfollowUserUsecase,
     CreatePostUsecase,
     UpdatePostUsecase,
     DeletePostUsecase,
