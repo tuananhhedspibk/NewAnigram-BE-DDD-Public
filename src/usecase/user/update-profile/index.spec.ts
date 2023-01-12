@@ -30,7 +30,7 @@ describe('UpdateProfile Usecase testing', () => {
     connection = await createConnection();
   });
   afterAll(async () => {
-    connection.close();
+    await connection.close();
   });
 
   describe('Abnormal case', () => {
