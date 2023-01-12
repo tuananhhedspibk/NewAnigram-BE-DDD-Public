@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Delete,
   Req,
   UploadedFile,
   UseInterceptors,
@@ -26,6 +27,9 @@ import {
 import FollowUserUsecase, {
   FollowUserUsecaseOutput,
 } from '@usecase/user/follow';
+import UnfollowUserUsecase, {
+  UnfollowUserUsecaseOutput,
+} from '@usecase/user/unfollow';
 import UpdatePasswordUsecase, {
   UpdatePasswordUsecaseInput,
   UpdatePasswordUsecaseOutput,
@@ -46,6 +50,7 @@ export class UserController {
     private readonly updatePasswordUsecase: UpdatePasswordUsecase,
     private readonly updateUserProfileUsecase: UpdateUserProfileUsecase,
     private readonly followUserUsecase: FollowUserUsecase,
+    private readonly unfollowUserUsecase: UnfollowUserUsecase,
     private readonly userProfileView: UserProfileView,
   ) {}
 
@@ -142,10 +147,27 @@ export class UserController {
     );
   }
 
-  // @Delete('/unfollow/:userId')
-  // @ApiOperation({
-  //   summary: 'Unfollow user',
-  //   description: 'Unfollow user',
-  // })
-  // unfollow() {}
+  @Delete('/unfollow/:userId')
+  @ApiOperation({
+    summary: 'Unfollow user API',
+    description: 'Unfollow user API',
+  })
+  @ApiParam({
+    description: 'Query params',
+    type: Number,
+    name: 'userId',
+  })
+  @ApiResponse({
+    description: 'Unfollow user API Response',
+    type: UnfollowUserUsecaseOutput,
+  })
+  unfollow(
+    @Param('userId') userId: string,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.unfollowUserUsecase.execute(
+      { destinationUserId: parseInt(userId) },
+      request.user.userId,
+    );
+  }
 }
