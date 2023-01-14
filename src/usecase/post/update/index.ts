@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { Inject, Injectable } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
+
 import { IPostRepository } from '@domain/repository/post';
 import ITransactionManager from '@domain/repository/transaction';
 import { IUserRepository } from '@domain/repository/user';
-import { Inject, Injectable } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
+
 import { UsecaseInput, UsecaseOutput, Usecase } from '@usecase/base';
 import ApiResultDto from '@usecase/dto/api-result';
 import {
