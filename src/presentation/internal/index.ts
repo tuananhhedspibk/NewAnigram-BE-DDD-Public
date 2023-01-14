@@ -38,6 +38,7 @@ import UserProfileView from '@view/user-profile-view';
 import FollowUserUsecase from '@usecase/user/follow';
 import UnfollowUserUsecase from '@usecase/user/unfollow';
 import LikePostUsecase from '@usecase/post/like';
+import UnlikePostUsecase from '@usecase/post/unlike';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -82,6 +83,7 @@ const RequiredAuthenControllers = [
     UpdatePostUsecase,
     DeletePostUsecase,
     LikePostUsecase,
+    UnlikePostUsecase,
     UserProfileView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],
