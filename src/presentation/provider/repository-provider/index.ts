@@ -2,6 +2,7 @@ import { IAuthenticateRepository } from '@domain/repository/authenticate';
 import { IUserRepository } from '@domain/repository/user';
 import { IPostRepository } from '@domain/repository/post';
 import { IImageRepository } from '@domain/repository/image';
+import { ILikeRepository } from '@domain/repository/like';
 
 import ITransactionManager from '@domain/repository/transaction';
 
@@ -13,6 +14,7 @@ import ImageRepository from '@infrastructure/repository/image';
 import { AuthenticateRepository } from '@infrastructure/repository/authenticate';
 import { IFollowRepository } from '@domain/repository/follow';
 import { FollowRepository } from '@infrastructure/repository/follow';
+import { LikeRepository } from '@infrastructure/repository/like';
 
 export const UserRepositoryProvider = {
   provide: IUserRepository,
@@ -42,4 +44,9 @@ export const PostRepositoryProvider = {
 export const FollowRepositoryProvider = {
   provide: IFollowRepository,
   useClass: FollowRepository,
+};
+
+export const LikeRepositoryProvider = {
+  provide: ILikeRepository,
+  useClass: LikeRepository,
 };

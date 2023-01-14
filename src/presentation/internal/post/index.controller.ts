@@ -5,10 +5,10 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Put,
   Req,
-  UploadedFile,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,6 +18,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -29,6 +30,10 @@ import DeletePostUsecase, {
   DeletePostUsecaseInput,
   DeletePostUsecaseOutput,
 } from '@usecase/post/delete';
+import LikePostUsecase, {
+  LikePostUsecaseInput,
+  LikePostUsecaseOutput,
+} from '@usecase/post/like';
 import UpdatePostUsecase, {
   UpdatePostUsecaseInput,
   UpdatePostUsecaseOutput,
@@ -43,6 +48,7 @@ export class PostController {
     private readonly createPostUsecase: CreatePostUsecase,
     private readonly updatePostUsecase: UpdatePostUsecase,
     private readonly deletePostUsecase: DeletePostUsecase,
+    private readonly likePostUsecase: LikePostUsecase,
   ) {}
 
   // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
@@ -101,24 +107,52 @@ export class PostController {
     return this.updatePostUsecase.execute(payload, request.user.userId);
   }
 
-  @Delete('/delete/:id')
+  @Delete('/delete/:postId')
   @ApiOperation({
     summary: 'Delete post by id',
     description: 'Delete post by id',
   })
-  @ApiBody({
-    description: 'Delete post API body',
-    type: DeletePostUsecaseInput,
+  @ApiParam({
+    description: 'Delete post API Query param',
+    type: Number,
+    name: 'postId',
   })
   @ApiResponse({
     description: 'Delete post API response',
     type: DeletePostUsecaseOutput,
   })
   delete(
-    @Body() payload: DeletePostUsecaseInput,
+    @Param('postId') postId: string,
     @Req() request: { user: { userId: number } },
   ) {
-    return this.deletePostUsecase.execute(payload, request.user.userId);
+    return this.deletePostUsecase.execute(
+      { id: parseInt(postId) },
+      request.user.userId,
+    );
+  }
+
+  @Post('/like/:postId')
+  @ApiOperation({
+    summary: 'Like post',
+    description: 'Like post',
+  })
+  @ApiParam({
+    description: 'Like post API Query Param',
+    type: Number,
+    name: 'postId',
+  })
+  @ApiResponse({
+    description: 'Like post API response',
+    type: LikePostUsecaseOutput,
+  })
+  like(
+    @Param('postId') postId: string,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.likePostUsecase.execute(
+      { postId: parseInt(postId) },
+      request.user.userId,
+    );
   }
 
   // @Get('/index-by-user')
@@ -139,12 +173,6 @@ export class PostController {
   //   description: 'Create posts comment',
   // })
   // comment() {}
-  // @Post('/like')
-  // @ApiOperation({
-  //   summary: 'Like post',
-  //   description: 'Like post',
-  // })
-  // like() {}
   // @Delete('/dislike')
   // @ApiOperation({
   //   summary: 'Dislike post',

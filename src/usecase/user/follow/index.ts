@@ -7,8 +7,6 @@ import { IFollowRepository } from '@domain/repository/follow';
 import ITransactionManager from '@domain/repository/transaction';
 import { IUserRepository } from '@domain/repository/user';
 
-import { FollowFactory } from '@infrastructure/factory/follow';
-
 import { Usecase, UsecaseInput, UsecaseOutput } from '@usecase/base';
 import ApiResultDto from '@usecase/dto/api-result';
 import {
@@ -16,6 +14,8 @@ import {
   UsecaseErrorCode,
   UsecaseErrorDetailCode,
 } from '@usecase/exception';
+
+import { FollowFactory } from '@infrastructure/factory/follow';
 
 const followFactory = new FollowFactory();
 

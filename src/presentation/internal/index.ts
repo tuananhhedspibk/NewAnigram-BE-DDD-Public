@@ -22,6 +22,7 @@ import {
   UserRepositoryProvider,
   PostRepositoryProvider,
   FollowRepositoryProvider,
+  LikeRepositoryProvider,
 } from '@presentation/provider/repository-provider';
 import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
 
@@ -36,6 +37,7 @@ import UserProfileView from '@view/user-profile-view';
 
 import FollowUserUsecase from '@usecase/user/follow';
 import UnfollowUserUsecase from '@usecase/user/unfollow';
+import LikePostUsecase from '@usecase/post/like';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -44,6 +46,7 @@ const RepositoryProviders: Provider[] = [
   ImageRepositoryProvider,
   PostRepositoryProvider,
   FollowRepositoryProvider,
+  LikeRepositoryProvider,
 ];
 
 const ViewRepositoryProvider: Provider[] = [UserViewRepositoryProvider];
@@ -78,6 +81,7 @@ const RequiredAuthenControllers = [
     CreatePostUsecase,
     UpdatePostUsecase,
     DeletePostUsecase,
+    LikePostUsecase,
     UserProfileView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],

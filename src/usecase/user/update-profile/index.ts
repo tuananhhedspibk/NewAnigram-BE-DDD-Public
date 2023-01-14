@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { Inject, Injectable } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
+
 import { UpdateDetailParams } from '@domain/entity/user';
 import { UserDetailGender } from '@domain/entity/user/user-detail';
 import {
@@ -9,13 +12,7 @@ import {
 } from '@domain/repository/image';
 import ITransactionManager from '@domain/repository/transaction';
 import { IUserRepository } from '@domain/repository/user';
-import {
-  InfrastructureError,
-  InfrastructureErrorCode,
-  InfrastructureErrorDetailCode,
-} from '@infrastructure/exception';
-import { Inject, Injectable } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
+
 import { Usecase, UsecaseInput, UsecaseOutput } from '@usecase/base';
 import ApiResultDto from '@usecase/dto/api-result';
 import {
@@ -23,6 +20,12 @@ import {
   UsecaseErrorCode,
   UsecaseErrorDetailCode,
 } from '@usecase/exception';
+
+import {
+  InfrastructureError,
+  InfrastructureErrorCode,
+  InfrastructureErrorDetailCode,
+} from '@infrastructure/exception';
 
 export class UpdateUserProfileUsecaseInput extends UsecaseInput {
   @ApiProperty({

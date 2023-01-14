@@ -7,4 +7,7 @@ export class LikeEntity extends BaseEntity {
 
   @Expose()
   userId: number;
+
+  @Expose()
+  postId: number;
 }

@@ -9,5 +9,8 @@ export class CommentEntity extends BaseEntity {
   content: string;
 
   @Expose()
-  userId?: number;
+  userId: number;
+
+  @Expose()
+  postId: number;
 }
