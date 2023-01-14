@@ -27,13 +27,12 @@ import CreatePostUsecase, {
   CreatePostUsecaseOutput,
 } from '@usecase/post/create';
 import DeletePostUsecase, {
-  DeletePostUsecaseInput,
   DeletePostUsecaseOutput,
 } from '@usecase/post/delete';
-import LikePostUsecase, {
-  LikePostUsecaseInput,
-  LikePostUsecaseOutput,
-} from '@usecase/post/like';
+import LikePostUsecase, { LikePostUsecaseOutput } from '@usecase/post/like';
+import UnlikePostUsecase, {
+  UnlikePostUsecaseOutput,
+} from '@usecase/post/unlike';
 import UpdatePostUsecase, {
   UpdatePostUsecaseInput,
   UpdatePostUsecaseOutput,
@@ -49,6 +48,7 @@ export class PostController {
     private readonly updatePostUsecase: UpdatePostUsecase,
     private readonly deletePostUsecase: DeletePostUsecase,
     private readonly likePostUsecase: LikePostUsecase,
+    private readonly unlikePostUsecase: UnlikePostUsecase,
   ) {}
 
   // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
@@ -107,7 +107,7 @@ export class PostController {
     return this.updatePostUsecase.execute(payload, request.user.userId);
   }
 
-  @Delete('/delete/:postId')
+  @Delete('/:postId/delete/')
   @ApiOperation({
     summary: 'Delete post by id',
     description: 'Delete post by id',
@@ -131,7 +131,7 @@ export class PostController {
     );
   }
 
-  @Post('/like/:postId')
+  @Post('/:postId/like/')
   @ApiOperation({
     summary: 'Like post',
     description: 'Like post',
@@ -155,6 +155,30 @@ export class PostController {
     );
   }
 
+  @Delete('/:postId/unlike/')
+  @ApiOperation({
+    summary: 'Unlike post API',
+    description: 'Unlike post API',
+  })
+  @ApiParam({
+    description: 'Unlike post API Query Param',
+    type: Number,
+    name: 'postId',
+  })
+  @ApiResponse({
+    description: 'Unlike post API response',
+    type: UnlikePostUsecaseOutput,
+  })
+  unlike(
+    @Param('postId') postId: string,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.unlikePostUsecase.execute(
+      { postId: parseInt(postId) },
+      request.user.userId,
+    );
+  }
+
   // @Get('/index-by-user')
   // @ApiOperation({
   //   summary: 'Get users all posts',
@@ -173,12 +197,6 @@ export class PostController {
   //   description: 'Create posts comment',
   // })
   // comment() {}
-  // @Delete('/dislike')
-  // @ApiOperation({
-  //   summary: 'Dislike post',
-  //   description: 'Dislike post',
-  // })
-  // dislike() {}
   // @Delete('/delete-comment')
   // @ApiOperation({
   //   summary: 'Delete posts comment',

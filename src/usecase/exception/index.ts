@@ -25,6 +25,7 @@ export const UsecaseErrorDetailCode = {
   CAN_NOT_FOLLOW_MYSELF: 'CAN_NOT_FOLLOW_MYSELF',
   NOT_FOLLOWING_USER: 'NOT_FOLLOWING_USER',
   HAVE_BEEN_LIKED_POST: 'HAVE_BEEN_LIKED_POST',
+  HAVE_NOT_LIKED_POST: 'HAVE_NOT_LIKED_POST',
 } as const;
 
 export type UsecaseErrorDetailCode =
