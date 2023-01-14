@@ -3,6 +3,7 @@ import { IUserRepository } from '@domain/repository/user';
 import { IPostRepository } from '@domain/repository/post';
 import { IImageRepository } from '@domain/repository/image';
 import { ILikeRepository } from '@domain/repository/like';
+import { ICommentRepository } from '@domain/repository/comment';
 
 import ITransactionManager from '@domain/repository/transaction';
 
@@ -15,6 +16,7 @@ import { AuthenticateRepository } from '@infrastructure/repository/authenticate'
 import { IFollowRepository } from '@domain/repository/follow';
 import { FollowRepository } from '@infrastructure/repository/follow';
 import { LikeRepository } from '@infrastructure/repository/like';
+import { CommentRepository } from '@infrastructure/repository/comment';
 
 export const UserRepositoryProvider = {
   provide: IUserRepository,
@@ -49,4 +51,9 @@ export const FollowRepositoryProvider = {
 export const LikeRepositoryProvider = {
   provide: ILikeRepository,
   useClass: LikeRepository,
+};
+
+export const CommentRepositoryProvider = {
+  provide: ICommentRepository,
+  useClass: CommentRepository,
 };

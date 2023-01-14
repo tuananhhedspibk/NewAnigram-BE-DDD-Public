@@ -1,13 +1,16 @@
-import { IFollowRepository } from '@domain/repository/follow';
-import { FollowEntity as DomainFollowEntity } from '@domain/entity/follow';
-import RDBFollowEntity from '@infrastructure/rdb/entity/follow';
-import Repository from '../base';
 import {
   getRepository,
   Repository as TypeOrmRepository,
   SelectQueryBuilder,
 } from 'typeorm';
+
+import { IFollowRepository } from '@domain/repository/follow';
+import { FollowEntity as DomainFollowEntity } from '@domain/entity/follow';
+
+import RDBFollowEntity from '@infrastructure/rdb/entity/follow';
 import { FollowFactory } from '@infrastructure/factory/follow';
+
+import Repository from '../base';
 
 const followFactory = new FollowFactory();
 

@@ -15,6 +15,8 @@ export const InfrastructureErrorDetailCode = {
   IMAGE_KEY_CAN_NOT_BE_EMPTY: 'IMAGE_KEY_CAN_NOT_BE_EMPTY',
   MUST_SPECIFY_POST_ID: 'MUST_SPECIFY_POST_ID',
   RDB_POST_NOT_EXIST: 'RDB_POST_NOT_EXIST',
+  MUST_SPECIFY_COMMENT_ID: 'MUST_SPECIFY_COMMENT_ID',
+  RDB_COMMENT_NOT_EXIST: 'RDB_COMMENT_NOT_EXIST',
 } as const;
 export type InfrastructureErrorDetailCode =
   typeof InfrastructureErrorDetailCode[keyof typeof InfrastructureErrorDetailCode];

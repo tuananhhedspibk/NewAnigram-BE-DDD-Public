@@ -22,6 +22,10 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import CommentPostUsecase, {
+  CommentPostUsecaseInput,
+  CommentPostUsecaseOutput,
+} from '@usecase/post/comment';
 import CreatePostUsecase, {
   CreatePostUsecaseInput,
   CreatePostUsecaseOutput,
@@ -49,6 +53,7 @@ export class PostController {
     private readonly deletePostUsecase: DeletePostUsecase,
     private readonly likePostUsecase: LikePostUsecase,
     private readonly unlikePostUsecase: UnlikePostUsecase,
+    private readonly commentPostUsecase: CommentPostUsecase,
   ) {}
 
   // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
@@ -179,6 +184,36 @@ export class PostController {
     );
   }
 
+  @Post('/:postId/comment')
+  @ApiOperation({
+    summary: 'Create posts comment API',
+    description: 'Create posts comment API',
+  })
+  @ApiParam({
+    description: 'Create posts comment Query param',
+    type: Number,
+    name: 'postId',
+  })
+  @ApiBody({
+    description: 'Create posts comment API body',
+    type: CommentPostUsecaseInput,
+    required: true,
+  })
+  @ApiResponse({
+    description: 'Create posts comment API response',
+    type: CommentPostUsecaseOutput,
+  })
+  comment(
+    @Param('postId') postId: string,
+    @Body() payload: CommentPostUsecaseInput,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.commentPostUsecase.execute(payload, {
+      postId: parseInt(postId),
+      userId: request.user.userId,
+    });
+  }
+
   // @Get('/index-by-user')
   // @ApiOperation({
   //   summary: 'Get users all posts',
@@ -191,12 +226,6 @@ export class PostController {
   //   description: 'Get post detail by posts id',
   // })
   // detail() {}
-  // @Post('/comment')
-  // @ApiOperation({
-  //   summary: 'Create posts comment',
-  //   description: 'Create posts comment',
-  // })
-  // comment() {}
   // @Delete('/delete-comment')
   // @ApiOperation({
   //   summary: 'Delete posts comment',

@@ -27,6 +27,7 @@ describe('Follow Repository Testing', () => {
 
   beforeAll(async () => {
     rdbConnection = await createConnection();
+
     followRDBRepository = getRepository(Follow);
     userRDBRepository = getRepository(User);
 
@@ -62,9 +63,7 @@ describe('Follow Repository Testing', () => {
           );
         });
       });
-    });
 
-    describe('Abnormal case', () => {
       describe('Can not get anything with not exist follow id', () => {
         beforeAll(async () => {
           followId = 100;
