@@ -5,14 +5,14 @@ import {
   Repository as TypeOrmRepository,
   getRepository,
 } from 'typeorm';
-import RdbUserEntity from '@infrastructure/rdb/entity/user';
+import RDBUserEntity from '@infrastructure/rdb/entity/user';
 import UserViewFactory from '@infrastructure/view-factory/user';
 
 const userViewFactory = new UserViewFactory();
 
 export default class UserViewRepository implements IUserViewRepository {
   async getUserProfileById(id: number): Promise<UserProfileDto | null> {
-    const repository = getRepository(RdbUserEntity);
+    const repository = getRepository(RDBUserEntity);
 
     const query = this.getBaseQuery(repository);
     const user = await query.where('user.id = :id', { id }).getOne();
@@ -21,8 +21,8 @@ export default class UserViewRepository implements IUserViewRepository {
   }
 
   private getBaseQuery(
-    repository: TypeOrmRepository<RdbUserEntity>,
-  ): SelectQueryBuilder<RdbUserEntity> {
+    repository: TypeOrmRepository<RDBUserEntity>,
+  ): SelectQueryBuilder<RDBUserEntity> {
     const query = repository
       .createQueryBuilder('user')
       .select([

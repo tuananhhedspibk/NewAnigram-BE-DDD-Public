@@ -49,6 +49,7 @@ import UpdatePostCommentUsecase, {
   UpdatePostCommentUsecaseOutput,
 } from '@usecase/post/update-comment';
 import { uploadImageFilter } from '@utils/file';
+import PostDetailView from '@view/post-detail-view';
 
 class UpdatePostCommentApiBodyParams {
   @ApiProperty({
@@ -72,6 +73,7 @@ export class PostController {
     private readonly commentPostUsecase: CommentPostUsecase,
     private readonly updatePostCommentUsecase: UpdatePostCommentUsecase,
     private readonly deletePostCommentUsecase: DeletePostCommentUsecase,
+    private readonly postDetailView: PostDetailView,
   ) {}
 
   // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
@@ -301,16 +303,24 @@ export class PostController {
     );
   }
 
+  @Get(':id/detail')
+  @ApiOperation({
+    summary: 'Get post detail by posts id',
+    description: 'Get post detail by posts id',
+  })
+  @ApiParam({
+    description: 'Get post detail API Query Param',
+    type: Number,
+    name: 'id',
+  })
+  detail(@Param('id') id: string) {
+    return this.postDetailView.getPostDetail(parseInt(id));
+  }
+
   // @Get('/index-by-user')
   // @ApiOperation({
   //   summary: 'Get users all posts',
   //   description: 'Get users all posts',
   // })
   // indexByUser() {}
-  // @Get('/detail/:id')
-  // @ApiOperation({
-  //   summary: 'Get post detail by posts id',
-  //   description: 'Get post detail by posts id',
-  // })
-  // detail() {}
 }

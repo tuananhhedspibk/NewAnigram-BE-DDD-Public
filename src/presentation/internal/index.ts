@@ -35,6 +35,7 @@ import { UserController } from '@presentation/internal/user/index.controller';
 import { AuthMiddleware } from '@presentation/middleware/auth-middleware';
 
 import UserProfileView from '@view/user-profile-view';
+import PostDetailView from '@view/post-detail-view';
 
 import FollowUserUsecase from '@usecase/user/follow';
 import UnfollowUserUsecase from '@usecase/user/unfollow';
@@ -93,6 +94,7 @@ const RequiredAuthenControllers = [
     DeletePostCommentUsecase,
     UpdatePostCommentUsecase,
     UserProfileView,
+    PostDetailView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],
 })
