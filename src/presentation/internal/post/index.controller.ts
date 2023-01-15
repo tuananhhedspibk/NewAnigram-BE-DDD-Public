@@ -19,6 +19,7 @@ import {
   ApiConsumes,
   ApiOperation,
   ApiParam,
+  ApiProperty,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -44,7 +45,19 @@ import UpdatePostUsecase, {
   UpdatePostUsecaseInput,
   UpdatePostUsecaseOutput,
 } from '@usecase/post/update';
+import UpdatePostCommentUsecase, {
+  UpdatePostCommentUsecaseOutput,
+} from '@usecase/post/update-comment';
 import { uploadImageFilter } from '@utils/file';
+
+class UpdatePostCommentApiBodyParams {
+  @ApiProperty({
+    description: 'Comment content',
+    type: String,
+    required: true,
+  })
+  content: string;
+}
 
 @ApiTags('internal/posts')
 @ApiBearerAuth()
@@ -57,6 +70,7 @@ export class PostController {
     private readonly likePostUsecase: LikePostUsecase,
     private readonly unlikePostUsecase: UnlikePostUsecase,
     private readonly commentPostUsecase: CommentPostUsecase,
+    private readonly updatePostCommentUsecase: UpdatePostCommentUsecase,
     private readonly deletePostCommentUsecase: DeletePostCommentUsecase,
   ) {}
 
@@ -216,6 +230,45 @@ export class PostController {
       postId: parseInt(postId),
       userId: request.user.userId,
     });
+  }
+
+  @Put('/:postId/comment/:commentId')
+  @ApiOperation({
+    summary: 'Update posts comment API',
+    description: 'Update posts comment API',
+  })
+  @ApiParam({
+    description: 'Post id',
+    type: Number,
+    name: 'postId',
+  })
+  @ApiParam({
+    description: 'Comment id',
+    type: Number,
+    name: 'commentId',
+  })
+  @ApiBody({
+    description: 'Comment content',
+    type: UpdatePostCommentApiBodyParams,
+  })
+  @ApiResponse({
+    description: 'Update posts comment API Response',
+    type: UpdatePostCommentUsecaseOutput,
+  })
+  updateComment(
+    @Param('postId') postId: string,
+    @Param('commentId') commentId: string,
+    @Body() payload: UpdatePostCommentApiBodyParams,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.updatePostCommentUsecase.execute(
+      {
+        postId: parseInt(postId),
+        commentId: parseInt(commentId),
+        content: payload.content,
+      },
+      request.user.userId,
+    );
   }
 
   @Delete('/:postId/comment/:commentId')

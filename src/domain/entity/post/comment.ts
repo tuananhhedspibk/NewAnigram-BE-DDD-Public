@@ -21,4 +21,8 @@ export class CommentEntity extends BaseEntity {
   isCommentOfPost(postId: number) {
     return this.postId === postId;
   }
+
+  updateContent(content: string) {
+    this.content = content;
+  }
 }
