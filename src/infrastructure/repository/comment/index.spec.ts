@@ -4,6 +4,7 @@ import {
   getRepository,
   Repository,
 } from 'typeorm';
+import { plainToClass } from '@nestjs/class-transformer';
 
 import { CommentEntity } from '@domain/entity/post/comment';
 
@@ -14,7 +15,6 @@ import Comment from '@infrastructure/rdb/entity/comment';
 import { CommentRepository } from '.';
 
 import { users, posts, comments } from './testData';
-import { plainToClass } from '@nestjs/class-transformer';
 
 describe('Comment Repository Testing', () => {
   const commentRepository = new CommentRepository();
