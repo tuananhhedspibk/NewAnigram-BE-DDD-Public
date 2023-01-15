@@ -33,6 +33,9 @@ import CreatePostUsecase, {
 import DeletePostUsecase, {
   DeletePostUsecaseOutput,
 } from '@usecase/post/delete';
+import DeletePostCommentUsecase, {
+  DeletePostCommentUsecaseOutput,
+} from '@usecase/post/delete-comment';
 import LikePostUsecase, { LikePostUsecaseOutput } from '@usecase/post/like';
 import UnlikePostUsecase, {
   UnlikePostUsecaseOutput,
@@ -54,6 +57,7 @@ export class PostController {
     private readonly likePostUsecase: LikePostUsecase,
     private readonly unlikePostUsecase: UnlikePostUsecase,
     private readonly commentPostUsecase: CommentPostUsecase,
+    private readonly deletePostCommentUsecase: DeletePostCommentUsecase,
   ) {}
 
   // Max number of pictures: 10, max size of picture: 5MB -> Max Size of Payload: 50MB
@@ -214,6 +218,36 @@ export class PostController {
     });
   }
 
+  @Delete('/:postId/comment/:commentId')
+  @ApiOperation({
+    summary: 'Delete posts comment API',
+    description: 'Delete posts comment API',
+  })
+  @ApiParam({
+    description: 'Post id',
+    type: Number,
+    name: 'postId',
+  })
+  @ApiParam({
+    description: 'Comment id',
+    type: Number,
+    name: 'commentId',
+  })
+  @ApiResponse({
+    description: 'Delete posts comment API Response',
+    type: DeletePostCommentUsecaseOutput,
+  })
+  deleteComment(
+    @Param('postId') postId: string,
+    @Param('commentId') commentId: string,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.deletePostCommentUsecase.execute(
+      { postId: parseInt(postId), commentId: parseInt(commentId) },
+      request.user.userId,
+    );
+  }
+
   // @Get('/index-by-user')
   // @ApiOperation({
   //   summary: 'Get users all posts',
@@ -226,10 +260,4 @@ export class PostController {
   //   description: 'Get post detail by posts id',
   // })
   // detail() {}
-  // @Delete('/delete-comment')
-  // @ApiOperation({
-  //   summary: 'Delete posts comment',
-  //   description: 'Delete posts comment',
-  // })
-  // deleteComment() {}
 }

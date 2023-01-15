@@ -13,4 +13,12 @@ export class CommentEntity extends BaseEntity {
 
   @Expose()
   postId: number;
+
+  isCreatedBy(userId: number) {
+    return this.userId === userId;
+  }
+
+  isCommentOfPost(postId: number) {
+    return this.postId === postId;
+  }
 }
