@@ -1,11 +1,12 @@
 import UserViewRepository from '@infrastructure/view-repository/user-view-repository';
+import { UserProfileDto } from '@view/dto/user-profile-dto';
 import UserProfileView from '.';
 
 import { userProfileDto } from './testData';
 
 describe('UserProfileView View Testing', () => {
   let view: UserProfileView;
-  let result;
+  let result: UserProfileDto | null;
 
   beforeAll(async () => {
     view = new UserProfileView(new UserViewRepository());
