@@ -6,7 +6,9 @@ import {
 
 import { PostDetailDto } from '@view/dto/post-detail-dto';
 import IPostViewRepository from '@view/view-repository/post-view-repository';
-import PostViewFactory from '@infrastructure/view-factory/post';
+import PostViewFactory, {
+  CreatePostDetailDtoParams,
+} from '@infrastructure/view-factory/post';
 import Post from '@infrastructure/rdb/entity/post';
 
 const postViewFactory = new PostViewFactory();
@@ -18,7 +20,11 @@ export default class PostViewRepository implements IPostViewRepository {
     const query = this.getBaseQuery(repository);
     const post = await query.where('post.id = :id', { id }).getOne();
 
-    return post ? postViewFactory.createPostDetailDto(post) : null;
+    return post
+      ? postViewFactory.createPostDetailDto(
+          post as unknown as CreatePostDetailDtoParams,
+        )
+      : null;
   }
 
   private getBaseQuery(
@@ -30,17 +36,24 @@ export default class PostViewRepository implements IPostViewRepository {
         'post.id',
         'post.content',
         'post.createdAt',
+        'post.tags',
+        'post.images',
         'like.id',
-        'like.userId',
         'comment.id',
         'comment.content',
-        'comment.userId',
-        'user.id',
-        'user.userName',
+        'comment.createdAt',
+        'commentUser.id',
+        'commentUser.userName',
+        'likeUser.id',
+        'likeUser.userName',
+        'postUser.id',
+        'postUser.userName',
       ])
       .leftJoin('post.likes', 'like')
       .leftJoin('post.comments', 'comment')
-      .leftJoin('post.user', 'user');
+      .leftJoin('comment.user', 'commentUser')
+      .leftJoin('like.user', 'likeUser')
+      .innerJoin('post.user', 'postUser');
 
     return query;
   }

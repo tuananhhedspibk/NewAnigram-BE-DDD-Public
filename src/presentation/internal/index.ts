@@ -25,7 +25,10 @@ import {
   LikeRepositoryProvider,
   CommentRepositoryProvider,
 } from '@presentation/provider/repository-provider';
-import { UserViewRepositoryProvider } from '@presentation/provider/view-repository-provider';
+import {
+  PostViewRepositoryProvider,
+  UserViewRepositoryProvider,
+} from '@presentation/provider/view-repository-provider';
 
 import { AuthenticationController } from '@presentation/internal/authentication/index.controller';
 import { NotificationController } from '@presentation/internal/notification/index.controller';
@@ -56,7 +59,10 @@ const RepositoryProviders: Provider[] = [
   CommentRepositoryProvider,
 ];
 
-const ViewRepositoryProvider: Provider[] = [UserViewRepositoryProvider];
+const ViewRepositoryProvider: Provider[] = [
+  PostViewRepositoryProvider,
+  UserViewRepositoryProvider,
+];
 
 @Module({
   providers: [...RepositoryProviders],

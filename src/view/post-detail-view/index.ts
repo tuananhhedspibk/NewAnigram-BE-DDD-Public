@@ -14,6 +14,8 @@ export default class PostDetailView extends BaseView {
   }
 
   async getPostDetail(id: number) {
-    return this.postViewRepository.getPostDetail(id);
+    const postDetail = await this.postViewRepository.getPostDetail(id);
+
+    return { data: postDetail };
   }
 }
