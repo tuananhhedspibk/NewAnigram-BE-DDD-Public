@@ -1,10 +1,11 @@
-import UserViewRepository from '@infrastructure/view-repository/user-view-repository';
-import { UserProfileDto } from '@view/dto/user-profile-dto';
 import UserProfileView from '.';
+import { UserProfileDto } from '@view/dto/user-profile-dto';
+
+import UserViewRepository from '@infrastructure/view-repository/user-view-repository';
 
 import { userProfileDto } from './testData';
 
-describe('UserProfileView View Testing', () => {
+describe('UserProfileView Testing', () => {
   let view: UserProfileView;
   let result: UserProfileDto | null;
 

@@ -47,6 +47,7 @@ import UnlikePostUsecase from '@usecase/post/unlike';
 import CommentPostUsecase from '@usecase/post/comment';
 import DeletePostCommentUsecase from '@usecase/post/delete-comment';
 import UpdatePostCommentUsecase from '@usecase/post/update-comment';
+import UserPostsView from '@view/user-posts-view';
 
 const RepositoryProviders: Provider[] = [
   AuthenticateRepositoryProvider,
@@ -100,6 +101,7 @@ const RequiredAuthenControllers = [
     DeletePostCommentUsecase,
     UpdatePostCommentUsecase,
     UserProfileView,
+    UserPostsView,
     PostDetailView,
   ],
   controllers: [AuthenticationController, ...RequiredAuthenControllers],

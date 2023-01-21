@@ -38,9 +38,12 @@ import UpdateUserProfileUsecase, {
   UpdateUserProfileUsecaseInput,
   UpdateUserProfileUsecaseOutput,
 } from '@usecase/user/update-profile';
-import { uploadImageFilter } from '@utils/file';
+
 import { UserProfileDto } from '@view/dto/user-profile-dto';
+import UserPostsView, { UserPostsViewOutput } from '@view/user-posts-view';
 import UserProfileView from '@view/user-profile-view';
+
+import { uploadImageFilter } from '@utils/file';
 
 @ApiTags('internal/user')
 @ApiBearerAuth()
@@ -52,6 +55,7 @@ export class UserController {
     private readonly followUserUsecase: FollowUserUsecase,
     private readonly unfollowUserUsecase: UnfollowUserUsecase,
     private readonly userProfileView: UserProfileView,
+    private readonly userPostsView: UserPostsView,
   ) {}
 
   @Get('/profile')
@@ -169,5 +173,23 @@ export class UserController {
       { destinationUserId: parseInt(userId) },
       request.user.userId,
     );
+  }
+
+  @Get('/:userId/posts')
+  @ApiOperation({
+    description: 'Get user posts API',
+    summary: 'Get user posts API',
+  })
+  @ApiParam({
+    description: 'Query params',
+    type: Number,
+    name: 'userId',
+  })
+  @ApiResponse({
+    description: 'Get user posts API response',
+    type: UserPostsViewOutput,
+  })
+  posts(@Param('userId') userId: string) {
+    return this.userPostsView.getUserPosts(parseInt(userId));
   }
 }

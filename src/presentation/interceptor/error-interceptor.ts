@@ -19,6 +19,7 @@ import {
   PresentationErrorCode,
 } from '@presentation/exception';
 import { UsecaseError, UsecaseErrorCode } from '@usecase/exception';
+import { ViewError, ViewErrorCode } from '@view/exception';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable()
@@ -112,6 +113,28 @@ export class ErrorInterceptor implements NestInterceptor {
               );
               break;
             case PresentationErrorCode.INTERNAL_SERVER_ERROR:
+            default:
+              responseError = new InternalServerErrorException(
+                err.message,
+                JSON.stringify(err.info),
+              );
+              break;
+          }
+        } else if (err instanceof ViewError) {
+          switch (err.code) {
+            case ViewErrorCode.BAD_REQUEST:
+              responseError = new BadRequestException(
+                err.message,
+                JSON.stringify(err.info),
+              );
+              break;
+            case ViewErrorCode.NOT_FOUND:
+              responseError = new NotFoundException(
+                err.message,
+                JSON.stringify(err.info),
+              );
+              break;
+            case ViewErrorCode.INTERNAL_SERVER_ERROR:
             default:
               responseError = new InternalServerErrorException(
                 err.message,

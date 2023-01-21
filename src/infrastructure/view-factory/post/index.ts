@@ -1,4 +1,5 @@
 import { PostDetailDto } from '@view/dto/post-detail-dto';
+import { UserPostDto } from '@view/dto/user-post-dto';
 import BaseViewFactory from '../base';
 
 export interface CreatePostDetailDtoParams {
@@ -33,6 +34,22 @@ export interface CreatePostDetailDtoParams {
   };
 }
 
+export interface CreateUserPostDtoParams {
+  id: number;
+  images: {
+    list: string[];
+  };
+  likes: {
+    id: number;
+  }[];
+  comments: {
+    id: number;
+  }[];
+  user: {
+    id: number;
+  };
+}
+
 export default class PostViewFactory extends BaseViewFactory {
   createPostDetailDto(params: CreatePostDetailDtoParams): PostDetailDto {
     return this.createEntity(PostDetailDto, {
@@ -62,5 +79,18 @@ export default class PostViewFactory extends BaseViewFactory {
         },
       })),
     });
+  }
+
+  createUserPostDto(params: CreateUserPostDtoParams): UserPostDto {
+    return {
+      id: params.id,
+      likesCount: params.likes.length,
+      commentsCount: params.comments.length,
+      thumbnail: params.images.list[0],
+    };
+  }
+
+  createUserPosts(params: CreateUserPostDtoParams[]): UserPostDto[] {
+    return params.map((param) => this.createUserPostDto(param));
   }
 }

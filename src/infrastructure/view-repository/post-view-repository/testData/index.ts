@@ -63,7 +63,7 @@ const posts = [
     images: { list: ['post4-img1-url', 'post4-img2-url'] },
     createdAt: new Date('2023-01-04 00:00:00'),
     updatedAt: new Date('2023-01-04 00:00:00'),
-    userId: 2,
+    userId: 1,
   },
   {
     id: 5,
@@ -101,6 +101,22 @@ const comments = [
     createdAt: new Date('2023-01-19 00:00:00'),
     updatedAt: new Date('2023-01-19 00:00:00'),
   },
+  {
+    id: 4,
+    userId: 2,
+    postId: 5,
+    content: 'Comment-4',
+    createdAt: new Date('2023-01-19 00:00:00'),
+    updatedAt: new Date('2023-01-19 00:00:00'),
+  },
+  {
+    id: 5,
+    userId: 1,
+    postId: 5,
+    content: 'Comment-5',
+    createdAt: new Date('2023-01-19 00:00:00'),
+    updatedAt: new Date('2023-01-19 00:00:00'),
+  },
 ];
 
 const likes = [
@@ -115,6 +131,13 @@ const likes = [
     id: 2,
     userId: 2,
     postId: 1,
+    createdAt: new Date('2023-01-19 00:00:00'),
+    updatedAt: new Date('2023-01-19 00:00:00'),
+  },
+  {
+    id: 3,
+    userId: 2,
+    postId: 5,
     createdAt: new Date('2023-01-19 00:00:00'),
     updatedAt: new Date('2023-01-19 00:00:00'),
   },

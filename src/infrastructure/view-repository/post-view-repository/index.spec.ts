@@ -118,4 +118,76 @@ describe('Post View Repository testing', () => {
       });
     });
   });
+
+  describe('getUserPosts testing', () => {
+    let userId;
+
+    describe('User does not have any posts', () => {
+      beforeAll(async () => {
+        userId = 3;
+
+        result = await postViewRepository.getUserPosts(userId);
+      });
+
+      it('Empty array is returned', () => {
+        expect(result).toEqual([]);
+      });
+    });
+
+    describe('User has only one post', () => {
+      beforeAll(async () => {
+        userId = 2;
+
+        result = await postViewRepository.getUserPosts(userId);
+      });
+
+      it('UserPostDto array that has only one item will be returned', () => {
+        expect(result).toEqual([
+          {
+            id: 5,
+            likesCount: 1,
+            commentsCount: 2,
+            thumbnail: 'post5-img1-url',
+          },
+        ]);
+      });
+    });
+
+    describe('User has more than one post', () => {
+      beforeAll(async () => {
+        userId = 1;
+
+        result = await postViewRepository.getUserPosts(userId);
+      });
+
+      it('UserPostsDto array is returned', () => {
+        expect(result).toEqual([
+          {
+            id: 1,
+            likesCount: 2,
+            commentsCount: 1,
+            thumbnail: 'post1-img1-url',
+          },
+          {
+            id: 2,
+            likesCount: 0,
+            commentsCount: 1,
+            thumbnail: 'post2-img1-url',
+          },
+          {
+            id: 3,
+            likesCount: 0,
+            commentsCount: 1,
+            thumbnail: 'post3-img1-url',
+          },
+          {
+            id: 4,
+            likesCount: 0,
+            commentsCount: 0,
+            thumbnail: 'post4-img1-url',
+          },
+        ]);
+      });
+    });
+  });
 });

@@ -316,11 +316,4 @@ export class PostController {
   detail(@Param('id') id: string) {
     return this.postDetailView.getPostDetail(parseInt(id));
   }
-
-  // @Get('/index-by-user')
-  // @ApiOperation({
-  //   summary: 'Get users all posts',
-  //   description: 'Get users all posts',
-  // })
-  // indexByUser() {}
 }
