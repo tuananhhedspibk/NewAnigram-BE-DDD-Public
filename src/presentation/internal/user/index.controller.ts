@@ -13,6 +13,7 @@ import {
   Req,
   UploadedFile,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -23,6 +24,7 @@ import {
   ApiBody,
   ApiConsumes,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 import FollowUserUsecase, {
   FollowUserUsecaseOutput,
@@ -44,6 +46,7 @@ import UserPostsView, { UserPostsViewOutput } from '@view/user-posts-view';
 import UserProfileView from '@view/user-profile-view';
 
 import { uploadImageFilter } from '@utils/file';
+import UserFeedView, { UserFeedViewOutput } from '@view/user-feed-view';
 
 @ApiTags('internal/user')
 @ApiBearerAuth()
@@ -56,6 +59,7 @@ export class UserController {
     private readonly unfollowUserUsecase: UnfollowUserUsecase,
     private readonly userProfileView: UserProfileView,
     private readonly userPostsView: UserPostsView,
+    private readonly userFeedView: UserFeedView,
   ) {}
 
   @Get('/profile')
@@ -191,5 +195,26 @@ export class UserController {
   })
   posts(@Param('userId') userId: string) {
     return this.userPostsView.getUserPosts(parseInt(userId));
+  }
+
+  @Get('/feed')
+  @ApiOperation({
+    description: 'Get user feed API',
+    summary: 'Get user feed API',
+  })
+  @ApiResponse({
+    description: 'Get user feed API response',
+    type: UserFeedViewOutput,
+  })
+  @ApiQuery({
+    description: 'Get user feed API Query params',
+    name: 'page',
+    type: Number,
+  })
+  feed(
+    @Query('page') page: string,
+    @Req() request: { user: { userId: number } },
+  ) {
+    return this.userFeedView.getUserFeed(request.user.userId, parseInt(page));
   }
 }

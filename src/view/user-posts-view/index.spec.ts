@@ -1,3 +1,5 @@
+import { Connection, createConnection } from 'typeorm';
+
 import UserPostsView, { UserPostsViewOutput } from '.';
 
 import { ViewErrorCode, ViewErrorDetailCode } from '@view/exception';
@@ -11,11 +13,18 @@ describe('UserPostsView Testing', () => {
   let view: UserPostsView;
   let result: UserPostsViewOutput;
 
+  let connection: Connection;
+
   beforeAll(async () => {
     view = new UserPostsView(
       new PostViewRepository(),
       new UserViewRepository(),
     );
+
+    connection = await createConnection();
+  });
+  afterAll(async () => {
+    await connection.close();
   });
 
   describe('getUserPosts Testing', () => {
