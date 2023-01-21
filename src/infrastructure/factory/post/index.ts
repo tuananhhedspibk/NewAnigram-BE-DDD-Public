@@ -7,6 +7,17 @@ interface CreatePostEntityParams {
   images: string[];
   tags: string[];
   content: string;
+  likes: {
+    id: number;
+    postId: number;
+    userId: number;
+  }[];
+  comments: {
+    id: number;
+    postId: number;
+    userId: number;
+    content: string;
+  }[];
   userId: number;
   createdAt: Date;
 }
@@ -27,6 +38,8 @@ export class PostFactory extends BaseFactory {
       tags: post.tags.list,
       content: post.content,
       userId: post.user.id,
+      likes: post.likes,
+      comments: post.comments,
       createdAt: post.createdAt,
     };
   }

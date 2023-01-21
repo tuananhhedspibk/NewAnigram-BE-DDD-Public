@@ -1,8 +1,3 @@
-import {
-  DomainError,
-  DomainErrorCode,
-  DomainErrorDetailCode,
-} from '@domain/exception';
 import { Expose, Type } from '@nestjs/class-transformer';
 import { BaseEntity } from '../base';
 import { CommentEntity } from './comment';

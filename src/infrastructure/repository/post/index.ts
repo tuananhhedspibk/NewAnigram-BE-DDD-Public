@@ -114,9 +114,19 @@ export class PostRepository
         'post.tags',
         'post.content',
         'post.createdAt',
+        'like.id',
+        'like.userId',
+        'like.postId',
+        'comment.id',
+        'comment.content',
+        'comment.postId',
+        'comment.userId',
+        'comment.createdAt',
         'user.id',
       ])
-      .innerJoin('post.user', 'user');
+      .innerJoin('post.user', 'user')
+      .leftJoin('post.likes', 'like')
+      .leftJoin('post.comments', 'comment');
 
     return query;
   }

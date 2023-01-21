@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { ICommentRepository } from '@domain/repository/comment';
+import { ILikeRepository } from '@domain/repository/like';
 import { IPostRepository } from '@domain/repository/post';
 import ITransactionManager from '@domain/repository/transaction';
 import { IUserRepository } from '@domain/repository/user';
@@ -38,6 +40,9 @@ export default class DeletePostUsecase extends Usecase<
   constructor(
     @Inject(IUserRepository) private readonly userRepository: IUserRepository,
     @Inject(IPostRepository) private readonly postRepository: IPostRepository,
+    @Inject(ILikeRepository) private readonly likeRepository: ILikeRepository,
+    @Inject(ICommentRepository)
+    private readonly commentRepository: ICommentRepository,
     @Inject(ITransactionManager)
     private readonly transactionManager: ITransactionManager,
   ) {
@@ -89,6 +94,15 @@ export default class DeletePostUsecase extends Usecase<
 
     try {
       await this.transactionManager.transaction(async (transaction) => {
+        const deletePostLikes = postEntity.likes.map((like) =>
+          this.likeRepository.deleteById(transaction, like.id),
+        );
+        const deletePostComments = postEntity.comments.map((comment) =>
+          this.commentRepository.deleteById(transaction, comment.id),
+        );
+
+        await Promise.all([...deletePostLikes, ...deletePostComments]);
+
         await this.postRepository.deleteById(transaction, postEntity.id);
       });
     } catch (err) {

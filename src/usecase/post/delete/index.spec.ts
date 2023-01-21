@@ -15,6 +15,8 @@ import DeletePostUsecase, {
   DeletePostUsecaseInput,
   DeletePostUsecaseOutput,
 } from '.';
+import { LikeRepository } from '@infrastructure/repository/like';
+import { CommentRepository } from '@infrastructure/repository/comment';
 
 describe('DeletePost Usecase Testing', () => {
   let input: DeletePostUsecaseInput;
@@ -28,6 +30,8 @@ describe('DeletePost Usecase Testing', () => {
     usecase = new DeletePostUsecase(
       new UserRepository(),
       new PostRepository(),
+      new LikeRepository(),
+      new CommentRepository(),
       new TransactionManager(),
     );
 
@@ -194,12 +198,22 @@ describe('DeletePost Usecase Testing', () => {
             id: 1,
             content: 'content',
             tags: ['tag'],
+            likes: [],
+            comments: [],
             userId: 1,
           }),
         );
 
         jest
           .spyOn(PostRepository.prototype, 'deleteById')
+          .mockResolvedValue(null);
+
+        jest
+          .spyOn(CommentRepository.prototype, 'deleteById')
+          .mockResolvedValue(null);
+
+        jest
+          .spyOn(LikeRepository.prototype, 'deleteById')
           .mockResolvedValue(null);
 
         output = await usecase.execute(input, userId);
